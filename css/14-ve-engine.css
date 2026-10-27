@@ -1,0 +1,20 @@
+/* ============================================================
+   发热专项：全局页面可见性引擎配套样式（xj-ve）
+   配合 js/19-visibility-engine.js：页面隐藏时在 <html> 挂 .xj-ve-hidden，
+   统一暂停全部 CSS 动画（含 infinite 常驻动画），回前台自动恢复。
+   - 保留视觉效果：仅不可见时暂停，可见时动画照常运行，用户无感知差异。
+   - 覆盖 21 处 infinite 动画：首页极光/星光/心跳/心电图、聊天火焰/心跳、
+     来电振铃、语音波浪、QA 脉冲、镜界洗牌/光晕 等。
+   ============================================================ */
+html.xj-ve-hidden *,
+html.xj-ve-hidden *::before,
+html.xj-ve-hidden *::after {
+  animation-play-state: paused !important;
+}
+
+/* 隐藏期间也不再跑过渡动画（toast 滑入、卡片位移等），进一步省电 */
+html.xj-ve-hidden *,
+html.xj-ve-hidden *::before,
+html.xj-ve-hidden *::after {
+  transition: none !important;
+}
