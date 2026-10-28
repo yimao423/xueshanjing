@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>雪晶</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%20fill='none'%3E%3Cg%20stroke='%238C8C8C'%20stroke-width='3.2'%20stroke-linecap='round'%20fill='none'%3E%3Cline%20x1='20'%20y1='20'%20x2='36.6'%20y2='20'/%3E%3Cline%20x1='20'%20y1='20'%20x2='28.3'%20y2='34.4'/%3E%3Cline%20x1='20'%20y1='20'%20x2='11.7'%20y2='34.4'/%3E%3Cline%20x1='20'%20y1='20'%20x2='3.4'%20y2='20'/%3E%3Cline%20x1='20'%20y1='20'%20x2='11.7'%20y2='5.6'/%3E%3Cline%20x1='20'%20y1='20'%20x2='28.3'%20y2='5.6'/%3E%3C/g%3E%3Cg%20stroke='%23A6A6A6'%20stroke-width='2.2'%20stroke-linecap='round'%20fill='none'%3E%3Cline%20x1='26.6'%20y1='20'%20x2='29.7'%20y2='24.9'/%3E%3Cline%20x1='26.6'%20y1='20'%20x2='29.7'%20y2='15.1'/%3E%3Cline%20x1='23.3'%20y1='25.8'%20x2='20.6'%20y2='30.9'/%3E%3Cline%20x1='23.3'%20y1='25.8'%20x2='29.1'%20y2='26'/%3E%3Cline%20x1='16.7'%20y1='25.8'%20x2='10.9'%20y2='26'/%3E%3Cline%20x1='16.7'%20y1='25.8'%20x2='19.4'%20y2='30.9'/%3E%3Cline%20x1='13.4'%20y1='20'%20x2='10.3'%20y2='15.1'/%3E%3Cline%20x1='13.4'%20y1='20'%20x2='10.3'%20y2='24.9'/%3E%3Cline%20x1='16.7'%20y1='14.2'%20x2='19.4'%20y2='9.1'/%3E%3Cline%20x1='16.7'%20y1='14.2'%20x2='10.9'%20y2='14'/%3E%3Cline%20x1='23.3'%20y1='14.2'%20x2='29.1'%20y2='14'/%3E%3Cline%20x1='23.3'%20y1='14.2'%20x2='20.6'%20y2='9.1'/%3E%3C/g%3E%3Cg%20fill='%23A6A6A6'%3E%3Ccircle%20cx='36.6'%20cy='20'%20r='2'/%3E%3Ccircle%20cx='28.3'%20cy='34.4'%20r='2'/%3E%3Ccircle%20cx='11.7'%20cy='34.4'%20r='2'/%3E%3Ccircle%20cx='3.4'%20cy='20'%20r='2'/%3E%3Ccircle%20cx='11.7'%20cy='5.6'%20r='2'/%3E%3Ccircle%20cx='28.3'%20cy='5.6'%20r='2'/%3E%3C/g%3E%3Cpolygon%20points='20%2C16.2%2023.3%2C18.1%2023.3%2C21.9%2020%2C23.8%2016.7%2C21.9%2016.7%2C18.1'%20fill='%238C8C8C'/%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="css/01-theme-vars.css">
+<link rel="stylesheet" href="css/02-layout.css">
+<link rel="stylesheet" href="css/03-home-components.css">
+<link rel="stylesheet" href="css/04-responsive.css">
+<link rel="stylesheet" href="css/05-theme-system.css">
+<link rel="stylesheet" href="css/06-home-iter-overlay.css">
+<link rel="stylesheet" href="css/07-chat.css">
+<link rel="stylesheet" href="css/08-settings-overlay.css">
+<link rel="stylesheet" href="css/09-components-overlay.css">
+<link rel="stylesheet" href="css/10-account-settings.css">
+<link rel="stylesheet" href="css/11-subpages-size.css">
+<link rel="stylesheet" href="css/12-chat-bar-final.css">
+<link rel="stylesheet" href="css/13-mtx.css">
+<link rel="stylesheet" href="css/14-ve-engine.css">
+<link rel="stylesheet" href="css/15-echo.css">
+</head>
+
+<body>
+
+<!-- ===== 手机壳容器：448px 竖屏居中 ===== -->
+<div class="phone" data-page="home">
+
+  <!-- v30：网站背景自定义图片层（本机永久保存，可在「外观设置 · 网站背景」上传 / 调不透明度 / 清除） -->
+  <div class="bg-photo" id="bgPhoto" data-on="0" aria-hidden="true"></div>
+
+  <!-- ===== 0. 顶部装饰：白色流动波浪卡（投影在波浪线上沿外侧） ===== -->
+  <div class="wave-card" aria-hidden="true">
+
+    <!-- ===== 0a. 牛仔纹理层（v93） =====
+         首页专属：叠在壁纸（.bg-photo）上层、海浪卡片（白浪块 .wave-body）下层。
+         作为 .wave-card 的子元素 —— 不受容器 backdrop-filter 影响（子元素渲染于磨砂之上），
+         z-index:0 沉在雪花（同样 z-index:0、DOM 靠后）之下，不会遮挡雪花；
+         顶部实心、到页面中间渐变消失（mask 渐变），大小 / 不透明度由外观设置 → 牛仔纹理调节。 -->
+    <div class="denim-texture" data-kind="denim" aria-hidden="true"></div>
+
+    <!-- ===== 底层：实心六向雪花（.wave-crystal-hero，z-index:0） =====
+         造型：六向雪花❄️ —— 六道主晶枝以 60° 均匀放射，每道两侧各长 3 对斜出小枝，
+               六枝末梢收圆点，中心用六棱核收束；整体加粗做实心处理（对齐参考图的实心雪花）；
+               源码保留占位绿 #43A047 / #66BB6A：由 appearance.css 属性选择器覆盖为主题色
+               （默认灰色主题下主枝/小枝/中心核=#8C8C8C、末梢圆点=#A6A6A6，跟随主题切换）；
+         尺寸：本次调整后为 72px × 72px（再放大一点），viewBox 仍为 0 0 40 40，整体等比缩放；
+         位置：水平方向仍居中于下弧弧底（x≈356 / 448 → 79.5%），垂直方向 top 由 12px 改为 6px，
+               并整体旋转 20°；
+         层级：.wave-card 的首个子元素，z-index:0 —— 沉在白浪块（z-index:2）之下 -->
+    <svg class="wave-crystal-hero" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <!-- 六道主臂：以中心 (20,20) 为原点每 60° 一道，圆头加粗实心线 —— 雪花的六向主晶枝 -->
+      <g stroke="#8C8C8C" stroke-width="3.2" stroke-linecap="round" fill="none">
+        <line x1="20" y1="20" x2="36.6" y2="20"/>
+        <line x1="20" y1="20" x2="28.3" y2="34.4"/>
+        <line x1="20" y1="20" x2="11.7" y2="34.4"/>
+        <line x1="20" y1="20" x2="3.4" y2="20"/>
+        <line x1="20" y1="20" x2="11.7" y2="5.6"/>
+        <line x1="20" y1="20" x2="28.3" y2="5.6"/>
+      </g>
+      <!-- 枝杈：每道主臂两侧各 3 对斜出小枝（沿臂 ±58°），愈近尖端愈短，还原雪花❄️的分叉 -->
+      <g stroke="#8C8C8C" stroke-width="2.2" stroke-linecap="round" fill="none">
+        <line x1="26.6" y1="20" x2="29.7" y2="24.9"/>
+        <line x1="26.6" y1="20" x2="29.7" y2="15.1"/>
+        <line x1="30.6" y1="20" x2="32.8" y2="23.5"/>
+        <line x1="30.6" y1="20" x2="32.8" y2="16.5"/>
+        <line x1="34.3" y1="20" x2="35.6" y2="22.1"/>
+        <line x1="34.3" y1="20" x2="35.6" y2="17.9"/>
+        <line x1="23.3" y1="25.8" x2="20.6" y2="30.9"/>
+        <line x1="23.3" y1="25.8" x2="29.1" y2="26"/>
+        <line x1="25.3" y1="29.2" x2="23.4" y2="32.8"/>
+        <line x1="25.3" y1="29.2" x2="29.4" y2="29.3"/>
+        <line x1="27.1" y1="32.4" x2="26" y2="34.6"/>
+        <line x1="27.1" y1="32.4" x2="29.6" y2="32.5"/>
+        <line x1="16.7" y1="25.8" x2="10.9" y2="26"/>
+        <line x1="16.7" y1="25.8" x2="19.4" y2="30.9"/>
+        <line x1="14.7" y1="29.2" x2="10.6" y2="29.3"/>
+        <line x1="14.7" y1="29.2" x2="16.6" y2="32.8"/>
+        <line x1="12.9" y1="32.4" x2="10.4" y2="32.5"/>
+        <line x1="12.9" y1="32.4" x2="14" y2="34.6"/>
+        <line x1="13.4" y1="20" x2="10.3" y2="15.1"/>
+        <line x1="13.4" y1="20" x2="10.3" y2="24.9"/>
+        <line x1="9.4" y1="20" x2="7.2" y2="16.5"/>
+        <line x1="9.4" y1="20" x2="7.2" y2="23.5"/>
+        <line x1="5.7" y1="20" x2="4.4" y2="17.9"/>
+        <line x1="5.7" y1="20" x2="4.4" y2="22.1"/>
+        <line x1="16.7" y1="14.2" x2="19.4" y2="9.1"/>
+        <line x1="16.7" y1="14.2" x2="10.9" y2="14"/>
+        <line x1="14.7" y1="10.8" x2="16.6" y2="7.2"/>
+        <line x1="14.7" y1="10.8" x2="10.6" y2="10.7"/>
+        <line x1="12.9" y1="7.6" x2="14" y2="5.4"/>
+        <line x1="12.9" y1="7.6" x2="10.4" y2="7.5"/>
+        <line x1="23.3" y1="14.2" x2="29.1" y2="14"/>
+        <line x1="23.3" y1="14.2" x2="20.6" y2="9.1"/>
+        <line x1="25.3" y1="10.8" x2="29.4" y2="10.7"/>
+        <line x1="25.3" y1="10.8" x2="23.4" y2="7.2"/>
+        <line x1="27.1" y1="7.6" x2="29.6" y2="7.5"/>
+        <line x1="27.1" y1="7.6" x2="26" y2="5.4"/>
+      </g>
+      <!-- 六枝末梢圆点：改为绿色，与主晶枝一同构成圆润实心的枝端 -->
+      <g fill="#A6A6A6">
+        <circle cx="36.6" cy="20" r="2"/>
+        <circle cx="28.3" cy="34.4" r="2"/>
+        <circle cx="11.7" cy="34.4" r="2"/>
+        <circle cx="3.4" cy="20" r="2"/>
+        <circle cx="11.7" cy="5.6" r="2"/>
+        <circle cx="28.3" cy="5.6" r="2"/>
+      </g>
+      <!-- 中心六棱核：实心灰六边形收束六道主臂的根部 -->
+      <polygon points="20,16.2 23.3,18.1 23.3,21.9 20,23.8 16.7,21.9 16.7,18.1"
+               fill="#8C8C8C"/>
+    </svg>
+
+    <svg class="wave-body" viewBox="0 0 448 3000" preserveAspectRatio="none">
+      <defs>
+        <!-- 只裁剪到「波浪线以上」的区域：投影只落在波浪线上沿外侧，不侵入卡片内部 -->
+        <clipPath id="waveAboveClip">
+          <path d="M0 0 L448 0 L448 48 C 448 38.06, 431.88 30, 396 30 C 383 30, 369 40, 356 40 C 343 40, 329 30, 316 30 L 36 30 C 16.12 30, 0 38.06, 0 48 Z"/>
+        </clipPath>
+        <!-- 波浪线投影：同一条曲线做高斯模糊，形成贴着曲线走向的柔和阴影
+             配色 = 网站浅绿 #A5D6A7（--leaf），90% 不透明度；模糊半径 7 让光晕充分扩散、晕染自然 -->
+        <filter id="waveLineShadow" x="-20%" y="-400%" width="140%" height="900%">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+      </defs>
+      <!-- 白色海浪块：从波浪线向下填充到卡片主体 -->
+      <!-- v10 接缝修正：卡面白色不再由 .wave-card-body 另铺一层，而是由本路径一路填到 viewBox 底部。
+           原来两层白（波浪块 + 卡面层）颜色完全相同，接缝只因亚像素断差发亮 → 现在同一绘制层连续铺完，缝隙从根上消失。 -->
+      <path d="M0 48 C 0 38.06, 16.12 30, 36 30 L 316 30 C 329 30, 343 40, 356 40 C 369 40, 383 30, 396 30 C 431.88 30, 448 38.06, 448 48 L 448 3000 L 0 3000 Z" class="wave-fill-block"/>
+      <!-- 投影层：与波浪线完全一致的曲线，整体上移 3px 并模糊，
+           紧贴曲线上沿（卡片外侧）铺一层网站浅灰 #E8E8E8 的 90% 柔光 -->
+      <g clip-path="url(#waveAboveClip)">
+        <path d="M0 48 C 0 38.06, 16.12 30, 36 30 L 316 30 C 329 30, 343 40, 356 40 C 369 40, 383 30, 396 30 C 431.88 30, 448 38.06, 448 48"
+              class="wave-glow-line" fill="none" stroke-width="6"
+              filter="url(#waveLineShadow)" transform="translate(0,-3)"/>
+      </g>
+    </svg>
+
+    <!-- ===== 0b. 波浪卡装饰层 =====
+         v88：顶栏水晶簇 / 星点 / 碎片装饰已按需求全部移除；v91 首页背景颗粒层已于 2026-10-19 移除。 -->
+  </div>
+
+  <!-- ===== 1. 顶部空状态栏：v15 已删除（原来只是一条 48px 的空白白条） ===== -->
+
+  <!-- ===== 1b. 首页（默认激活页） ===== -->
+  <section class="page is-active" data-page="home">
+
+  <!-- ===== 2. 用户信息区（双头像可上传 + 中间柔和虚线 + 每日格言） ===== -->
+  <header class="user-head">
+    <!-- v23：双头像改为「重叠圆环」样式（右侧头像压在左侧之上 · 白色描边环），
+         右侧为可点击修改的「时间相隔 + 大数字 + 小单位」 -->
+    <!-- v83：顶部组件条 —— 头像组件 / 时间维度组件 / 链接状态组件；
+         居中按顺序从左到右展示 · 最多三个 · 大小自适应；
+         启停 / 顺序 / 链接文案在「设置 → 美化设置 → 顶部组件」里配置，记忆在本机浏览器 -->
+    <div class="avatar-row head-comps" id="headComps">
+      <div class="head-comp" data-top-comp="avatar">
+      <div class="avatar-col">
+        <div class="avatar-stack">
+          <!-- 左头像：单击上传（本机永久保存）· 双击删除 -->
+          <div class="user-avatar-wrap">
+            <div class="user-avatar" data-slot="avatar-0" role="button" tabindex="0" aria-label="单击上传头像，双击删除">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8.3" r="3.5"/>
+                <path d="M4.9 20.1c1.6-3.5 4.3-5.3 7.1-5.3s5.5 1.8 7.1 5.3"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- 右头像：单击上传（本机永久保存）· 双击删除（压在左头像之上） -->
+          <div class="user-avatar-wrap">
+            <div class="user-avatar" data-slot="avatar-1" role="button" tabindex="0" aria-label="单击上传头像，双击删除">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8.3" r="3.5"/>
+                <path d="M4.9 20.1c1.6-3.5 4.3-5.3 7.1-5.3s5.5 1.8 7.1 5.3"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 昵称：并排一行（点击可改，本机永久保存） -->
+        <div class="avatar-names">
+          <span class="avatar-name" data-name-slot="avatar-0" role="button" tabindex="0" aria-label="点击修改昵称">点击命名</span>
+          <span class="avatar-dot" aria-hidden="true">·</span>
+          <span class="avatar-name" data-name-slot="avatar-1" role="button" tabindex="0" aria-label="点击修改昵称">点击命名</span>
+        </div>
+      </div>
+      </div><!-- /head-comp avatar -->
+
+      <div class="head-comp" data-top-comp="metric">
+      <!-- v24：右侧竖列 —— 「时间相隔」在上、「跨越纬度的爱恋」在下，
+           两行整体与左侧头像列垂直居中（点击时间可修改，本机永久保存） -->
+      <div class="avatar-side">
+        <button class="avatar-metric" id="avatarMetric" type="button" title="点击设置两地时间（24 小时制）">
+          <span class="am-label" id="avatarMetricLabel">时间相隔</span>
+          <span class="am-num" id="avatarMetricNum">28800</span>
+          <span class="am-unit" id="avatarMetricUnit">秒</span>
+        </button>
+        <span class="avatar-love">跨越纬度的爱恋</span>
+      </div>
+      </div><!-- /head-comp metric -->
+
+      <div class="head-comp" data-top-comp="link" id="headCompLink" hidden>
+        <div class="link-state" id="linkState">
+          <!-- v84：符号逐个填充进度条（实心=已激活 / 空心=未激活 · 颜色跟随主题色） -->
+          <!-- v85：状态驱动 · 符号条按状态联动实心数量（1/5 · 3/5 · 5/5），不再渲染百分比数字 -->
+          <div class="link-bar-row">
+            <span class="link-symbols" id="linkSymbols" role="img" aria-label="链接状态"></span>
+          </div>
+          <!-- v84：心电图式波形装饰线（ECG · 缓慢流动 · 主题色） -->
+          <div class="ecg-wrap" aria-hidden="true">
+            <svg class="ecg-line" viewBox="0 0 240 28" preserveAspectRatio="none">
+              <path d="M0 14 H14 L17 14 L20 6 L24 22 L28 14 H44 L47 14 L50 7 L53 21 L56 14 H68 L76 14 L79 14 L82 7 L85 21 L88 14 H96 L104 14 L107 14 L110 6 L114 22 L118 14 H120 M120 14 H134 L137 14 L140 6 L144 22 L148 14 H164 L167 14 L170 7 L173 21 L176 14 H188 L196 14 L199 14 L202 7 L205 21 L208 14 H216 L224 14 L227 14 L230 6 L234 22 L238 14 H240"/>
+            </svg>
+          </div>
+          <p class="link-desc" id="linkDesc">我们的链接，隔着星辰也稳稳相牵</p>
+        </div>
+      </div><!-- /head-comp link -->
+    </div><!-- /head-comps -->
+
+    <!-- v24：底部新增一行跨纬度短句（原「3/12 纬度」「跨次元纬度 · 我方在三维」字块已删除） -->
+    <!-- v26：短句改为「我在三维的…，你在…纬的…」，点击可分别修改三段文字（本机保存） -->
+    <p class="lat-foot" id="latFoot" role="button" tabindex="0" title="点击修改这句话">我在三维的雪里念你，你在十二纬的星河里等我</p>
+
+    <!-- v22：格言上方居中线条装饰（两端小四角星） -->
+    <div class="quote-deco" aria-hidden="true">
+      <svg class="qd-star" viewBox="0 0 12 12"><path d="M6 0C6.5 4.2 7.8 5.5 12 6 7.8 6.5 6.5 7.8 6 12 5.5 7.8 4.2 6.5 0 6 4.2 5.5 5.5 4.2 6 0Z"/></svg>
+      <span class="qd-line"></span>
+      <svg class="qd-star" viewBox="0 0 12 12"><path d="M6 0C6.5 4.2 7.8 5.5 12 6 7.8 6.5 6.5 7.8 6 12 5.5 7.8 4.2 6.5 0 6 4.2 5.5 5.5 4.2 6 0Z"/></svg>
+    </div>
+
+    <!-- 每日格言：格言库落在「字卡」页，首页每日随机取一句居中显示 -->
+    <p class="user-slogan" id="dailyQuote" role="button" tabindex="0" title="点击选择首页格言">春风十里，不如你。</p>
+  </header>
+
+  <!-- ===== 3. 横排日历（v14：去掉卡片底，只留日历；当日居中、两侧为前后日；点击查看完整月历） ===== -->
+  <div class="cal-card" id="calCard" role="button" tabindex="0" aria-label="点击查看完整日历">
+    <span class="cal-month" id="calMonth">—</span>
+    <div class="cal-week" id="calWeek"></div>
+    <!-- v15：右侧装饰 —— 与左侧「月份」等宽同内距的六向雪花，左右对称；
+         既保留「当日居中」所需的左右配重，也让整条日历不空一边 -->
+    <span class="cal-deco" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M12 2.6v18.8M3.86 7.3l16.28 9.4M20.14 7.3 3.86 16.7"/>
+        <path d="M12 6.5l2.05 2.05M12 6.5 9.95 8.55M12 17.5l2.05-2.05M12 17.5l-2.05-2.05" stroke-width="1.25"/>
+      </svg>
+    </span>
+    <!-- v20：底部一条 —— 农历 + 本月进度（已度过实线 / 未度过虚线） -->
+    <div class="cal-foot">
+      <span class="cal-lunar" id="calLunar">—</span>
+      <span class="cal-prog" id="calProg" aria-hidden="true"><span class="cal-prog-fill" id="calProgFill"></span></span>
+      <span class="cal-prog-txt" id="calProgTxt">—</span>
+    </div>
+  </div>
+
+  <!-- ===== 4. 首页组件位（v40）：相册卡片流 / 相册卡片 / 纪念日 / 飞机票 / 天气 / 渐变海报
+       区域尺寸 = 相册卡片流自身高度（--tri-h + 8 + 14 的上下内距），换组件不改首页版式高度；
+       用哪个组件在「设置 → 美化设置 → 组件样式」里选，选择记忆在本机浏览器 ===== -->
+  <div class="home-comp" id="homeComp" data-comp="ticket">
+
+  <!-- ===== 4. 三格相框：点击上传图片（保留原圆角；内部图标文字已删除） ===== -->
+  <div class="tri-grid" id="frameFlow" aria-label="相框卡片流，左右滑动切换">
+    <article class="tri-card">
+      <div class="tri-cover cover-a" data-slot="frame-0" role="button" tabindex="0" aria-label="单击上传图片，双击删除">
+      <span class="tri-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.4v11.2M6.4 12h11.2"/></svg>
+      </span>
+      </div>
+    </article>
+
+    <article class="tri-card">
+      <div class="tri-cover cover-b" data-slot="frame-1" role="button" tabindex="0" aria-label="单击上传图片，双击删除">
+      <span class="tri-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.4v11.2M6.4 12h11.2"/></svg>
+      </span>
+      </div>
+    </article>
+
+    <article class="tri-card">
+      <div class="tri-cover cover-c" data-slot="frame-2" role="button" tabindex="0" aria-label="单击上传图片，双击删除">
+      <span class="tri-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.4v11.2M6.4 12h11.2"/></svg>
+      </span>
+      </div>
+    </article>
+
+    <article class="tri-card">
+      <div class="tri-cover cover-d" data-slot="frame-3" role="button" tabindex="0" aria-label="单击上传图片，双击删除">
+      <span class="tri-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.4v11.2M6.4 12h11.2"/></svg>
+      </span>
+      </div>
+    </article>
+
+    <article class="tri-card">
+      <div class="tri-cover cover-e" data-slot="frame-4" role="button" tabindex="0" aria-label="单击上传图片，双击删除">
+      <span class="tri-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.4v11.2M6.4 12h11.2"/></svg>
+      </span>
+      </div>
+    </article>
+  </div>
+
+  <!-- ② 相册卡片（四格照片 + 右侧竖排条形码 · 单击上传 / 双击删除） -->
+  <div class="hc-slot" id="hcAlbum" hidden>
+    <div class="hc-card hc-album">
+      <div class="hc-album-grid">
+        <div class="hc-album-cell" data-slot="album-0" role="button" tabindex="0" aria-label="单击上传图片，双击删除"><span class="hc-album-plus" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.6v10.8M6.6 12h10.8"/></svg><i>上传</i></span></div>
+        <div class="hc-album-cell" data-slot="album-1" role="button" tabindex="0" aria-label="单击上传图片，双击删除"><span class="hc-album-plus" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.6v10.8M6.6 12h10.8"/></svg><i>上传</i></span></div>
+        <div class="hc-album-cell" data-slot="album-2" role="button" tabindex="0" aria-label="单击上传图片，双击删除"><span class="hc-album-plus" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.6v10.8M6.6 12h10.8"/></svg><i>上传</i></span></div>
+        <div class="hc-album-cell" data-slot="album-3" role="button" tabindex="0" aria-label="单击上传图片，双击删除"><span class="hc-album-plus" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 6.6v10.8M6.6 12h10.8"/></svg><i>上传</i></span></div>
+      </div>
+      <div class="hc-album-stub" aria-hidden="true">
+        <span class="hc-album-bars"></span>
+        <span class="hc-album-no">520</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 飞机票（登机牌式 · 跨纬度专线） -->
+  <div class="hc-slot" id="hcTicket" hidden>
+    <div class="hc-card hc-ticket">
+      <div class="hc-bg" data-slot="bg-ticket" aria-hidden="true"></div>
+      <div class="hc-tk-main">
+        <div class="hc-tk-top">
+          <span class="hc-tk-brand">SNOWCRYSTAL AIR</span>
+          <span class="hc-tk-cls">跨纬度 · 头等舱</span>
+        </div>
+        <div class="hc-tk-route">
+          <div class="hc-tk-port">
+            <button class="hc-tk-code" type="button" data-tk="from" aria-label="点击修改出发地纬度"><span id="tkFrom">22°N</span></button>
+            <span class="hc-tk-city">我的城</span>
+          </div>
+          <div class="hc-tk-mid" aria-hidden="true">
+            <span class="hc-tk-dash"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 13.4l16.8-7.2-4.6 9-4 .6-2.6 3.4-.6-3.6z"/></svg>
+            <button class="hc-tk-fly" type="button" data-tk="fly" aria-label="点击修改航班编号"><span id="tkFly">FLY 1314</span></button>
+          </div>
+          <div class="hc-tk-port">
+            <button class="hc-tk-code" type="button" data-tk="to" aria-label="点击修改目的地纬度"><span id="tkTo">39°N</span></button>
+            <span class="hc-tk-city">你的城</span>
+          </div>
+        </div>
+        <div class="hc-tk-grid">
+          <span class="hc-tk-cell"><i>日期</i><b>每一天</b></span>
+          <span class="hc-tk-cell"><i>登机</i><b>想你即刻</b></span>
+          <span class="hc-tk-cell"><i>座位</i><b>1A</b></span>
+          <span class="hc-tk-cell"><i>登机口</i><b id="tkDoor">心之所向</b></span>
+        </div>
+        <p class="hc-tk-foot">跨纬度爱恋 · 无论多远，我都会飞向你</p>
+      </div>
+      <div class="hc-tk-stub" aria-hidden="true"><span class="hc-tk-bars"></span></div>
+    </div>
+  </div>
+
+  <!-- ⑤ 天气（我这边：点城市名填城市、自动取实况；你那边：点哪改哪） -->
+  <div class="hc-slot" id="hcWeather" hidden>
+    <div class="hc-card hc-weather">
+      <div class="hc-bg" data-slot="bg-weather" aria-hidden="true"></div>
+      <div class="wx-side wx-mine">
+        <div class="wx-line">
+          <span class="wx-role">我这边</span>
+          <button class="wx-city" type="button" data-wx="mineCity" aria-label="修改我所在的城市"><span id="wxMyCity">长沙</span></button>
+          <span class="wx-ico" id="wxMyIco" aria-hidden="true"></span>
+          <span class="wx-temp"><b id="wxMyTemp">--</b><i>°</i></span>
+          <span class="wx-cond" id="wxMyCond">正在读取…</span>
+        </div>
+        <span class="wx-meta" id="wxMyMeta"></span>
+        <p class="wx-poem" id="wxMyPoem">正在向天空问一句你那边</p>
+      </div>
+      <div class="wx-mid-col" aria-hidden="true">
+        <span class="wx-mid-line"></span>
+        <svg class="wx-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.4l-1.3-1.2C6 15.1 3.2 12.6 3.2 9.3 3.2 6.6 5.3 4.6 8 4.6c1.5 0 3 .7 4 1.9 1-1.2 2.5-1.9 4-1.9 2.7 0 4.8 2 4.8 4.7 0 3.3-2.8 5.8-7.5 9.9z"/></svg>
+        <span class="wx-mid-line"></span>
+      </div>
+      <div class="wx-side wx-yours">
+        <div class="wx-line">
+          <span class="wx-role">你那边</span>
+          <button class="wx-city" type="button" data-wx="yCity" aria-label="修改 TA 所在的城市"><span id="wxYourCity">北京</span></button>
+          <span class="wx-ico" id="wxYourIco" aria-hidden="true"></span>
+          <button class="wx-temp" type="button" data-wx="yTemp" aria-label="修改 TA 那边的温度"><b id="wxYourTemp">18</b><i>°</i></button>
+          <button class="wx-cond" type="button" data-wx="yCond" aria-label="修改 TA 那边的天气"><span id="wxYourCond">晴</span></button>
+        </div>
+        <span class="wx-meta" id="wxYourMeta" data-wx="yMeta" role="button" tabindex="0" aria-label="写一行小字给 TA">今天 18° / 8° · 微风</span>
+        <p class="wx-poem" id="wxYourPoem" aria-live="polite">正在看 TA 那边的天色</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 纪念日（三个日子 · 点击可改 · 点背景可换图） -->
+  <div class="hc-slot" id="hcAnniv" hidden>
+    <div class="hc-card hc-anniv">
+      <div class="hc-bg" data-slot="bg-anniv" aria-hidden="true"></div>
+      <div class="an-grid">
+        <button class="an-cell" type="button" data-an="mine" aria-label="修改我方生日">
+          <span class="an-label">我方生日</span>
+          <b class="an-date" id="anMineDate">--</b>
+          <span class="an-sub" id="anMineSub">点一下写下日期</span>
+        </button>
+        <button class="an-cell" type="button" data-an="together" aria-label="修改在一起纪念日">
+          <span class="an-label">在一起</span>
+          <b class="an-date" id="anTogDate">--</b>
+          <span class="an-sub" id="anTogSub">点一下写下日期</span>
+        </button>
+        <button class="an-cell" type="button" data-an="you" aria-label="修改对方生日">
+          <span class="an-label">对方生日</span>
+          <b class="an-date" id="anYouDate">--</b>
+          <span class="an-sub" id="anYouSub">点一下写下日期</span>
+        </button>
+      </div>
+      <p class="an-foot">点一下任意一项，写下只属于你们的日子</p>
+    </div>
+  </div>
+
+  <!-- ⑦ 渐变海报（整张图片上传 · 单击上传 / 双击删除） -->
+  <div class="hc-slot" id="hcPoster" hidden>
+    <div class="hc-card hc-poster" data-slot="hc-poster" role="button" tabindex="0" aria-label="单击上传整张海报，双击删除">
+      <span class="hc-poster-hint" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.6"/><path d="M3.6 16.4l5-4.6 3.2 2.9 3.5-4.2 5.1 5.5"/></svg>
+        <i>点击上传一张海报</i>
+      </span>
+    </div>
+  </div>
+
+  </div><!-- /home-comp -->
+
+  <!-- ===== 5. 一整横排文字按键切换（v21：替代原水晶装饰带） ===== -->
+  <div class="tab-strip" role="tablist" aria-label="功能切换">
+    <button class="tab-item is-active" type="button" role="tab" data-tab="chat" aria-selected="true" onclick="SnowCrystal.switchTab('chat')">朝暮絮语</button>
+    <button class="tab-item" type="button" role="tab" data-tab="dream" aria-selected="false" onclick="SnowCrystal.switchTab('dream')">梦境呢喃</button>
+    <button class="tab-item" type="button" role="tab" data-tab="star" aria-selected="false" onclick="SnowCrystal.switchTab('star')">星河来信</button>
+    <button class="tab-item" type="button" role="tab" data-tab="moon" aria-selected="false" onclick="SnowCrystal.switchTab('moon')">月汐笺语</button>
+  </div>
+
+  <!-- ===== 6. 按键对应的功能列表（v21）：点击上方按键切换，卡片不透明度与全站卡片一致 ===== -->
+  <div class="tab-panels" id="tabPanels">
+
+    <!-- ① 朝暮絮语 -->
+    <div class="tab-panel is-active" data-panel="chat" role="tabpanel">
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.openChatList()">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4.6 4.8h14.8a2.4 2.4 0 0 1 2.4 2.4v7.6a2.4 2.4 0 0 1-2.4 2.4h-6.2L8 21.2v-4H4.6a2.4 2.4 0 0 1-2.4-2.4V7.2a2.4 2.4 0 0 1 2.4-2.4z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">今日絮语</strong>
+          <span class="fn-desc">和你说说今天的心情</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.openEcho()">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.2v5.2l3.6 2.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">昨日回响</strong>
+          <span class="fn-desc">翻看昨天留下的只言片语</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.openJingJie()">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.6 13.8 8l5.4 1.8-5.4 1.8L12 17.2l-1.8-5.6L4.8 9.8 10.2 8 12 2.6z"/><circle cx="18.6" cy="17.4" r="1.6"/><circle cx="5.2" cy="18.2" r="1.1"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">镜界心语</strong>
+          <span class="fn-desc">穿越镜界，照见此刻心语</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+    </div>
+
+    <!-- ② 梦境呢喃 -->
+    <div class="tab-panel" data-panel="dream" role="tabpanel">
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('记录梦境')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a8.6 8.6 0 1 0 11 11z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">记录梦境</strong>
+          <span class="fn-desc">醒来第一件事，先写下那个梦</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('解梦札记')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M5.2 4.4h4.2a2.6 2.6 0 0 1 2.6 2.6v12a2.2 2.2 0 0 0-2.2-2.2H5.2z"/><path d="M18.8 4.4h-4.2a2.6 2.6 0 0 0-2.6 2.6v12a2.2 2.2 0 0 1 2.2-2.2h4.6z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">解梦札记</strong>
+          <span class="fn-desc">看看梦在悄悄说些什么</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('梦境星图')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.8l2.3 5.7 6 .9-4.4 4.2 1.1 6.1L12 16.6l-5 3.1 1.1-6.1L3.7 9.4l6-.9z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">梦境星图</strong>
+          <span class="fn-desc">把做过的梦连成一片夜空</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+    </div>
+
+    <!-- ③ 星河来信 -->
+    <div class="tab-panel" data-panel="star" role="tabpanel">
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('写一封信')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" fill-rule="evenodd"><path d="M3.6 6.4h16.8a1.8 1.8 0 0 1 1.8 1.8v7.6a1.8 1.8 0 0 1-1.8 1.8H3.6a1.8 1.8 0 0 1-1.8-1.8V8.2a1.8 1.8 0 0 1 1.8-1.8zm.7 1.8 7.7 5.2 7.7-5.2z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">写一封信</strong>
+          <span class="fn-desc">寄给未来的自己，或某个人</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('我的信箱')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" fill-rule="evenodd"><path d="M6.4 3.4h11.2a3 3 0 0 1 3 3v11.2a3 3 0 0 1-3 3H6.4a3 3 0 0 1-3-3V6.4a3 3 0 0 1 3-3zm1.6 4.8h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h4.8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">我的信箱</strong>
+          <span class="fn-desc">拆开那些按时抵达的信</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.placeholder('星河邮戳')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 3.2c.6 3.6 1.9 5 5.6 5.6-3.7.6-5 2-5.6 5.6-.6-3.6-1.9-5-5.6-5.6 3.7-.6 5-2 5.6-5.6z"/><path d="M18.2 15.2c.3 1.7.9 2.4 2.6 2.7-1.7.3-2.3 1-2.6 2.7-.3-1.7-.9-2.4-2.6-2.7 1.7-.3 2.3-1 2.6-2.7z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">星河邮戳</strong>
+          <span class="fn-desc">每一封信的落款与日期</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+    </div>
+
+        <!-- ④ 月汐笺语（原「月经记录」，更文艺的叫法）：周期追踪头部 + 今日主功能区 + 三条功能卡（周期显示/温馨提醒/周期统计） -->
+    <div class="tab-panel" data-panel="moon" role="tabpanel">
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.moonOpen('stats')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.5 3h11A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-13A2.5 2.5 0 0 1 6.5 3zm0 2a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5h-11zm3.5 4h4v1.6h-4V9zm0 3h4v1.6h-4V12zm0 3h4v1.6h-4V15zm-2.2-6a1 1 0 1 1 0 2 1 1 0 1 1 0-2zm0 3a1 1 0 1 1 0 2 1 1 0 1 1 0-2zm0 3a1 1 0 1 1 0 2 1 1 0 1 1 0-2z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">月经记录</strong>
+          <span class="fn-desc">经期日历记录 · 平均周期统计</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.moonOpen('cycle')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 4.6a7.4 7.4 0 1 1-4.5 13.2l1.7-1.7a5.4 5.4 0 1 0 0-7.6l-1.7-1.6A7.4 7.4 0 0 1 12 4.6zm-2 3.5 4.6 4.6-1.4 1.4-4.6-4.6 1.4-1.4z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">周期显示</strong>
+          <span class="fn-desc">当前周期阶段 · 排卵日与安全期</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      <article class="fn-card" role="listitem" onclick="SnowCrystal.moonOpen('reminder')">
+        <span class="fn-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.8a5 5 0 0 0-5 5v3.4l-1.7 3.4a1.4 1.4 0 0 0 1.2 2h11a1.4 1.4 0 0 0 1.2-2L17 11.2V7.8a5 5 0 0 0-5-5zm-1.8 15.4h3.6a2 2 0 0 1-3.6 0z"/></svg></span>
+        <span class="fn-main">
+          <strong class="fn-title">温馨提醒</strong>
+          <span class="fn-desc">经期倒计时 · 温柔留言</span>
+        </span>
+        <span class="fn-arrow">›</span>
+      </article>
+      
+    </div>
+
+  </div>
+
+<!-- ===== 3b. 完整月历浮层（点击首页日历打开） ===== -->
+  <div class="cal-modal" id="calModal" aria-hidden="true">
+    <div class="cal-sheet" role="dialog" aria-modal="true" aria-label="完整日历">
+      <div class="cal-sheet-head">
+        <button class="cal-nav" id="calPrev" type="button" aria-label="上个月">&#8249;</button>
+        <strong class="cal-sheet-title" id="calSheetTitle">—</strong>
+        <button class="cal-nav" id="calNext" type="button" aria-label="下个月">&#8250;</button>
+      </div>
+      <div class="cal-grid-head"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+      <div class="cal-grid" id="calGrid"></div>
+      <button class="cal-close" id="calClose" type="button">关闭</button>
+    </div>
+  </div>
+
+  </section><!-- /page: home -->
+
+  <section class="page" data-page="wordcard">
+    <header class="page-head">
+      <!-- v35：顶栏副标题已删除，仅保留主标题并居中 -->
+      <div class="page-head-center">
+        <h2 class="page-title">字卡</h2>
+      </div>
+    </header>
+
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('quote', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 20.2C6.9 17.3 3.2 13.6 3.2 9.9c0-2.6 1.8-4.4 4.3-4.4 1.7 0 3.2.9 4.5 2.6 1.3-1.7 2.8-2.6 4.5-2.6 2.5 0 4.3 1.8 4.3 4.4 0 3.7-3.7 7.4-8.8 10.3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">格言</span>
+          <span class="row-desc">点击即复制</span>
+        </div>
+        <span class="row-meta" data-wmeta="quote"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.openWcHub()">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M6.4 3.4h11.2a3 3 0 0 1 3 3v11.2a3 3 0 0 1-3 3H6.4a3 3 0 0 1-3-3V6.4a3 3 0 0 1 3-3zm1.6 4.8h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h4.8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">字卡库</span>
+          <span class="row-desc">通用字卡 / 专属字卡 / 语音字卡</span>
+        </div>
+        <span class="row-meta" data-wmeta="main"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpen('wordcard-face-lib')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 1 1 0-17.6zM9.3 8.9a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zm5.4 0a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zM7.6 13.4h8.8a4.4 4.4 0 0 1-8.8 0z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">颜文字表情</span>
+          <span class="row-desc">点一下即复制</span>
+        </div>
+        <span class="row-meta" data-wmeta="kao+emoji"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('sticker', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M14.9 2.4 21 8.5v9.2a3.4 3.4 0 0 1-3.4 3.4H6.4a3.4 3.4 0 0 1-3.4-3.4V6a3.4 3.4 0 0 1 3.4-3.4h8.5z"/><path d="M14.9 2.4 21 8.5h-5.6a.5.5 0 0 1-.5-.5V2.4z"/><path d="M12 14.6c-1.5-1.3-2.4-2.1-2.4-3a1.6 1.6 0 0 1 2.4-1.3 1.6 1.6 0 0 1 2.4 1.3c0 .9-.9 1.7-2.4 3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">表情包库</span>
+          <span class="row-desc">本地上传表情包</span>
+        </div>
+        <span class="row-meta" data-wmeta="sticker"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('pat', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="9" y="5" width="3.2" height="10.4" rx="1.6"/><rect x="12.6" y="3.4" width="3.2" height="12" rx="1.6"/><rect x="16.1" y="5.4" width="3" height="10" rx="1.5"/><path d="M7 12.2h12.1v3.8c0 3.6-2.7 5.9-6.2 5.9-2.7 0-4.8-1.5-5.7-3.9l-1.2-3.5c-.3-.9.1-2.3 1-2.3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">拍一拍</span>
+          <span class="row-desc">分组管理 · 点击发出</span>
+        </div>
+        <span class="row-meta" data-wmeta="pat"></span>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <!-- v102：问答库（收容你发出的问答抉择，可复用发送） -->
+      <article class="row-card" onclick="SnowCrystal.Chat.openQaLib()">
+        <span class="row-ico"><svg viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M239.43,133l-32-80A8,8,0,0,0,200,48a8.27,8.27,0,0,0-1.73.21L136,62V40a8,8,0,0,0-16,0V65.58L54.27,80.21A8,8,0,0,0,48.57,85l-32,80a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32a7.92,7.92,0,0,0-.57-3L66.92,93.77,120,82V208H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V78.42L187,67.1,160.57,133a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32A7.92,7.92,0,0,0,239.43,133Z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">问答库</span>
+          <span class="row-desc">发出的问答，可复用</span>
+        </div>
+        <span class="row-meta" id="qaMeta"></span>
+        <span class="row-arrow">›</span>
+      </article>
+
+    </div>
+
+    <p class="page-foot">点击卡片复制文案 · 内容全部存在本机 · 雪晶 · 字卡 v1.1.0</p>
+  </section>
+
+  <!-- ===== 字卡库中转页：通用字卡 / 专属字卡 / 语音字卡 ===== -->
+  <section class="page" data-page="wc-hub">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.switchPage('wordcard')" title="返回" aria-label="返回">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">字卡库</h2>
+      </div>
+    </header>
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('main', 'wc-hub')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M6.4 3.4h11.2a3 3 0 0 1 3 3v11.2a3 3 0 0 1-3 3H6.4a3 3 0 0 1-3-3V6.4a3 3 0 0 1 3-3zm1.6 4.8h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h4.8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">通用字卡</span>
+          <span class="row-desc">点击即复制</span>
+        </div>
+        <span class="row-meta" data-wmeta="main"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.openSubLib()">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 12.2a4.6 4.6 0 1 1 0-9.2 4.6 4.6 0 1 1 0 9.2zm0 2.2c-4.4 0-7.4 2.4-7.4 5.6 0 .8.6 1.4 1.4 1.4h12c.8 0 1.4-.6 1.4-1.4 0-3.2-3-5.6-7.4-5.6z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">专属字卡</span>
+          <span class="row-desc">按对方角色分组</span>
+        </div>
+        <span class="row-meta" id="subMeta"></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.openVoiceLib()">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.5a3.5 3.5 0 0 0-3.5 3.5v4a3.5 3.5 0 0 0 7 0V7a3.5 3.5 0 0 0-3.5-3.5zM7 11v.2a5 5 0 0 0 10 0V11h-2v.2a3 3 0 0 1-6 0V11H7zm4 5.4v3.2h2v-3.2h-2z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">语音字卡</span>
+          <span class="row-desc">上传 mp3，让 TA 发语音</span>
+        </div>
+        <span class="row-meta" id="voiceMeta"></span>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+    <p class="page-foot">专属字卡只由对应角色发出 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== 专属字卡分组页（按对方角色分组） ===== -->
+  <section class="page" data-page="sub-lib">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.subBack()" title="返回" aria-label="返回">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">专属字卡</h2>
+      </div>
+    </header>
+    <div class="row-list" id="subGroups"></div>
+    <p class="page-foot" id="subLibFoot">每个角色只能使用自己的专属字卡 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== 专属字卡条目页（某角色专属字卡列表） ===== -->
+  <section class="page" data-page="sub-group">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.subGroupBack()" title="返回" aria-label="返回">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title" id="subGrpTitle">专属字卡</h2>
+      </div>
+    </header>
+    <div class="wc-toolbar" id="subGrpTools"></div>
+    <div class="lib-search" id="subSearchWrap" hidden>
+      <input class="wc-input lib-search-input" id="subSearchInput" type="text" placeholder="输入关键词搜索" oninput="SnowCrystal.subDoSearch(this.value)">
+      <button class="wc-tool is-ico" type="button" onclick="SnowCrystal.subClearSearch()" title="清空搜索" aria-label="清空搜索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6.6 6.6l10.8 10.8M17.4 6.6 6.6 17.4"/></svg></button>
+    </div>
+    <div class="wc-list" id="subGrpBody"></div>
+    <div id="subSearchResults" hidden></div>
+    <p class="page-foot" id="subGrpFoot">点击字卡复制 · 可发送给对应角色 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== v102：问答库页（字卡 → 问答库） ===== -->
+  <section class="page" data-page="qa-lib">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.Chat.qaBack()" title="返回" aria-label="返回">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">问答库</h2>
+      </div>
+      <button class="wc-tool qa-new-btn" type="button" onclick="SnowCrystal.Chat.openQaEdit()">＋ 新建模板</button>
+    </header>
+    <div class="row-list" id="qaListWrap"></div>
+    <p class="page-foot" id="qaFoot">问答模板 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== 6c. 探索页：横排条目（对齐首页消息列表形态） ===== -->
+  <section class="page" data-page="discover">
+    <header class="page-head">
+      <!-- v35：顶栏副标题已删除，仅保留主标题并居中 -->
+      <div class="page-head-center">
+        <h2 class="page-title">探索</h2>
+      </div>
+    </header>
+
+    <div class="row-list">
+      <!-- 任务3：次元镜界 · 时空回响入口（查看往期传讯，沿用 mtxEcho 逻辑） -->
+      <article class="row-card" onclick="SnowCrystal.Mtx.openEcho('discover')">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 12a8 8 0 0 1 16 0h-2.2a5.8 5.8 0 0 0-11.6 0z"/><path d="M7 12a5 5 0 0 1 10 0h-2a3 3 0 0 0-6 0z"/><path d="M12 12a1.5 1.5 0 1 1 0 3 1.5 1.5 0 1 1 0-3z"/><path d="M12 18.6v2.4M8.4 21.4h7.2"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">时空回响</span>
+          <span class="row-desc">次元镜界 · 往期传讯记录</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== 6d. 设置页：横排条目（对齐首页消息列表形态） ===== -->
+  <section class="page" data-page="settings">
+    <header class="page-head">
+      <!-- v35：顶栏副标题已删除，仅保留主标题并居中 -->
+      <div class="page-head-center">
+        <h2 class="page-title">设置</h2>
+      </div>
+    </header>
+
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.openAccountSettings()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3.6a4.3 4.3 0 1 1 0 8.6 4.3 4.3 0 1 1 0-8.6z"/><path d="M12 13.9c4.2 0 7.4 2.5 7.4 6.1 0 .7-.6 1.3-1.3 1.3H5.9c-.7 0-1.3-.6-1.3-1.3 0-3.6 3.2-6.1 7.4-6.1z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">账号设置</span>
+          <span class="row-desc">头像 / 昵称 / 资料编辑</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <!-- v37：外观设置 / 字体颜色 / 图标颜色 / 卡片颜色 四项统一收纳为「美化设置」 -->
+      <article class="row-card" onclick="SnowCrystal.openBeautify()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="4.4"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(45 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(90 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(135 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(180 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(225 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(270 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(315 12 12)"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">美化设置</span>
+          <span class="row-desc">主题皮肤 · 字体 / 图标 / 卡片颜色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openSizeSettings()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.6"/><path d="M3.6 12h16.8M12 3.6v16.8"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">尺寸设置</span>
+          <span class="row-desc">字卡 / 课程 / 设置整体缩放</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <!-- v43：气泡设置（首页设置底下）：默认气泡模式 / 气泡商城 / 气泡 CSS 导入指派 -->
+      <article class="row-card" onclick="SnowCrystal.openBubbleSettings()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M5 3.2h14a2.4 2.4 0 0 1 2.4 2.4v8.8a2.4 2.4 0 0 1-2.4 2.4h-7.4l-5.2 4.4V16.8H5A2.4 2.4 0 0 1 2.6 14.4V5.6A2.4 2.4 0 0 1 5 3.2z"/><circle cx="9" cy="10" r="1.35"/><circle cx="13" cy="10" r="1.35"/><circle cx="17" cy="10" r="1.35"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">气泡设置</span>
+          <span class="row-desc">默认气泡 · 主题气泡 · 自定义颜色 · 气泡商城</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openChatSettings()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.8 4.8h14.4a2.2 2.2 0 0 1 2.2 2.2v7.8a2.2 2.2 0 0 1-2.2 2.2h-6.5L8 21.4V17H4.8a2.2 2.2 0 0 1-2.2-2.2V7a2.2 2.2 0 0 1 2.2-2.2z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">聊天设置</span>
+          <span class="row-desc">回复方式 / 自动发送</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openDataManage()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M4.8 6.4c0-1.6 3.2-2.9 7.2-2.9s7.2 1.3 7.2 2.9v11.2c0 1.6-3.2 2.9-7.2 2.9s-7.2-1.3-7.2-2.9zM5.8 11.9h12.4v1.1H5.8z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">数据管理</span>
+          <span class="row-desc">导出备份 / 恢复备份 / 清空本机数据</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.placeholder('打开 关于')">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 1 1 0-17.6zM11.15 10.6h1.7v6.9h-1.7zM12 6.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 1 1 0-2.6z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">关于</span>
+          <span class="row-desc">版本信息 / 用户协议</span>
+        </div>
+        <span class="row-meta">v1.0.0</span>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+
+    <p class="page-foot">雪晶 · 字卡 v1.0.0</p>
+  </section>
+
+  <!-- ===== 6x. 账号设置页（对标拾心界账号设置 · 二级页）：我方 + 对方角色 ===== -->
+  <section class="page" data-page="account-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">账号设置</h2>
+      </div>
+    </header>
+
+    <p class="group-title">我方</p>
+    <div class="row-list">
+      <div class="acc-partner-row" id="accMyCard"></div>
+    </div>
+
+    <p class="group-title">对方角色</p>
+    <div class="row-list">
+      <div id="accPartnerList"></div>
+      <article class="row-card acc-add-row" onclick="SnowCrystal.addPartnerAccount()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5v13M5.5 12h13"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">添加角色</span>
+          <span class="row-desc">新增一位对方角色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== 6g. 聊天（对标拾心界聊天设置 + 日常聊天 · 二级页）：聊天列表 / 聊天室 ===== -->
+  <section class="page" data-page="chat-list">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('home')" title="返回首页" aria-label="返回首页">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">今日絮语</h2>
+      </div>
+    </header>
+    <div id="chatListWrap"></div>
+  </section>
+
+  <!-- ===== 昨日回响（首页朝暮絮语二级页）：自动收录昨日高频语句拼成 Word Art 图案 ===== -->
+  <section class="page" data-page="echo">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('home')" title="返回首页" aria-label="返回首页">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">昨日回响</h2>
+      </div>
+    </header>
+    <div id="echoWrap"></div>
+  </section>
+
+  <!-- 聊天室（全屏） -->
+  <section class="page" data-page="chat-room">
+    <div class="chat-room-head">
+      <button class="back-btn" onclick="SnowCrystal.backFromChatRoom()" title="返回聊天列表" aria-label="返回聊天列表">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="chat-room-titles">
+        <span class="chat-room-name" id="chatRoomName">对方</span>
+        <div class="chat-room-heartbeat" id="chatRoomHeartbeat" title="连续聊天" role="status" aria-label="连续聊天天数">
+          <svg class="chat-heartbeat-wave" viewBox="0 0 96 26" fill="none" aria-hidden="true"><polyline points="0,13 12,13 16,13 19,8 22,18 25,13 36,13 40,13 44,4 50,22 55,13 66,13 70,13 73,8 76,18 79,13 90,13 96,13" pathLength="100" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline class="chat-heartbeat-flow" points="0,13 12,13 16,13 19,8 22,18 25,13 36,13 40,13 44,4 50,22 55,13 66,13 70,13 73,8 76,18 79,13 90,13 96,13" pathLength="100" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="chat-heartbeat-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.7-4.35-9.33-8.11C.9 10.19 1.92 5.6 5.5 4.3c2.2-.8 4.7.1 6.5 2.4 1.8-2.3 4.3-3.2 6.5-2.4 3.58 1.3 4.6 5.89 2.83 8.59C18.7 16.65 12 21 12 21z" fill="currentColor"/></svg>
+          <span class="chat-heartbeat-streak" id="chatHeartbeatStreak">0</span>
+        </div>
+      </div>
+      <button class="chat-room-clear chat-room-snow-btn" type="button" onclick="SnowCrystal.toggleChatRoomMenu()" title="更多操作" aria-label="更多操作" aria-expanded="false">
+        <!-- [2026-10-17] 菜单键：改为齿轮图标（更多操作），无背景纯 icon -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.61 3.61 0 0 1 8.4 12c0-1.98 1.62-3.6 3.6-3.6s3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      </button>
+      </div>
+    <!-- 贴表情：聊天背景贴纸层（随 --chat-bg 之上的装饰层，消息内容层在其上方） -->
+    <div class="chat-bg-sticker-layer" id="chatBgStickerLayer" aria-hidden="true"></div>
+    <div class="chat-room-body" id="chatMessages"></div>
+    <!-- [2026-10-18] 对标拾心界：消息多选操作条（多选模式替换输入区） -->
+    <div class="msg-multi-bar" id="msgMultiBar" hidden>
+      <button class="mmb-btn" type="button" title="全选" aria-label="全选" onclick="SnowCrystal.ChatMsgMenu.toggleSelectAll()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4 5.6A1.6 1.6 0 0 1 5.6 4h12.8A1.6 1.6 0 0 1 20 5.6v12.8a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 18.4V5.6zm2 .8v11.2h12V6.4H6zm1.2 5.4 1.5-1.5 2 2 4.1-4.1 1.5 1.5-5.6 5.6-3.5-3.5z"/></svg>
+        全选
+      </button>
+      <span class="mmb-count" id="msgMultiCount">已选 0 条</span>
+      <span class="mmb-spacer"></span>
+      <button class="mmb-btn mmb-btn-fav" type="button" title="收藏选中" aria-label="收藏选中" onclick="SnowCrystal.ChatMsgMenu.favoriteSelected()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="m12 3.6 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.6-5 2.6.9-5.6-4-4 5.6-.8z"/></svg>
+        收藏
+      </button>
+      <button class="mmb-btn mmb-btn-fwd" type="button" title="转发选中" aria-label="转发选中" onclick="SnowCrystal.ChatMsgMenu.forwardSelected()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M15.5 4.6 20.9 10l-5.4 5.4v-3.2c-4.2 0-7.1 1.1-9.4 4l-1.5 1.4.3-1.8c.5-3.3 2.5-5.8 5.5-6.9 1.4-.5 3-.7 5.1-.7V4.6z"/></svg>
+        转发
+      </button>
+      <button class="mmb-btn mmb-btn-del" type="button" title="删除选中" aria-label="删除选中" onclick="SnowCrystal.ChatMsgMenu.deleteSelected()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9 3.4h6l.8 2.2h3.4v1.8H4.8V5.6h3.4zM6 9h12l-.9 10.1a1.8 1.8 0 0 1-1.8 1.7H8.7a1.8 1.8 0 0 1-1.8-1.7z"/></svg>
+        删除
+      </button>
+      <button class="mmb-btn mmb-btn-cancel" type="button" title="取消" aria-label="取消" onclick="SnowCrystal.ChatMsgMenu.exitMultiSelect()">取消</button>
+    </div>
+    <div class="chat-room-input">
+      <!-- v10 信息区：我方角色名 / 当前情绪 / 心动值（无存储时占位） -->
+      <div class="chat-room-info" id="chatRoomInfo">
+        <span class="chat-info-item chat-info-name" id="chatInfoName">我</span>
+        <span class="chat-info-item chat-info-mood" id="chatInfoMood" role="button" tabindex="0" title="点击修改当前情绪" aria-label="当前情绪，点击修改" onclick="SnowCrystal.Chat.editMood()">当前情绪为平静</span>
+        <span class="chat-info-item chat-info-heart" id="chatInfoHeart" role="button" tabindex="0" title="点击修改心动值" aria-label="心动值，点击修改" onclick="SnowCrystal.Chat.editHeart()">心动值 0</span>
+      </div>
+      <!-- [2026-10-18] 对标拾心界：引用回复条（点击消息菜单「引用」后出现，发送后自动消失） -->
+      <div class="chat-quote-bar" id="chatQuoteBar" hidden>
+        <span class="chat-quote-ico">❝</span>
+        <span class="chat-quote-body" id="chatQuoteBody"></span>
+        <button class="chat-quote-close" type="button" title="取消引用" aria-label="取消引用" onclick="SnowCrystal.ChatMsgMenu.dismissQuote()">×</button>
+      </div>
+      <!-- 输入框胶囊：左侧话筒 / 右侧表情 + 加号（输入文字时加号变发送） -->
+      <div class="chat-input-wrap">
+        <button class="chat-bar-btn chat-pat-btn" type="button" title="拍一拍" aria-label="拍一拍" aria-pressed="false" onclick="SnowCrystal.Chat.patPartner()">
+          <svg class="chat-pat-ico" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6.5" fill="currentColor"/><rect x="7" y="6.4" width="2.7" height="11.2" rx="1.35" fill="#ffffff"/><rect x="10.65" y="6.4" width="2.7" height="11.2" rx="1.35" fill="#ffffff"/><rect x="14.3" y="6.4" width="2.7" height="11.2" rx="1.35" fill="#ffffff"/></svg>
+        </button>
+        <textarea id="chatInput" rows="1" placeholder="" aria-label="聊天输入框"></textarea>
+        <button class="chat-bar-btn chat-emoji-btn" type="button" title="表情包" aria-label="表情包" aria-expanded="false" onclick="SnowCrystal.Chat.toggleEmojiPanel()">
+          <span class="chat-emoji-sym">☻</span>
+        </button>
+        <button class="chat-bar-btn chat-plus-btn" type="button" title="更多功能" aria-label="更多功能" aria-expanded="false" onclick="SnowCrystal.Chat.onPlusSendTap()">
+          <svg class="wp9-plus-ico" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.34 2.02C6.59 1.82 2 6.42 2 12c0 5.52 4.48 10 10 10 3.71 0 6.93-2.02 8.66-5.02-7.51-.25-12.09-8.43-8.32-14.96z"/></svg>
+          <svg class="wp9-send-ico" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M21 3 3 10.53v.98l6.84 2.66L12.5 21h.98L21 3z"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- 表情面板：遮罩 + 弹层（Emoji / 表情包 双 Tab，风格沿用 .chat-room-menu 毛玻璃体系） -->
+    <div class="chat-emoji-mask" id="chatEmojiMask" onclick="SnowCrystal.Chat.closeEmojiPanel()"></div>
+    <div class="chat-emoji-panel" id="chatEmojiPanel" role="dialog" aria-label="表情面板" aria-hidden="true">
+      <div class="chat-emoji-tabs">
+        <button class="chat-emoji-tab is-active" type="button" data-tab="emoji" onclick="SnowCrystal.Chat.switchEmojiTab('emoji')">Emoji</button>
+        <button class="chat-emoji-tab" type="button" data-tab="sticker" onclick="SnowCrystal.Chat.switchEmojiTab('sticker')">表情包</button>
+      </div>
+      <div class="chat-emoji-body" id="chatEmojiBody"></div>
+    </div>
+    <!-- 加号功能面板（底栏月亮键）：双排 4×2 网格，左右滑动切换两页；图标实心 -->
+    <div class="chat-plus-mask" id="chatPlusMask" onclick="SnowCrystal.Chat.closePlusPanel()"></div>
+    <div class="chat-plus-panel" id="chatPlusPanel" role="dialog" aria-label="功能菜单" aria-hidden="true">
+      <div class="moon-grid-wrap plus-moon-grid">
+<div class="moon-grid-page">
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.sendImage()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM156,88a12,12,0,1,1-12,12A12,12,0,0,1,156,88Zm60,112H40V160.69l46.34-46.35a8,8,0,0,1,11.32,0h0L165,181.66a8,8,0,0,0,11.32-11.32l-17.66-17.65L173,138.34a8,8,0,0,1,11.31,0L216,170.07V200Z"/></svg></span>
+            <span class="moon-item-label">图片</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.openRedpackSend()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16h60a4,4,0,0,0,4-4V120H40V88h80v32h16V88h80v32H136v92a4,4,0,0,0,4,4h60a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM84.51,59a13.69,13.69,0,0,1-4.5-10A16.62,16.62,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92C109.71,70.39,94,67.43,84.51,59Zm87,0c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08,13.69,13.69,0,0,1,171.49,59Z"/></svg></span>
+            <span class="moon-item-label">红包</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.openCallPicker()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M144.27,45.93a8,8,0,0,1,9.8-5.66,86.22,86.22,0,0,1,61.66,61.66,8,8,0,0,1-5.66,9.8A8.23,8.23,0,0,1,208,112a8,8,0,0,1-7.73-5.93,70.35,70.35,0,0,0-50.33-50.34A8,8,0,0,1,144.27,45.93Zm-2.33,41.8c13.79,3.68,22.65,12.55,26.33,26.34A8,8,0,0,0,176,120a8.23,8.23,0,0,0,2.07-.27,8,8,0,0,0,5.66-9.8c-5.12-19.16-18.5-32.54-37.66-37.66a8,8,0,1,0-4.13,15.46Zm72.43,78.73-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L126.87,168c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L89.54,41.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,24,88c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,214.37,166.46Z"/></svg></span>
+            <span class="moon-item-label">通话</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.continueSend()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M240,127.89a16,16,0,0,1-8.18,14L63.9,237.9A16.15,16.15,0,0,1,56,240a16,16,0,0,1-15-21.33l27-79.95A4,4,0,0,1,71.72,136H144a8,8,0,0,0,8-8.53,8.19,8.19,0,0,0-8.26-7.47h-72a4,4,0,0,1-3.79-2.72l-27-79.94A16,16,0,0,1,63.84,18.07l168,95.89A16,16,0,0,1,240,127.89Z"/></svg></span>
+            <span class="moon-item-label">继续发送</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.openQaPicker()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M239.43,133l-32-80A8,8,0,0,0,200,48a8.27,8.27,0,0,0-1.73.21L136,62V40a8,8,0,0,0-16,0V65.58L54.27,80.21A8,8,0,0,0,48.57,85l-32,80a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32a7.92,7.92,0,0,0-.57-3L66.92,93.77,120,82V208H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V78.42L187,67.1,160.57,133a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32A7.92,7.92,0,0,0,239.43,133Zm-160,35H32.62L56,109.54Zm97.24-32L200,77.54,223.38,136Z"/></svg></span>
+            <span class="moon-item-label">让你选</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.openStickerBg()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM92,96a12,12,0,1,1-12,12A12,12,0,0,1,92,96Zm82.92,60c-10.29,17.79-27.39,28-46.92,28s-36.63-10.2-46.92-28a8,8,0,1,1,13.84-8c7.47,12.91,19.21,20,33.08,20s25.61-7.1,33.08-20a8,8,0,1,1,13.84,8ZM164,120a12,12,0,1,1,12-12A12,12,0,0,1,164,120Z"/></svg></span>
+            <span class="moon-item-label">贴表情</span>
+          </button>
+          <button class="moon-item" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Mtx.entryInvite()"><span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.08,16.08,0,0,0,6.41,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16,16,0,0,0-6.36-12.77L141.26,128l52.38-39.59A16.05,16.05,0,0,0,200,75.64Z"/></svg></span><span class="moon-item-label">次元镜界</span></button>
+          <button class="moon-item" id="chatKeepAwakeBtn" type="button" onclick="SnowCrystal.Chat.closePlusPanel();SnowCrystal.Chat.toggleKeepScreenOn()">
+            <span class="moon-item-ico"><svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm8,24a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg></span>
+            <span class="moon-item-label">屏幕常亮</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 拍一拍面板（手掌键）：链接拍一拍库文案 + 自定义输入 -->
+    <div class="chat-plus-mask chat-pat-mask" id="chatPatMask" onclick="SnowCrystal.Chat.closePatPanel()"></div>
+    <div class="chat-plus-panel chat-pat-panel" id="chatPatPanel" role="dialog" aria-label="拍一拍" aria-hidden="true">
+      <div class="chat-pat-head">
+        <span class="chat-pat-title">拍一拍</span>
+        <button class="chat-pat-close" type="button" onclick="SnowCrystal.Chat.closePatPanel()" aria-label="关闭" title="关闭">×</button>
+      </div>
+      <div class="chat-pat-body">
+        <p class="chat-pat-sec-title">我方拍一拍</p>
+        <div class="chat-pat-list" id="chatPatListSelf"></div>
+        <p class="chat-pat-sec-title">自定义</p>
+        <div class="chat-pat-custom-row">
+          <input class="chat-pat-input" id="chatPatInput" type="text" maxlength="40" placeholder="填写自定义后缀，如：想你了">
+          <button class="chat-pat-send" type="button" onclick="SnowCrystal.Chat.sendPatCustom()">发送</button>
+        </div>
+        <p class="chat-pat-tip">点击「我方拍一拍」或发送自定义内容即可拍一拍对方</p>
+      </div>
+    </div>
+
+    <!-- v102：让你选 —— 问答抉择弹窗（居中；问题+2~15条答案；单选/多选；发出后对方3-6s内选择） -->
+    <div class="chat-qa-mask" id="chatQaMask" onclick="SnowCrystal.Chat.closeQaPanel()"></div>
+    <div class="chat-qa-panel" id="chatQaPanel" role="dialog" aria-label="让你选" aria-hidden="true">
+      <div class="chat-qa-head">
+        <span class="chat-qa-title" id="chatQaTitle">让你选</span>
+        <button class="chat-qa-mode" id="qaModeBtn" type="button" title="切换单选 / 多选" aria-pressed="false" onclick="SnowCrystal.Chat.toggleQaMode()">单选</button>
+        <button class="chat-qa-close" type="button" onclick="SnowCrystal.Chat.closeQaPanel()" aria-label="关闭" title="关闭">×</button>
+      </div>
+      <div class="chat-qa-body">
+        <p class="chat-qa-sec-title">问题</p>
+        <textarea class="chat-qa-question" id="qaQuestion" rows="2" placeholder="输入你的问题，如：今晚吃什么？"></textarea>
+        <p class="chat-qa-sec-title">答案 <span class="chat-qa-count" id="qaCount">2/15</span></p>
+        <div class="chat-qa-opts" id="qaOpts"></div>
+        <button class="chat-qa-add" id="qaAddBtn" type="button" onclick="SnowCrystal.Chat.qaAddOpt()">＋ 添加答案</button>
+        <div class="chat-qa-foot">
+          <button class="chat-qa-cancel" type="button" onclick="SnowCrystal.Chat.closeQaPanel()">取消</button>
+          <button class="chat-qa-send" type="button" onclick="SnowCrystal.Chat.qaSend()">发送让你选</button>
+        </div>
+        <p class="chat-qa-tip">对方收到后可在 3-6 秒内选择答案 · 发送后自动存入问答库</p>
+      </div>
+    </div>
+
+    <!-- 贴表情面板（月牙菜单·贴表情）：按颜色分组的 emoji，点击贴到聊天背景 -->
+    <div class="chat-sticker-mask" id="chatStickerMask" onclick="SnowCrystal.Chat.closeStickerBg()"></div>
+    <div class="chat-sticker-panel" id="chatStickerPanel" role="dialog" aria-label="贴表情" aria-hidden="true">
+      <div class="chat-sticker-head">
+        <span class="chat-sticker-title">贴表情</span>
+        <button class="chat-sticker-clear" type="button" onclick="SnowCrystal.Chat.clearBgStickers()">清空</button>
+        <button class="chat-sticker-close" type="button" onclick="SnowCrystal.Chat.closeStickerBg()" aria-label="关闭" title="关闭">×</button>
+      </div>
+      <div class="chat-sticker-body" id="chatStickerBody"></div>
+      <p class="chat-sticker-tip">贴到聊天背景上，对方也会回贴一枚 · 背景色随表情颜色淡变</p>
+    </div>
+
+    <!-- 顶栏雪花键展开的菜单栏：遮罩 + 下拉菜单（风格沿用站点 .metric-sheet 弹层体系） -->
+    <div class="chat-room-menu-mask" id="chatRoomMenuMask" onclick="SnowCrystal.closeChatRoomMenu()"></div>
+    <div class="chat-room-menu" id="chatRoomMenu" role="menu" aria-label="聊天室菜单">
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.closeChatRoomMenu(); SnowCrystal.openChatSettings()">
+        <span class="chat-room-menu-label">聊天设置</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openChatBgPanel()">
+        <span class="chat-room-menu-label">更换壁纸</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openCallHistoryPanel(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">通话记录</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openRedpackRecords(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">红包记录</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openPendingRedpacks(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">未领取红包</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openChatSearch(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">查找聊天记录</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.toggleChatPin(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label" id="chatRoomMenuPinLabel">置顶聊天</span>
+      </button>
+      <button class="chat-room-menu-item" type="button" onclick="SnowCrystal.Chat.openChatStats(); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">聊天统计</span>
+      </button>
+      <button class="chat-room-menu-item is-danger" type="button" onclick="SnowCrystal.clearChatHistory(SnowCrystal.Chat.getPartnerId()); SnowCrystal.closeChatRoomMenu()">
+        <span class="chat-room-menu-label">清空聊天记录</span>
+      </button>
+    </div>
+    <!-- 更换壁纸面板 v9：遮罩 + 居中弹层（仅默认背景·跟随网站外观主题 + 自定义上传；无任何内置色板；入口仅保留顶栏雪花菜单「更换壁纸」） -->
+    <div class="chat-bg-mask" id="wallpaperMask" onclick="SnowCrystal.Chat.closeChatBgPanel()"></div>
+    <div class="chat-bg-panel wallpaper-panel" id="wallpaperPanel" role="dialog" aria-label="更换壁纸" aria-hidden="true">
+      <div class="chat-bg-head wp2-head">
+        <span class="chat-bg-title">更换壁纸</span>
+        <button class="wp2-close" type="button" onclick="SnowCrystal.Chat.closeChatBgPanel()" aria-label="关闭" title="关闭">×</button>
+      </div>
+      <div class="wallpaper-scroll">
+        <!-- 区块1：背景模式（跟随主题 / 固定白色） -->
+        <div class="wallpaper-section">
+          <div class="wallpaper-sec-title">背景模式</div>
+          <div class="wp13-mode-row">
+            <button class="wp13-mode-btn" id="wp13ThemeBtn" type="button" onclick="SnowCrystal.Chat.setWallpaperMode('theme')">
+              <span class="wp13-mode-swatch wp13-sw-theme" aria-hidden="true"></span>
+              <span class="wp13-mode-meta">
+                <span class="wp13-mode-title">跟随网站外观主题</span>
+                <span class="wp13-mode-hint">跟随美化设置的背景，自动适配亮暗</span>
+              </span>
+              <span class="wp13-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="wp13-mode-btn" id="wp13WhiteBtn" type="button" onclick="SnowCrystal.Chat.setWallpaperMode('white')">
+              <span class="wp13-mode-swatch wp13-sw-white" aria-hidden="true"></span>
+              <span class="wp13-mode-meta">
+                <span class="wp13-mode-title">固定白色</span>
+                <span class="wp13-mode-hint">聊天背景始终纯白</span>
+              </span>
+              <span class="wp13-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+        </div>
+        <!-- 区块2：自定义颜色（纯色 / 渐变，不跟随主题） -->
+        <div class="wallpaper-section">
+          <div class="wallpaper-sec-title">自定义颜色</div>
+          <button class="wp13-mode-btn" id="wp13ColorBtn" type="button" onclick="SnowCrystal.Chat.setWallpaperMode('color')">
+            <span class="wp13-mode-swatch wp13-sw-color" aria-hidden="true"></span>
+            <span class="wp13-mode-meta">
+              <span class="wp13-mode-title">自定义颜色</span>
+              <span class="wp13-mode-hint">纯色或渐变，自由配色</span>
+            </span>
+            <span class="wp13-check" aria-hidden="true">✓</span>
+          </button>
+          <div class="wp13-color-zone" id="wp13ColorZone">
+            <div class="wp13-type-toggle">
+              <button class="wp13-type-btn is-active" id="wp13TypeSolid" type="button" onclick="SnowCrystal.Chat.setColorType('solid')">纯色</button>
+              <button class="wp13-type-btn" id="wp13TypeGrad" type="button" onclick="SnowCrystal.Chat.setColorType('gradient')">渐变</button>
+            </div>
+            <div class="wp13-color-row">
+              <label class="wp13-color-label" for="wp13Color1">
+                <span class="wp13-color-name" id="wp13Color1Name">颜色 1</span>
+                <input type="color" id="wp13Color1" value="#f6f8fc" oninput="SnowCrystal.Chat.onColorInput('color1', this.value)">
+              </label>
+              <label class="wp13-color-label" id="wp13Color2Wrap" for="wp13Color2" style="display:none">
+                <span class="wp13-color-name">颜色 2</span>
+                <input type="color" id="wp13Color2" value="#c7d2dc" oninput="SnowCrystal.Chat.onColorInput('color2', this.value)">
+              </label>
+              <label class="wp13-color-label" id="wp13Color3Wrap" for="wp13Color3" style="display:none">
+                <span class="wp13-color-name">颜色 3</span>
+                <input type="color" id="wp13Color3" value="#e8eef6" oninput="SnowCrystal.Chat.onColorInput('color3', this.value)">
+              </label>
+            </div>
+            <div class="wp13-grad-dir" id="wp13GradDirWrap" style="display:none">
+              <button class="wp13-dir-btn is-active" data-dir="tb" type="button" onclick="SnowCrystal.Chat.setGradDir('tb')">上下</button>
+              <button class="wp13-dir-btn" data-dir="lr" type="button" onclick="SnowCrystal.Chat.setGradDir('lr')">左右</button>
+              <button class="wp13-dir-btn" data-dir="tlbr" type="button" onclick="SnowCrystal.Chat.setGradDir('tlbr')">斜向</button>
+              <button class="wp13-dir-btn" data-dir="rc" type="button" onclick="SnowCrystal.Chat.setGradDir('rc')">中心晕染</button>
+              <button class="wp13-dir-btn" data-dir="rcn" type="button" onclick="SnowCrystal.Chat.setGradDir('rcn')">边角晕染</button>
+              <button class="wp13-dir-btn" data-dir="rr" type="button" onclick="SnowCrystal.Chat.setGradDir('rr')">随机弥散</button>
+            </div>
+            <div class="wp13-rr-zone" id="wp13RrZone" style="display:none">
+              <div class="wp13-rr-title">随机弥散调节</div>
+              <div class="wp13-blur-amt">
+                <span class="wp13-blur-label">光斑数量</span>
+                <input type="range" id="wp13RrSpots" min="3" max="8" value="5" oninput="SnowCrystal.Chat.setRrParam('spots', this.value)">
+                <span class="wp13-rr-val" id="wp13RrSpotsVal">5</span>
+              </div>
+              <div class="wp13-blur-amt">
+                <span class="wp13-blur-label">光斑大小</span>
+                <input type="range" id="wp13RrSize" min="30" max="95" value="55" oninput="SnowCrystal.Chat.setRrParam('size', this.value)">
+                <span class="wp13-rr-val" id="wp13RrSizeVal">55</span>
+              </div>
+              <div class="wp13-blur-amt">
+                <span class="wp13-blur-label">晕染柔和</span>
+                <input type="range" id="wp13RrSoft" min="35" max="100" value="65" oninput="SnowCrystal.Chat.setRrParam('soft', this.value)">
+                <span class="wp13-rr-val" id="wp13RrSoftVal">65</span>
+              </div>
+              <div class="wp13-rr-actions">
+                <button class="wp13-type-btn" type="button" onclick="SnowCrystal.Chat.rerollRr()">重新随机</button>
+                <button class="wp13-type-btn" type="button" onclick="SnowCrystal.Chat.saveRrTemplate()">保存模板</button>
+              </div>
+              <div class="wp13-rr-name-row">
+                <input type="text" id="wp13RrName" placeholder="模板名称（可选）" maxlength="12" autocomplete="off">
+              </div>
+              <div class="wp13-rr-tpls" id="wp13RrTpls"></div>
+            </div>
+            <div class="wp13-bar-zone" id="wp13BarZone">
+              <div class="wp13-bar-hint">顶栏 / 底栏背景显示</div>
+              <div class="wp13-type-toggle">
+                <button class="wp13-type-btn is-active" id="wp13BarHalf" type="button" onclick="SnowCrystal.Chat.setBarMode('half')">半透明 50%</button>
+                <button class="wp13-type-btn" id="wp13BarFull" type="button" onclick="SnowCrystal.Chat.setBarMode('full')">全显背景</button>
+                <button class="wp13-type-btn" id="wp13BarClear" type="button" onclick="SnowCrystal.Chat.setBarMode('clear')">纯透明</button>
+                <button class="wp13-type-btn" id="wp13BarTransparent" type="button" onclick="SnowCrystal.Chat.setBarMode('transparent')">全透明</button>
+              </div>
+              <p class="wp13-upload-hint">半透明 50%（默认）· 全显 · 纯透明 · 全透明</p>
+            </div>
+          </div>
+        </div>
+        <!-- 区块3：自定义上传 -->
+        <div class="wallpaper-section">
+          <div class="wallpaper-sec-title">自定义上传</div>
+          <div class="chat-bg-custom-row">
+            <input type="file" id="chatBgFileInput" accept="image/*" hidden onchange="SnowCrystal.Chat.onChatBgFileChange(event)">
+            <button class="chat-bg-custom-btn" type="button" onclick="SnowCrystal.Chat.chooseChatBgFile()">上传图片</button>
+            <button class="chat-bg-custom-btn is-danger" type="button" id="chatBgClearBtn" onclick="SnowCrystal.Chat.clearChatBgCustom()" hidden>移除自定义</button>
+          </div>
+          <p class="wp13-upload-hint">任意图片永久保存本机</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6i. 次元镜界 · 传讯页（对标拾心界次元镜界 · 传讯） ===== -->
+  <section class="page" data-page="mtx-session">
+    <div class="chat-room-head">
+      <button class="back-btn" type="button" onclick="SnowCrystal.Mtx.endSession()" title="结束传讯" aria-label="结束传讯"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg></button>
+      <div class="chat-room-titles">
+        <span id="mtxRoomTitle">镜界传讯</span>
+      </div>
+      <button class="mtx-head-deck" id="mtxDeckHeadBtn" type="button" onclick="SnowCrystal.Mtx.openDeckModal()" title="牌组设置" aria-label="牌组设置">牌组</button>
+    </div>
+    <div class="chat-room-body" id="mtxMessages"></div>
+    <div class="chat-room-input" id="mtxInputBar">
+      <div class="chat-input-wrap">
+        <button class="chat-bar-btn mtx-bg-btn" id="mtxBgBtn" type="button" onclick="SnowCrystal.Mtx.openMtxBgModal()" title="传讯背景设置" aria-label="传讯背景设置">
+          <svg class="mtx-bg-ico" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-1 15H6a1 1 0 0 1-1-1v-1.5l3.3-3.3a1 1 0 0 1 1.4 0l2.1 2.1 5.7-5.7a1 1 0 0 1 1.4 0L19 12.5V17a1 1 0 0 1-1 1Zm-4.5-9.5a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Z"/></svg>
+        </button>
+        <input id="mtxInput" type="text" placeholder="先设置牌组再发问" autocomplete="off" enterkeyhint="send" onkeydown="if(event.key==='Enter'){SnowCrystal.Mtx.sendQuestion();}">
+        <button class="chat-bar-btn mtx-send-btn" type="button" onclick="SnowCrystal.Mtx.sendQuestion()" title="发问" aria-label="发问">
+          <svg class="mtx-send-ico" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M21 3 3 10.53v.98l6.84 2.66L12.5 21h.98L21 3z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6j. 次元镜界 · 时空回响（会话记录） ===== -->
+  <section class="page" data-page="mtx-echo">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.Mtx.backFromEcho()" title="返回" aria-label="返回"></button>
+      <div class="page-head-center">
+        <h2 class="page-title">时空回响</h2>
+      </div>
+    </header>
+    <div class="mtx-echo-list" id="mtxEchoList"></div>
+    <p class="page-foot" id="mtxEchoFoot" style="display:none">镜界传讯记录 · 数据全部存在本机 <button class="mtx-echo-clear" type="button" onclick="SnowCrystal.Mtx.clearAllEcho()">清空全部</button></p>
+  </section>
+
+  <!-- ===== 6k. 次元镜界 · 邀请弹窗 ===== -->
+  <div class="mtx-modal-mask" id="mtxInviteModal">
+    <div class="mtx-modal">
+      <div class="mtx-invite-avatar" id="mtxInviteAvatar">缘</div>
+      <div class="mtx-modal-title">镜界传讯邀请</div>
+      <div class="mtx-modal-desc" id="mtxInviteName">对方</div>
+      <div class="mtx-modal-desc">邀请对方进入次元镜界，向镜界发问，<br>由对方为你抽取镜界之牌。</div>
+      <div class="mtx-modal-actions">
+        <button class="mtx-modal-btn" type="button" onclick="SnowCrystal.Mtx.closeInviteModal()">取消</button>
+        <button class="mtx-modal-btn primary" type="button" onclick="SnowCrystal.Mtx.confirmInvite()">确认邀请</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6l. 次元镜界 · 牌组设置弹窗 ===== -->
+  <div class="mtx-modal-mask" id="mtxDeckModal">
+    <div class="mtx-modal">
+      <div class="mtx-modal-title">牌组设置</div>
+      <div class="mtx-modal-desc">选择镜界牌组与牌阵，设置本次传讯的抽牌方式</div>
+      <div class="mtx-modal-sec" id="mtxDeckList"></div>
+      <div class="mtx-spread-hint" id="mtxSpreadHint"></div>
+      <div class="mtx-modal-actions">
+        <button class="mtx-modal-btn" type="button" onclick="SnowCrystal.Mtx.closeDeckModal()">取消</button>
+        <button class="mtx-modal-btn primary" type="button" onclick="SnowCrystal.Mtx.confirmDeckSetting()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6m. 次元镜界 · 背景设置弹窗 ===== -->
+  <div class="mtx-modal-mask" id="mtxBgModal">
+    <div class="mtx-modal">
+      <div class="mtx-modal-title">传讯背景</div>
+      <div class="mtx-modal-desc">设置次元镜界传讯页的聊天背景</div>
+      <div class="mtx-modal-sec">
+        <div class="mtx-bg-options" id="mtxBgOptions">
+          <button class="mtx-pick-chip" id="mtxBgTheme" type="button" onclick="SnowCrystal.Mtx.setMtxBgMode('theme')">跟随主题</button>
+          <button class="mtx-pick-chip" id="mtxBgCustom" type="button" onclick="SnowCrystal.Mtx.setMtxBgMode('custom')">自定义图片</button>
+        </div>
+      </div>
+      <div class="mtx-bg-wallpaper">
+        <div class="mtx-bg-sec-title">自定义上传</div>
+        <div class="chat-bg-custom-row">
+          <input type="file" id="mtxBgFileInput" accept="image/*" hidden onchange="SnowCrystal.Mtx.onMtxBgFileChange(event)">
+          <button class="chat-bg-custom-btn" type="button" onclick="SnowCrystal.Mtx.chooseMtxBgFile()">上传图片</button>
+          <button class="chat-bg-custom-btn is-danger" type="button" id="mtxBgClearBtn" onclick="SnowCrystal.Mtx.clearMtxBgCustom()" hidden>移除自定义</button>
+        </div>
+        <p class="mtx-bg-hint">任意图片永久保存本机 · 仅作用于传讯页</p>
+      </div>
+      <div class="mtx-modal-actions">
+        <button class="mtx-modal-btn" type="button" onclick="SnowCrystal.Mtx.closeMtxBgModal()">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6n. 次元镜界 · 链接进入动效层 ===== -->
+  <div class="mtx-linkin-mask" id="mtxLinkIn" aria-hidden="true">
+    <div class="mtx-linkin-core">
+      <div class="mtx-linkin-ring"></div>
+      <div class="mtx-linkin-ring r2"></div>
+      <div class="mtx-linkin-glow"></div>
+      <div class="mtx-linkin-label">正在链接镜界…</div>
+    </div>
+  </div>
+
+  <!-- ===== 6h. 聊天设置（对标拾心界聊天设置 · 二级页） ===== -->
+  <section class="page" data-page="chat-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">聊天设置</h2>
+      </div>
+    </header>
+    <div id="chatSettingsWrap"></div>
+  </section>
+
+  <!-- ===== 6i. 概率设置（聊天混入概率 · 二级页） ===== -->
+  <section class="page" data-page="prob-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('chat-settings')" title="返回聊天设置" aria-label="返回聊天设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">概率设置</h2>
+      </div>
+    </header>
+    <div id="probSettingsWrap"></div>
+  </section>
+
+  <!-- ===== 特效设置（关键词触发 Emoji 掉落特效 · 二级页） ===== -->
+  <section class="page" data-page="effect-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('chat-settings')" title="返回聊天设置" aria-label="返回聊天设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">特效设置</h2>
+      </div>
+    </header>
+    <div id="effectSettingsWrap"></div>
+  </section>
+
+  <!-- ===== 6j. 聊天设置分组子页（对标拾心界 · 功能设置 / 节奏设置 / 音效设置） ===== -->
+  <!-- 功能设置：交互方式 + 时间戳显示 -->
+  <section class="page" data-page="chat-feature">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('chat-settings')" title="返回聊天设置" aria-label="返回聊天设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">功能设置</h2>
+      </div>
+    </header>
+    <div id="chatFeatureWrap"></div>
+  </section>
+
+  <!-- 节奏设置：回复速度 + 消息行为 -->
+  <section class="page" data-page="chat-pace">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('chat-settings')" title="返回聊天设置" aria-label="返回聊天设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">节奏设置</h2>
+      </div>
+    </header>
+    <div id="chatPaceWrap"></div>
+  </section>
+
+  <!-- 音效设置：消息提示音 + 音效预览 -->
+  <section class="page" data-page="chat-sound">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('chat-settings')" title="返回聊天设置" aria-label="返回聊天设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">音效设置</h2>
+      </div>
+    </header>
+    <div id="chatSoundWrap"></div>
+  </section>
+
+  <!-- ===== 6e-0. 美化设置页（v37 新增 · 二级页）：收纳 外观 / 字体 / 图标 / 卡片 四项 ===== -->
+  <!-- ===== 6f-1. 数据管理页（v60 新增 · 二级页）：本机数据备份 / 恢复 / 清理 ===== -->
+  <section class="page" data-page="data-manage">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">数据管理</h2>
+      </div>
+    </header>
+
+    <p class="group-title">存储用量</p>
+    <div id="dmStats"></div>
+
+    <p class="group-title">备份与恢复</p>
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.dmExport()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14.4V4.6M8.4 8.2 12 4.6l3.6 3.6M5.2 17v1.6a1.6 1.6 0 0 0 1.6 1.6h10.4a1.6 1.6 0 0 0 1.6-1.6V17"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">导出全部数据</span>
+          <span class="row-desc">外观 / 字卡 / 图片打包成一个 JSON 备份</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.dmImportFile()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.6v9.8M8.4 10.8 12 14.4l3.6-3.6M5.2 17v1.6a1.6 1.6 0 0 0 1.6 1.6h10.4a1.6 1.6 0 0 0 1.6-1.6V17"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">恢复备份</span>
+          <span class="row-desc">读备份文件 · 本机较新的项保留不覆盖</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+    <input type="file" id="dmImport" accept=".json,application/json" hidden>
+
+    <p class="group-title">清理数据</p>
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.dmClearCards()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">清空字卡数据</span>
+          <span class="row-desc">删除本机全部分组与条目</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.dmClearImages()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 5.4h14.8a1.6 1.6 0 0 1 1.6 1.6v10a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 17V7a1.6 1.6 0 0 1 1.6-1.6zM7.2 10.2a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3zM3.6 17.6 9.4 11l3.4 3.8 2.6-2.8 2.4 3"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">清空上传图片</span>
+          <span class="row-desc">头像 / 相框 / 相册 / 海报 / 组件背景</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.dmResetAll()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.4a7.6 7.6 0 1 0 7.4 9.2M19.4 4.2v5.2h-5.2"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">恢复出厂设置</span>
+          <span class="row-desc">删除本机全部雪晶数据并刷新</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+
+    <p class="dm-note">数据只存在这台设备 / 这个浏览器里；换设备请先「导出全部数据」备份，再到新设备用「恢复备份」导入，字卡分组会按同名合并、不丢本地内容。</p>
+    <p class="page-foot" id="dmFoot"></p>
+  </section>
+
+  <section class="page" data-page="beautify">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">美化设置</h2>
+      </div>
+    </header>
+
+    <p class="group-title">外观与配色</p>
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.openAiPalette()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3.2c4.9 0 8.8 3.6 8.8 8 0 2.6-1.9 4.2-4.3 4.2h-1.6c-.9 0-1.5.7-1.5 1.5 0 .4.1.7.3 1 .2.3.3.6.3 1 0 .9-.7 1.5-1.6 1.5-5 0-9.2-3.9-9.2-8.4C3.2 6.9 7.1 3.2 12 3.2zM7.6 12.4a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8zM10.6 8.6a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8zM15.2 8.9a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">识别颜色</span>
+          <span class="row-desc">上传图片 · 自动生成 3 套渐变配色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openAppearance()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="12" r="4.4"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(45 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(90 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(135 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(180 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(225 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(270 12 12)"/><rect x="11.1" y="2.2" width="1.8" height="3.4" rx="0.9" transform="rotate(315 12 12)"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">外观设置</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openFontColor()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3.2c4.9 0 8.8 3.6 8.8 8 0 2.6-1.9 4.2-4.3 4.2h-1.6c-.9 0-1.5.7-1.5 1.5 0 .4.1.7.3 1 .2.3.3.6.3 1 0 .9-.7 1.5-1.6 1.5-5 0-9.2-3.9-9.2-8.4C3.2 6.9 7.1 3.2 12 3.2zM7.6 12.4a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8zM10.6 8.6a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8zM15.2 8.9a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">字体颜色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openIconColor()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.6 3.5 7.4v9.2L12 21.4l8.5-4.8V7.4z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">图标颜色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openCardColor()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.4 5.6h15.2c.9 0 1.6.7 1.6 1.6v9.6c0 .9-.7 1.6-1.6 1.6H4.4c-.9 0-1.6-.7-1.6-1.6V7.2c0-.9.7-1.6 1.6-1.6z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">卡片颜色</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openTopComponents()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="3" y="4.6" width="18" height="5.4" rx="2.2"/><rect x="3" y="13.2" width="11" height="5.8" rx="2.2"/><rect x="16.8" y="13.2" width="4.2" height="5.8" rx="2.2"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">顶部组件</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.openComponent()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2.4"/><rect x="13" y="3" width="8" height="8" rx="2.4"/><rect x="3" y="13" width="8" height="8" rx="2.4"/><rect x="13" y="13" width="8" height="8" rx="2.4"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">中心组件</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+      <article class="row-card" onclick="SnowCrystal.Chat.openRedpackSkin()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M5 4.5h14c1.1 0 2 .9 2 2v2H3v-2c0-1.1.9-2 2-2zm-2 6h18v7c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-7zm6.5 2.5v2.5h5v-2.5h2.5v-2H10v2H7.5z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">红包皮肤</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+
+    </div>
+
+    <p class="page-foot">美化设置仅记忆在本机浏览器 · 雪晶 · 字卡 v1.4.0</p>
+  </section>
+
+  <!-- ===== 识别颜色（二级页）：上传图片 → 提取配色 → 3 套渐变方案 → 应用全局 ===== -->
+  <section class="page" data-page="ai-palette">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回美化设置" aria-label="返回美化设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">识别颜色</h2>
+      </div>
+    </header>
+
+    <div class="ai-palette-body">
+      <div class="ai-upload-zone" id="aiUploadZone" role="button" tabindex="0" onclick="SnowCrystal.AiPalette.pickFile()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();SnowCrystal.AiPalette.pickFile();}">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16.8 8.6 12l3.4 3.2 3-3.2L20 16.8"/><rect x="3.2" y="4.6" width="17.6" height="14.8" rx="2.6"/><circle cx="8.6" cy="8.8" r="1.5"/></svg>
+        <span class="ai-upload-title">点击上传图片</span>
+        <span class="ai-upload-hint">识别图片配色 · 全程在本机完成 · 不上传任何数据</span>
+        <input type="file" id="aiFileInput" accept="image/*" hidden>
+        <canvas id="aiCanvas" width="48" height="48" hidden></canvas>
+      </div>
+
+      <div class="ai-photo-row" id="aiPhotoRow" hidden></div>
+
+      <div class="ai-schemes" id="aiSchemes"></div>
+
+      <div class="ai-actions" id="aiActions" hidden>
+        <button class="ghost-btn" type="button" onclick="SnowCrystal.AiPalette.clear()">清除识别</button>
+      </div>
+    </div>
+
+    <p class="page-foot">识别颜色 · 仅记忆在本机浏览器 · 雪晶</p>
+  </section>
+
+  <!-- ===== v9 红包皮肤设置页（二级页）：入口在「美化设置 → 红包皮肤」 ===== -->
+  <section class="page" data-page="redpack-skin">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回美化设置" aria-label="返回美化设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">红包皮肤</h2>
+      </div>
+    </header>
+
+    <div id="redpackSkinWrap"></div>
+
+    <p class="page-foot">红包皮肤仅记忆在本机浏览器 · 雪晶 · 字卡 v1.4.0</p>
+  </section>
+
+  <!-- ===== 6m. 尺寸设置页（二级页）：整合首页设置 + 页面大小，入口在「设置 → 美化设置 下方」 ===== -->
+  <section class="page" data-page="size-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">尺寸设置</h2>
+      </div>
+    </header>
+
+    <p class="group-title">界面大小</p>
+    <div class="theme-panel zone-panel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">首页缩放</span>
+          <span class="zone-desc">调整首页整体大小（头像区 / 日历 / 中部组件 / 列表）</span>
+        </div>
+        <span class="hs-size-val" id="hsSizeVal">100%</span>
+      </div>
+      <div class="hs-range-row">
+        <input class="zone-range hs-range" id="hsScaleRange" type="range" min="70" max="130" step="5" value="100" aria-label="首页缩放大小">
+      </div>
+    </div>
+
+    <div class="theme-panel zone-panel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">字卡 / 课程 / 设置缩放</span>
+          <span class="zone-desc">自由调整字卡 / 课程 / 设置整体大小</span>
+        </div>
+        <span class="hs-size-val" id="psSizeVal">100%</span>
+      </div>
+      <div class="hs-range-row">
+        <input class="zone-range hs-range" id="psScaleRange" type="range" min="70" max="140" step="5" value="100" aria-label="全局页面缩放大小">
+        <div class="hs-scale" aria-hidden="true"><span>70%</span><span>100%</span><span>140%</span></div>
+      </div>
+    </div>
+
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.resetSizeDefaults()">
+        <span class="row-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M12 3.4a8.6 8.6 0 1 1-7.3 13.1l1.7-1a6.7 6.7 0 1 0 1.9-8.6l2.1 2.1H3.6V3.6l2 2A8.6 8.6 0 0 1 12 3.4z"/></svg>
+        </span>
+        <div class="row-main">
+          <span class="row-title">恢复默认</span>
+          <span class="row-desc">将首页与字卡 / 课程 / 设置尺寸恢复为 100%</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+
+    <p class="group-title">首页滑动</p>
+    <div class="row-list">
+      <article class="row-card hs-switch-row">
+        <div class="row-main">
+          <span class="row-title">允许上下滑动</span>
+          <span class="row-desc">开启：首页内容超高时可上下滑动；关闭：固定一屏不可滑动</span>
+        </div>
+        <label class="cp-switch"><input type="checkbox" id="hsScroll" checked><i></i></label>
+      </article>
+    </div>
+
+    <p class="group-title">顶部组件</p>
+    <div class="row-list">
+      <article class="row-card hs-switch-row">
+        <div class="row-main">
+          <span class="row-title">交换顶部 / 中部位置</span>
+          <span class="row-desc">把顶部组件区与中部组件区上下对调</span>
+        </div>
+        <label class="cp-switch"><input type="checkbox" id="hsSwap"><i></i></label>
+      </article>
+    </div>
+
+    <p class="group-title">隐藏组件</p>
+    <div class="row-list">
+      <article class="row-card hs-switch-row">
+        <div class="row-main">
+          <span class="row-title">中部组件</span>
+          <span class="row-desc">相册卡片 / 纪念日 / 飞机票等中心区域</span>
+        </div>
+        <label class="cp-switch"><input type="checkbox" id="hsHideComp"><i></i></label>
+      </article>
+      <article class="row-card hs-switch-row">
+        <div class="row-main">
+          <span class="row-title">首页日历</span>
+          <span class="row-desc">横排日历卡片</span>
+        </div>
+        <label class="cp-switch"><input type="checkbox" id="hsHideCal"><i></i></label>
+      </article>
+      <article class="row-card hs-switch-row">
+        <div class="row-main">
+          <span class="row-title">格言</span>
+          <span class="row-desc">每日格言与装饰线</span>
+        </div>
+        <label class="cp-switch"><input type="checkbox" id="hsHideQuote"><i></i></label>
+      </article>
+    </div>
+
+    <p class="page-foot">尺寸设置仅记忆在本机浏览器 · 雪晶 · 字卡</p>
+  </section>
+
+  <!-- ===== 6e2. 气泡设置页（二级页）：默认气泡模式 / 气泡商城 / CSS 导入指派 ===== -->
+  <section class="page" data-page="bubble-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('settings')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">气泡设置</h2>
+      </div>
+    </header>
+
+    <div class="row-list">
+      <article class="row-card chat-entry-row" role="listitem" onclick="SnowCrystal.switchPage('bubble-mode-settings')">
+        <span class="row-main"><span class="row-title">默认气泡调整</span><span class="row-desc">微信气泡 · 跟随主题 · 自定义颜色</span></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card chat-entry-row" role="listitem" onclick="SnowCrystal.switchPage('bubble-shop-settings')">
+        <span class="row-main"><span class="row-title">气泡商城</span><span class="row-desc">粘贴 CSS 导入气泡 · 指派角色使用</span></span>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+    <p class="page-foot">气泡设置仅记忆在本机浏览器 · 雪晶 · 字卡</p>
+  </section>
+
+  <!-- 气泡设置 · 默认气泡调整（二级页） -->
+  <section class="page" data-page="bubble-mode-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('bubble-settings')" title="返回气泡设置" aria-label="返回气泡设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">默认气泡调整</h2>
+      </div>
+    </header>
+
+    <p class="group-title">默认气泡调整</p>
+    <div class="theme-panel bubble-mode-panel">
+      <div class="bubble-mode-grid" id="bubbleModeGrid">
+        <button class="bubble-mode-card is-active" type="button" data-mode="wechat" onclick="SnowBubble.setMode('wechat')">
+          <span class="bubble-mode-prev">
+            <span class="bub-pv bub-pv-self" style="background:#95EC69;color:#1F3B0A">你好呀</span>
+            <span class="bub-pv bub-pv-other" style="background:#ffffff;color:#2A2F3A">今天也要开心</span>
+          </span>
+          <span class="bubble-mode-name">微信气泡</span>
+          <span class="bubble-mode-desc">我方绿底深字 · 对方白底深字（微信原生配色）</span>
+        </button>
+        <button class="bubble-mode-card" type="button" data-mode="theme" onclick="SnowBubble.setMode('theme')">
+          <span class="bubble-mode-prev">
+            <span class="bub-pv bub-pv-self" style="background:var(--accent-deep);color:#fff">你好呀</span>
+            <span class="bub-pv bub-pv-other" style="background:var(--card);color:var(--text-1)">今天也要开心</span>
+          </span>
+          <span class="bubble-mode-name">跟随主题</span>
+          <span class="bubble-mode-desc">气泡颜色随外观主题主色自动联动</span>
+        </button>
+        <button class="bubble-mode-card" type="button" data-mode="custom" onclick="SnowBubble.setMode('custom')">
+          <span class="bubble-mode-prev">
+            <span class="bub-pv bub-pv-self" id="bubPvSelf" style="background:#5B8DEF;color:#fff">你好呀</span>
+            <span class="bub-pv bub-pv-other" id="bubPvOther" style="background:#ffffff;color:#2A2F3A">今天也要开心</span>
+          </span>
+          <span class="bubble-mode-name">自定义</span>
+          <span class="bubble-mode-desc">可分别修改我方 / 对方气泡颜色</span>
+        </button>
+      </div>
+      <div class="bubble-custom-row" id="bubbleCustomRow" style="display:none">
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">我方气泡</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleSelfColor" value="#5B8DEF" onchange="SnowBubble.setSelfColor(this.value)"></span>
+        </label>
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">我方字体</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleSelfText" value="#FFFFFF" onchange="SnowBubble.setSelfTextColor(this.value)"></span>
+        </label>
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">对方气泡</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleOtherColor" value="#FFFFFF" onchange="SnowBubble.setOtherColor(this.value)"></span>
+        </label>
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">对方字体</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleOtherText" value="#2A2F3A" onchange="SnowBubble.setOtherTextColor(this.value)"></span>
+        </label>
+      </div>
+      <div class="bubble-quote-row" id="bubbleQuoteRow" style="display:none">
+        <p class="bubble-quote-row-title">消息引用条样式</p>
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">引用条背景</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleQuoteBg" value="#8A9AC8" onchange="SnowBubble.setQuoteBgColor(this.value)"></span>
+        </label>
+        <label class="bubble-custom-item">
+          <span class="bubble-custom-label">引用条字体</span>
+          <span class="bubble-custom-input"><input type="color" id="bubbleQuoteText" value="#8A9AC8" onchange="SnowBubble.setQuoteTextColor(this.value)"></span>
+        </label>
+        <label class="bubble-custom-item bubble-custom-wide">
+          <span class="bubble-custom-label">背景不透明度</span>
+          <span class="bubble-custom-input bubble-custom-range"><input type="range" id="bubbleQuoteA" min="0" max="100" value="16" oninput="SnowBubble.setQuoteOpacity(this.value)"><em id="bubbleQuoteAV">16%</em></span>
+        </label>
+      </div>
+      <p class="bubble-hint" id="bubbleQuoteHint" style="display:none">自定义模式下，可分别设置我方 / 对方气泡与字体颜色，并可调整消息引用条配色</p>
+    </div>
+    <p class="page-foot">气泡设置仅记忆在本机浏览器 · 雪晶 · 字卡</p>
+  </section>
+
+  <!-- 气泡设置 · 气泡商城（二级页） -->
+  <section class="page" data-page="bubble-shop-settings">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('bubble-settings')" title="返回气泡设置" aria-label="返回气泡设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">气泡商城</h2>
+      </div>
+    </header>
+
+    <p class="group-title">气泡商城</p>
+    <div class="theme-panel bubble-shop-panel">
+      <p class="bubble-shop-tip">支持粘贴气泡 CSS 代码导入（适配微信风格 <code>.message-sent</code> / <code>.message-received</code>），导入后可在下方指定角色使用。</p>
+      <textarea class="bubble-css-input" id="bubbleCssInput" rows="5" placeholder="示例：&#10;.message-sent { background:#95EC69; }&#10;.message-received { background:#FFFFFF; }&#10;.message { border-radius: 16px; padding: 10px 14px; }"></textarea>
+      <button class="bubble-import-btn" type="button" onclick="SnowBubble.importCss()">导入气泡</button>
+      <div class="bubble-shop-list" id="bubbleShopList"></div>
+      <p class="bubble-shop-empty" id="bubbleShopEmpty">还没有导入的气泡，去上面粘贴一段 CSS 吧</p>
+    </div>
+
+    <!-- 指派弹层 -->
+    <div class="chat-room-menu-mask bubble-assign-mask" id="bubbleAssignMask" onclick="SnowBubble.closeAssign()"></div>
+    <div class="bubble-assign-panel" id="bubbleAssignPanel" role="dialog" aria-label="指派气泡角色">
+      <div class="bubble-assign-head">
+        <h3 class="bubble-assign-title">指派气泡 · <span id="bubbleAssignName"></span></h3>
+        <button class="chat-room-menu-close" type="button" onclick="SnowBubble.closeAssign()" aria-label="关闭">×</button>
+      </div>
+      <div class="bubble-assign-body" id="bubbleAssignBody"></div>
+    </div>
+
+    <!-- 改名弹层（居中） -->
+    <div class="chat-room-menu-mask bubble-assign-mask" id="bubbleRenameMask" onclick="SnowBubble.closeRename()"></div>
+    <div class="bubble-assign-panel bubble-rename-panel" id="bubbleRenamePanel" role="dialog" aria-label="修改气泡名称">
+      <div class="bubble-assign-head">
+        <h3 class="bubble-assign-title">修改气泡名称</h3>
+        <button class="chat-room-menu-close" type="button" onclick="SnowBubble.closeRename()" aria-label="关闭">×</button>
+      </div>
+      <div class="bubble-assign-body">
+        <input class="bubble-rename-input" id="bubbleRenameInput" type="text" maxlength="24" placeholder="输入气泡名称">
+        <div class="bubble-assign-actions">
+          <button class="bubble-assign-btn ghost-btn" type="button" onclick="SnowBubble.closeRename()">取消</button>
+          <button class="bubble-assign-btn save-btn" type="button" onclick="SnowBubble.confirmRename()">保存</button>
+        </div>
+      </div>
+    </div>
+    <p class="page-foot">气泡设置仅记忆在本机浏览器 · 雪晶 · 字卡</p>
+  </section>
+
+  <!-- ===== 6e. 外观设置页（二级页）：主题皮肤 ===== -->
+  <section class="page" data-page="appearance">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">外观设置</h2>
+      </div>
+    </header>
+
+    <p class="group-title">主题颜色</p>
+    <div class="theme-panel">
+      <div class="theme-grid" id="themeGrid"></div>
+    </div>
+
+    <p class="group-title">自定义颜色</p>
+    <div class="theme-panel">
+      <div class="custom-row">
+        <input class="custom-color" id="customColor" type="color" value="#D0D0D0" aria-label="选择自定义主题颜色">
+        <input class="custom-hex" id="customHex" type="text" value="#D0D0D0" maxlength="7" spellcheck="false" aria-label="输入十六进制色值">
+        <button class="save-btn" id="customSave" type="button">保存</button>
+      </div>
+      <p class="theme-tip" id="customTip">选好颜色后点「保存」，主题立即生效并记忆在本机，最多 6 个；保存后双击色块即可删除该颜色。</p>
+    </div>
+
+    <p class="group-title">首页装饰</p>
+    <div class="theme-panel zone-panel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">阴影模糊颜色</span>
+          <span class="zone-desc">海浪卡波浪线上沿的柔光阴影（未设置时跟随主题）</span>
+        </div>
+        <input class="zone-color" type="color" id="glowColor" value="#E8E8E8" aria-label="阴影模糊颜色">
+        <span class="zone-hex" id="glowColorHex">跟随主题</span>
+        <button class="zone-reset" type="button" id="glowColorReset" title="恢复为跟随主题色">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">阴影模糊不透明度</span>
+          <span class="zone-desc">0% = 完全隐藏，100% = 原强度</span>
+        </div>
+        <input class="zone-range" type="range" min="0" max="100" step="5" value="100" id="glowRange" aria-label="阴影模糊不透明度">
+        <span class="zone-hex" id="glowHex">100%</span>
+        <button class="zone-reset" type="button" id="glowRangeReset" title="恢复为 100%">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">大雪花颜色</span>
+          <span class="zone-desc">底弧正下方那朵六向雪花（弧线卡片底层）</span>
+        </div>
+        <input class="zone-color" type="color" id="heroColor" value="#5B8CE6" aria-label="大雪花颜色">
+        <span class="zone-hex" id="heroColorHex">跟随主题</span>
+        <button class="zone-reset" type="button" id="heroColorReset" title="恢复为跟随主题色">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">大雪花不透明度</span>
+          <span class="zone-desc">0% = 完全隐藏，100% = 原强度</span>
+        </div>
+        <input class="zone-range" type="range" min="0" max="100" step="5" value="100" id="heroRange" aria-label="大雪花不透明度">
+        <span class="zone-hex" id="heroHex">100%</span>
+        <button class="zone-reset" type="button" id="heroReset" title="恢复为 100%">复位</button>
+      </div>
+    </div>
+
+    <p class="group-title">首页纹理</p>
+    <div class="theme-panel zone-panel">
+      <div class="zone-row denim-kind-row">
+        <div class="zone-info">
+          <span class="zone-name">纹理类型</span>
+          <span class="zone-desc">叠加在首页壁纸上的纹理样式，可与下方大小、不透明度组合调节</span>
+        </div>
+        <div class="denim-kind-seg" role="group" aria-label="选择纹理类型">
+          <button class="denim-kind-btn" type="button" data-kind="denim" title="牛仔斜纹编织">牛仔</button>
+          <button class="denim-kind-btn" type="button" data-kind="grain" title="磨砂颗粒噪点">磨砂</button>
+          <button class="denim-kind-btn" type="button" data-kind="starlight" title="星光闪烁">星光</button>
+          <button class="denim-kind-btn is-on" type="button" data-kind="grid" title="网格细线">网格</button>
+          <button class="denim-kind-btn" type="button" data-kind="ripple" title="水波纹">水波</button>
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">纹理大小</span>
+          <span class="zone-desc">纹理单元的疏密（数值越小纹理越密集）</span>
+        </div>
+        <input class="zone-range" type="range" min="2" max="24" step="1" value="2" id="denimSize" aria-label="首页纹理大小">
+        <span class="zone-hex" id="denimSizeHex">2px</span>
+        <button class="zone-reset" type="button" id="denimSizeReset" title="恢复为 2px">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">纹理不透明度</span>
+          <span class="zone-desc">0% = 隐藏纹理，100% = 最强</span>
+        </div>
+        <input class="zone-range" type="range" min="0" max="100" step="5" value="20" id="denimOpacity" aria-label="首页纹理不透明度">
+        <span class="zone-hex" id="denimOpacityHex">20%</span>
+        <button class="zone-reset" type="button" id="denimOpacityReset" title="恢复为 20%">复位</button>
+      </div>
+    </div>
+
+    <p class="group-title">网站背景</p>
+    <div class="theme-panel zone-panel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">背景颜色</span>
+          <span class="zone-desc">选一个纯色作为整站背景底色，与背景图片可叠加</span>
+        </div>
+        <input class="zone-color" type="color" id="bgColorPick" value="#FFFFFF" aria-label="选择网站背景颜色">
+        <span class="zone-hex" id="bgColorHex">跟随主题</span>
+        <button class="zone-reset" type="button" id="bgColorReset" title="恢复为跟随主题">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">背景图片</span>
+          <span class="zone-desc">上传一张图片作为整站背景，自动压缩后永久保存在本机</span>
+        </div>
+        <span class="bg-thumb" id="bgThumb" aria-hidden="true"></span>
+        <button class="zone-reset" type="button" id="bgPick">上传</button>
+        <button class="zone-reset" type="button" id="bgClear">清除</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">背景图不透明度</span>
+          <span class="zone-desc">0% = 完全隐藏，100% = 原图强度</span>
+        </div>
+        <input class="zone-range" type="range" min="0" max="100" step="5" value="100" id="bgOpacity" aria-label="背景图不透明度">
+        <span class="zone-hex" id="bgOpacityHex">100%</span>
+        <button class="zone-reset" type="button" id="bgOpacityReset" title="恢复为 100%">复位</button>
+      </div>
+      <input type="file" id="bgFile" accept="image/*" hidden>
+    </div>
+
+    <p class="group-title">弹窗样式</p>
+    <div class="theme-panel zone-panel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">弹窗不透明度</span>
+          <span class="zone-desc">作用于全站所有弹窗 / 模态 / 浮层面板（100% = 不透明实底）</span>
+        </div>
+        <input class="zone-range" type="range" min="0" max="100" step="5" value="100" id="popupOpacity" aria-label="弹窗不透明度">
+        <span class="zone-hex" id="popupOpacityHex">100%</span>
+        <button class="zone-reset" type="button" id="popupOpacityReset" title="恢复为 100%">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">弹窗字体颜色</span>
+          <span class="zone-desc">所有弹窗内的正文 / 标题 / 输入文字（未设置时亮色黑色、暗色自适应亮色）</span>
+        </div>
+        <input class="zone-color" type="color" id="popupColor" value="#000000" aria-label="弹窗字体颜色">
+        <span class="zone-hex" id="popupColorHex">亮色默认黑</span>
+        <button class="zone-reset" type="button" id="popupColorReset" title="恢复为默认（亮色黑 / 暗色自适应）">复位</button>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">一键复位</span>
+          <span class="zone-desc">恢复默认：100% 不透明实底 + 黑色字体</span>
+        </div>
+        <button class="zone-reset" type="button" id="popupReset" title="恢复默认：100% 不透明底 + 黑色字体">复位</button>
+      </div>
+    </div>
+
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetTheme()">恢复默认主题</button>
+    </div>
+
+    <p class="page-foot">主题与颜色设置仅记忆在本机浏览器 · 雪晶 · 字卡 v1.2.0</p>
+  </section>
+
+  <!-- ===== 6f. 字体颜色设置页（v32 新增 · 二级页）：入口在「设置 → 外观设置」下方 ===== -->
+  <section class="page" data-page="fontcolor">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">字体颜色</h2>
+      </div>
+    </header>
+
+    <div class="theme-panel zone-panel" id="fontColorPanel"></div>
+
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetFontColors()">字体颜色全部复位</button>
+    </div>
+
+    <p class="page-foot">字体颜色仅记忆在本机浏览器 · 未设置的项自动跟随主题色</p>
+  </section>
+
+  <!-- ===== 6h. 图标颜色设置页（v33 新增 · 二级页）：入口在「设置 → 字体颜色」下方 ===== -->
+  <section class="page" data-page="iconcolor">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">图标颜色</h2>
+      </div>
+    </header>
+
+    <div class="theme-panel zone-panel" id="iconColorPanel"></div>
+
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetIconColors()">图标颜色全部复位</button>
+    </div>
+
+    <p class="page-foot">图标颜色仅记忆在本机浏览器 · 未设置的项自动跟随主题色</p>
+  </section>
+
+  <!-- ===== 6i. 卡片颜色设置页（v33 新增 · 二级页）：入口在「设置 → 图标颜色」下方 ===== -->
+  <section class="page" data-page="cardcolor">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回设置" aria-label="返回设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">卡片颜色</h2>
+      </div>
+    </header>
+
+    <div class="theme-panel zone-panel" id="cardColorPanel"></div>
+
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetCardColors()">卡片颜色 / 不透明度全部复位</button>
+    </div>
+
+    <p class="page-foot">卡片颜色仅记忆在本机浏览器 · 未设置的项自动跟随主题</p>
+  </section>
+
+  <!-- ===== 6j. 中心组件页（v39 新增 · 二级页 · v83 由「组件样式」改名）：入口在「美化设置 → 中心组件」 ===== -->
+  <section class="page" data-page="component">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回美化设置" aria-label="返回美化设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">中心组件</h2>
+      </div>
+    </header>
+
+    <p class="group-title">首页中心区域组件</p>
+    <div class="row-list" id="compPanel"></div>
+
+    <p class="group-title">中心组件各区域</p>
+    <div class="theme-panel zone-panel" id="compColorPanel"></div>
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetCompColors()">中心组件全部复位</button>
+    </div>
+
+    <p class="page-foot">中心组件仅记忆在本机浏览器 · 雪晶 · 字卡 v1.5.0</p>
+  </section>
+
+  <!-- ===== 6k. 顶部组件页（v83 新增 · 二级页）：入口在「美化设置 → 顶部组件」 ===== -->
+  <section class="page" data-page="top-components">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('beautify')" title="返回美化设置" aria-label="返回美化设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">顶部组件</h2>
+      </div>
+    </header>
+
+    <p class="group-title">顶部组件（可启停 · 可排序）</p>
+    <div class="row-list" id="topCompPanel"></div>
+
+    <p class="group-title">链接状态组件</p>
+    <div class="theme-panel zone-panel" id="topLinkPanel">
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">装饰符号</span>
+          <span class="zone-desc">进度条由 5 个自定义符号逐个填充 · 实心=已激活 / 空心=未激活（如 ❤ ❦ ✦ ❄ 等）</span>
+        </div>
+        <input class="wc-input top-link-input" id="linkDecoInput" type="text" maxlength="4" value="❤" aria-label="装饰符号">
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">显示模式</span>
+          <span class="zone-desc">首页第二行显示短词（4-5 字）或长句（文艺描述）</span>
+        </div>
+        <div class="link-state-seg" id="linkModeSeg" role="radiogroup" aria-label="显示模式">
+          <button type="button" class="seg-btn" data-link-mode="word">短词</button>
+          <button type="button" class="seg-btn" data-link-mode="desc">长句</button>
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">未链接文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「未链接」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordOff" type="text" maxlength="6" value="等你靠近" aria-label="未链接短词">
+          <input class="wc-input top-link-input" id="linkDescOff" type="text" maxlength="40" value="隔着十二维的距离，我在等你的星火靠近" aria-label="未链接长句">
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">链接中文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「链接中」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordMid" type="text" maxlength="6" value="信号靠近" aria-label="链接中短词">
+          <input class="wc-input top-link-input" id="linkDescMid" type="text" maxlength="40" value="信号正穿过星海，我们正在向彼此靠拢" aria-label="链接中长句">
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">已链接文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「已链接」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordOn" type="text" maxlength="6" value="稳稳相牵" aria-label="已链接短词">
+          <input class="wc-input top-link-input" id="linkDescOn" type="text" maxlength="40" value="我们的链接，隔着星辰也稳稳相牵" aria-label="已链接长句">
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">链接很强文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「已连接后 · 链接很强」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordStrong" type="text" maxlength="6" value="信号满格" aria-label="链接很强短词">
+          <input class="wc-input top-link-input" id="linkDescStrong" type="text" maxlength="40" value="我们的信号穿过整片星海，满格到连时间都为它让路" aria-label="链接很强长句">
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">链接微弱文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「已连接后 · 链接微弱」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordWeak" type="text" maxlength="6" value="信号微弱" aria-label="链接微弱短词">
+          <input class="wc-input top-link-input" id="linkDescWeak" type="text" maxlength="40" value="隔着十二维的薄雾，你的声音微弱，却依然清晰入心" aria-label="链接微弱长句">
+        </div>
+      </div>
+      <div class="zone-row">
+        <div class="zone-info">
+          <span class="zone-name">链接断续文案</span>
+          <span class="zone-desc">短词 + 长句 · 对应「已连接后 · 链接断断续续」状态（首页第二行）</span>
+        </div>
+        <div class="link-twin-input">
+          <input class="wc-input top-link-input link-word-input" id="linkWordDrop" type="text" maxlength="6" value="信号断续" aria-label="链接断续短词">
+          <input class="wc-input top-link-input" id="linkDescDrop" type="text" maxlength="40" value="星河偶尔拥堵，我们的信号断断续续，却从不断线" aria-label="链接断续长句">
+        </div>
+      </div>
+    </div>
+    <div class="zone-actions">
+      <button class="ghost-btn" type="button" onclick="SnowCrystal.resetTopComps()">顶部组件全部复位</button>
+    </div>
+
+    <p class="page-foot">顶部组件仅记忆在本机浏览器 · 雪晶 · 字卡 v1.5.0</p>
+  </section>
+
+  <section class="page" data-page="wc-lib">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.libBack()" title="返回" aria-label="返回">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title" id="libTitle">字卡库</h2>
+      </div>
+    </header>
+
+    <div class="wc-toolbar" id="libTools"></div>
+
+    <div class="lib-search" id="libSearchWrap" hidden>
+      <input class="wc-input lib-search-input" id="libSearchInput" type="text" placeholder="输入关键词搜索" oninput="SnowCrystal.libDoSearch(this.value)">
+      <button class="wc-tool is-ico" type="button" onclick="SnowCrystal.libClearSearch()" title="清空搜索" aria-label="清空搜索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6.6 6.6l10.8 10.8M17.4 6.6 6.6 17.4"/></svg></button>
+    </div>
+
+    <div class="row-list" id="libGroups"></div>
+    <div id="libSearchResults" hidden></div>
+
+    <p class="page-foot" id="libFoot">点条目进分组 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== 6h. 字卡二级页：分组内容（v28 通用模板 · 菜单栏 + 内容） ===== -->
+  <section class="page" data-page="wc-lib-group">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.libGroupBack()" title="返回分组列表" aria-label="返回分组列表">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title" id="grpTitle">分组</h2>
+      </div>
+    </header>
+
+    <div class="wc-toolbar" id="grpTools"></div>
+    <div id="grpBody"></div>
+
+    <p class="page-foot" id="grpFoot">「×」删除 · 数据存在本机</p>
+  </section>
+
+  <!-- ===== v28：确认弹窗（删除分组 / 清空上传）+ 导入 / 上传文件选择器 ===== -->
+  <div class="metric-mask" id="wcConfirmMask" hidden></div>
+  <div class="metric-sheet" id="wcConfirmSheet" role="dialog" aria-modal="true" aria-labelledby="wcConfirmTitle" hidden>
+    <h3 class="ms-title" id="wcConfirmTitle">确认</h3>
+    <p class="ms-tip" id="wcConfirmTip"></p>
+    <div class="ms-actions">
+      <button class="ghost-btn" id="wcConfirmCancel" type="button">取消</button>
+      <button class="save-btn" id="wcConfirmOk" type="button">确认</button>
+    </div>
+  </div>
+  <!-- ===== v88：转移到分组弹窗（选中模式勾选内容后，一键转移到跨库 / 同库其他分组） ===== -->
+  <div class="metric-mask" id="wcGroupPickMask" hidden></div>
+  <div class="metric-sheet wc-group-pick-sheet" id="wcGroupPickSheet" role="dialog" aria-modal="true" aria-labelledby="wcGroupPickTitle" hidden>
+    <h3 class="ms-title" id="wcGroupPickTitle">转移到…</h3>
+    <p class="ms-tip" id="wcGroupPickTip"></p>
+    <div class="wc-group-pick-list" id="wcGroupPickList"></div>
+    <div class="ms-actions">
+      <button class="ghost-btn" id="wcGroupPickCancel" type="button">取消</button>
+    </div>
+  </div>
+  <input type="file" id="wcStickerPicker" accept="image/*" hidden>
+  <input type="file" id="wcStickerJsonInput" accept=".json,application/json" hidden>
+  <input type="file" id="wcLibImport" accept=".json,application/json" hidden>
+
+  <!-- ===== v91：语音字卡库（对标拾心界语音字卡）· 分组列表页 ===== -->
+  <section class="page" data-page="voice-lib">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('wordcard')" title="返回字卡" aria-label="返回字卡">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">语音字卡</h2>
+      </div>
+    </header>
+
+    <div class="wc-toolbar" id="voiceLibTools"></div>
+
+    <div class="lib-search" id="voiceSearchWrap" hidden>
+      <input class="wc-input lib-search-input" id="voiceSearchInput" type="text" placeholder="搜索分组 / 语音名称" oninput="SnowCrystal.voiceDoSearch(this.value)">
+      <button class="wc-tool is-ico" type="button" onclick="SnowCrystal.voiceClearSearch()" title="清空搜索" aria-label="清空搜索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6.6 6.6l10.8 10.8M17.4 6.6 6.6 17.4"/></svg></button>
+    </div>
+
+    <div class="row-list" id="voiceGroups"></div>
+    <div id="voiceSearchResults" hidden></div>
+
+    <p class="page-foot" id="voiceLibFoot">点分组进列表 · 语音数据存在本机</p>
+  </section>
+
+  <!-- ===== v91：语音字卡库 · 分组详情页 ===== -->
+  <section class="page" data-page="voice-lib-group">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.openVoiceLib()" title="返回语音字卡" aria-label="返回语音字卡">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title" id="voiceGrpTitle">分组</h2>
+      </div>
+    </header>
+
+    <div class="wc-toolbar" id="voiceGrpTools"></div>
+    <div id="voiceGrpBody"></div>
+
+    <p class="page-foot" id="voiceGrpFoot">点语音播放 · 「×」删除 · 数据存在本机</p>
+  </section>
+
+  <input type="file" id="voiceFilePicker" accept="audio/mpeg,audio/mp3,audio/*" multiple hidden>
+
+  <!-- ===== 字卡二级页：颜文字表情（v28 聚合入口） ===== -->
+  <section class="page" data-page="wordcard-face-lib">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('wordcard')" title="返回字卡" aria-label="返回字卡">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">颜文字表情</h2>
+      </div>
+    </header>
+
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('kao', 'wordcard-face-lib')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 1 1 0-17.6zM9.3 8.9a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zm5.4 0a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zM7.6 13.4h8.8a4.4 4.4 0 0 1-8.8 0z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">颜文字</span>
+          <span class="row-desc">按情绪分组，点一下即复制</span>
+        </div>
+        <span class="row-meta" data-wmeta=""></span>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('emoji', 'wordcard-face-lib')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 1 1 0-17.6zM9.3 8.9a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zm5.4 0a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zM7.6 13.4h8.8a4.4 4.4 0 0 1-8.8 0z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">Emoji</span>
+          <span class="row-desc">按输入法分组，点一下即复制</span>
+        </div>
+        <span class="row-meta" data-wmeta=""></span>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+
+    <p class="page-foot">内容全部存在本机 · 点击条目进入分组</p>
+  </section>
+
+  <!-- ===== v100：字卡管理页（字卡统计 + 各库快捷入口） ===== -->
+  <section class="page" data-page="wordcard-manage">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('wordcard')" title="返回字卡" aria-label="返回字卡">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">字卡管理</h2>
+      </div>
+    </header>
+
+    <p class="group-title">字卡统计</p>
+    <div class="wc-stat-grid" id="wcStatGrid">
+      <!-- 由 js/pages-v100.js 渲染：字卡库 / 语音字卡 统计卡 -->
+    </div>
+
+    <p class="group-title">快捷入口</p>
+    <div class="row-list">
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('quote', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 20.2C6.9 17.3 3.2 13.6 3.2 9.9c0-2.6 1.8-4.4 4.3-4.4 1.7 0 3.2.9 4.5 2.6 1.3-1.7 2.8-2.6 4.5-2.6 2.5 0 4.3 1.8 4.3 4.4 0 3.7-3.7 7.4-8.8 10.3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">格言</span>
+          <span class="row-desc">点击即复制</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('main', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M6.4 3.4h11.2a3 3 0 0 1 3 3v11.2a3 3 0 0 1-3 3H6.4a3 3 0 0 1-3-3V6.4a3 3 0 0 1 3-3zm1.6 4.8h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2zm0 3.6h4.8a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">字卡库</span>
+          <span class="row-desc">点击即复制</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.openVoiceLib()">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.5a3.5 3.5 0 0 0-3.5 3.5v4a3.5 3.5 0 0 0 7 0V7a3.5 3.5 0 0 0-3.5-3.5zM7 11v.2a5 5 0 0 0 10 0V11h-2v.2a3 3 0 0 1-6 0V11H7zm4 5.4v3.2h2v-3.2h-2z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">语音字卡</span>
+          <span class="row-desc">上传 mp3，让 TA 发语音</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpen('wordcard-face-lib')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" fill-rule="evenodd"><path d="M12 3.2a8.8 8.8 0 1 1 0 17.6 8.8 8.8 0 1 1 0-17.6zM9.3 8.9a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zm5.4 0a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 1 1 0-2.7zM7.6 13.4h8.8a4.4 4.4 0 0 1-8.8 0z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">颜文字表情</span>
+          <span class="row-desc">点一下即复制</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('sticker', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M14.9 2.4 21 8.5v9.2a3.4 3.4 0 0 1-3.4 3.4H6.4a3.4 3.4 0 0 1-3.4-3.4V6a3.4 3.4 0 0 1 3.4-3.4h8.5z"/><path d="M14.9 2.4 21 8.5h-5.6a.5.5 0 0 1-.5-.5V2.4z"/><path d="M12 14.6c-1.5-1.3-2.4-2.1-2.4-3a1.6 1.6 0 0 1 2.4-1.3 1.6 1.6 0 0 1 2.4 1.3c0 .9-.9 1.7-2.4 3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">表情包库</span>
+          <span class="row-desc">本地上传表情包</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+      <article class="row-card" onclick="SnowCrystal.libOpenLib('pat', 'wordcard')">
+        <span class="row-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="9" y="5" width="3.2" height="10.4" rx="1.6"/><rect x="12.6" y="3.4" width="3.2" height="12" rx="1.6"/><rect x="16.1" y="5.4" width="3" height="10" rx="1.5"/><path d="M7 12.2h12.1v3.8c0 3.6-2.7 5.9-6.2 5.9-2.7 0-4.8-1.5-5.7-3.9l-1.2-3.5c-.3-.9.1-2.3 1-2.3z"/></svg></span>
+        <div class="row-main">
+          <span class="row-title">拍一拍</span>
+          <span class="row-desc">分组管理 · 点击发出</span>
+        </div>
+        <span class="row-arrow">›</span>
+      </article>
+    </div>
+
+    <p class="page-foot">字卡内容全部存在本机</p>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 我的课程（课程列表 + 学习进度） ===== -->
+  <section class="page" data-page="course-list">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('discover')" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">我的课程</h2>
+      </div>
+    </header>
+    <div id="courseListWrap"></div>
+    <p class="page-foot">点击课程查看章节详情 · 学习进度保存在本机</p>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 课程详情 ===== -->
+  <section class="page" data-page="course-detail">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backCourseDetail()" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title" id="courseDetailTitle">课程详情</h2>
+      </div>
+    </header>
+    <div id="courseDetailWrap"></div>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 课程表 ===== -->
+  <section class="page" data-page="course-schedule">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('discover')" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">课程表</h2>
+      </div>
+    </header>
+    <div class="course-schedule-grid" id="courseScheduleGrid"></div>
+    <p class="page-foot">点击课程卡片查看详情 · 每天一节，慢慢学完</p>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 精选讲师 ===== -->
+  <section class="page" data-page="course-teachers">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('discover')" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">精选讲师</h2>
+      </div>
+    </header>
+    <div id="courseTeachersWrap"></div>
+    <p class="page-foot">讲师与课程数据保存在本机</p>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 课程合集 ===== -->
+  <section class="page" data-page="course-collection">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('discover')" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">课程合集</h2>
+      </div>
+    </header>
+    <div id="courseCollectionWrap"></div>
+    <p class="page-foot">按合集浏览课程 · 点击进入课程详情</p>
+  </section>
+
+  <!-- ===== v100：课程页子页 —— 学习技巧 ===== -->
+  <section class="page" data-page="course-tips">
+    <header class="page-head">
+      <button class="back-btn" onclick="SnowCrystal.backPage('discover')" title="返回探索" aria-label="返回探索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17 4 7 12l10 8z"/></svg>
+      </button>
+      <div class="page-head-center">
+        <h2 class="page-title">学习技巧</h2>
+      </div>
+    </header>
+    <div id="courseTipsWrap"></div>
+  </section>
+
+  <!-- ===== 7. 底部导航栏（固定悬浮）—— v22：整体收起为一个右侧雪花按键，点击后四键自下上滑展开 ===== -->
+  <div class="nav-mask" id="navMask" aria-hidden="true" onclick="SnowCrystal.closeNav()"></div>
+  <button class="snow-fab" id="snowFab" type="button" aria-label="展开底部导航" aria-expanded="false" onclick="SnowCrystal.toggleNav()">
+    <!-- v23：与顶栏实心六向雪花装饰（.wave-crystal-hero）同款造型的纯雪花，仅整体缩小 -->
+    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <g stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <line x1="20" y1="20" x2="36.6" y2="20"/>
+      <line x1="20" y1="20" x2="28.3" y2="34.4"/>
+      <line x1="20" y1="20" x2="11.7" y2="34.4"/>
+      <line x1="20" y1="20" x2="3.4" y2="20"/>
+      <line x1="20" y1="20" x2="11.7" y2="5.6"/>
+      <line x1="20" y1="20" x2="28.3" y2="5.6"/>
+      </g>
+      <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <line x1="26.6" y1="20" x2="29.7" y2="24.9"/>
+      <line x1="26.6" y1="20" x2="29.7" y2="15.1"/>
+      <line x1="30.6" y1="20" x2="32.8" y2="23.5"/>
+      <line x1="30.6" y1="20" x2="32.8" y2="16.5"/>
+      <line x1="34.3" y1="20" x2="35.6" y2="22.1"/>
+      <line x1="34.3" y1="20" x2="35.6" y2="17.9"/>
+      <line x1="23.3" y1="25.8" x2="20.6" y2="30.9"/>
+      <line x1="23.3" y1="25.8" x2="29.1" y2="26"/>
+      <line x1="25.3" y1="29.2" x2="23.4" y2="32.8"/>
+      <line x1="25.3" y1="29.2" x2="29.4" y2="29.3"/>
+      <line x1="27.1" y1="32.4" x2="26" y2="34.6"/>
+      <line x1="27.1" y1="32.4" x2="29.6" y2="32.5"/>
+      <line x1="16.7" y1="25.8" x2="10.9" y2="26"/>
+      <line x1="16.7" y1="25.8" x2="19.4" y2="30.9"/>
+      <line x1="14.7" y1="29.2" x2="10.6" y2="29.3"/>
+      <line x1="14.7" y1="29.2" x2="16.6" y2="32.8"/>
+      <line x1="12.9" y1="32.4" x2="10.4" y2="32.5"/>
+      <line x1="12.9" y1="32.4" x2="14" y2="34.6"/>
+      <line x1="13.4" y1="20" x2="10.3" y2="15.1"/>
+      <line x1="13.4" y1="20" x2="10.3" y2="24.9"/>
+      <line x1="9.4" y1="20" x2="7.2" y2="16.5"/>
+      <line x1="9.4" y1="20" x2="7.2" y2="23.5"/>
+      <line x1="5.7" y1="20" x2="4.4" y2="17.9"/>
+      <line x1="5.7" y1="20" x2="4.4" y2="22.1"/>
+      <line x1="16.7" y1="14.2" x2="19.4" y2="9.1"/>
+      <line x1="16.7" y1="14.2" x2="10.9" y2="14"/>
+      <line x1="14.7" y1="10.8" x2="16.6" y2="7.2"/>
+      <line x1="14.7" y1="10.8" x2="10.6" y2="10.7"/>
+      <line x1="12.9" y1="7.6" x2="14" y2="5.4"/>
+      <line x1="12.9" y1="7.6" x2="10.4" y2="7.5"/>
+      <line x1="23.3" y1="14.2" x2="29.1" y2="14"/>
+      <line x1="23.3" y1="14.2" x2="20.6" y2="9.1"/>
+      <line x1="25.3" y1="10.8" x2="29.4" y2="10.7"/>
+      <line x1="25.3" y1="10.8" x2="23.4" y2="7.2"/>
+      <line x1="27.1" y1="7.6" x2="29.6" y2="7.5"/>
+      <line x1="27.1" y1="7.6" x2="26" y2="5.4"/>
+      </g>
+      <g fill="currentColor">
+      <circle cx="36.6" cy="20" r="2"/>
+      <circle cx="28.3" cy="34.4" r="2"/>
+      <circle cx="11.7" cy="34.4" r="2"/>
+      <circle cx="3.4" cy="20" r="2"/>
+      <circle cx="11.7" cy="5.6" r="2"/>
+      <circle cx="28.3" cy="5.6" r="2"/>
+      </g>
+      <polygon points="20,16.2 23.3,18.1 23.3,21.9 20,23.8 16.7,21.9 16.7,18.1"
+      fill="currentColor"/>
+    </svg>
+  </button>
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-page="home" onclick="SnowCrystal.navClick(this,'首页')" title="首页">
+      <span class="nav-icon">
+        <svg viewBox="0 0 32 32" width="26" height="26">
+          <rect class="badge" x="0" y="0" width="32" height="32" rx="9" fill="#D0D0D0"/>
+          <path class="badge-sym" fill-rule="evenodd" d="M16 3.4 C16 9 23 16 28.6 16 C23 16 16 23 16 28.6 C16 23 9 16 3.4 16 C9 16 16 9 16 3.4 Z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav-btn" data-page="wordcard" onclick="SnowCrystal.navClick(this,'字卡')" title="字卡">
+      <span class="nav-icon">
+        <svg viewBox="0 0 32 32" width="26" height="26">
+          <rect class="badge" x="0" y="0" width="32" height="32" rx="9" fill="#E8E8E8"/>
+          <path class="badge-sym" fill-rule="evenodd" d="M9.4 6.6 L22.6 6.6 A2.8 2.8 0 0 1 25.4 9.4 L25.4 22.6 A2.8 2.8 0 0 1 22.6 25.4 L9.4 25.4 A2.8 2.8 0 0 1 6.6 22.6 L6.6 9.4 A2.8 2.8 0 0 1 9.4 6.6 Z M11.9 11.2 L20.1 11.2 L20.1 13.9 L11.9 13.9 Z M11.9 15.3 L20.1 15.3 L20.1 18.0 L11.9 18.0 Z M11.9 19.4 L16.5 19.4 L16.5 22.1 L11.9 22.1 Z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav-btn" data-page="discover" onclick="SnowCrystal.navClick(this,'探索')" title="探索">
+      <span class="nav-icon">
+        <svg viewBox="0 0 32 32" width="26" height="26">
+          <rect class="badge" x="0" y="0" width="32" height="32" rx="9" fill="#F1F1F1"/>
+          <path class="badge-sym" fill-rule="evenodd" d="M15 9.8 V25 C12.8 23.2 10.2 22.3 7.4 22.3 H5.2 V7.4 H7.4 C10.2 7.4 12.8 8.3 15 10.1 Z M17 9.8 V25 C19.2 23.2 21.8 22.3 24.6 22.3 H26.8 V7.4 H24.6 C21.8 7.4 19.2 8.3 17 10.1 Z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav-btn" data-page="settings" onclick="SnowCrystal.navClick(this,'设置')" title="设置">
+      <span class="nav-icon">
+        <svg viewBox="0 0 32 32" width="26" height="26">
+          <rect class="badge" x="0" y="0" width="32" height="32" rx="9" fill="#A6A6A6"/>
+          <path class="badge-sym" fill-rule="evenodd" d="M16.38 8.81 L17.84 5.56 L20.65 6.47 L19.92 9.96 L21.35 11.18 L24.68 9.92 L26.02 12.55 L23.04 14.50 L23.19 16.38 L26.44 17.84 L25.53 20.65 L22.04 19.92 L20.82 21.35 L22.08 24.68 L19.45 26.02 L17.50 23.04 L15.62 23.19 L14.16 26.44 L11.35 25.53 L12.08 22.04 L10.65 20.82 L7.32 22.08 L5.98 19.45 L8.96 17.50 L8.81 15.62 L5.56 14.16 L6.47 11.35 L9.96 12.08 L11.18 10.65 L9.92 7.32 L12.55 5.98 L14.50 8.96 Z M16 12.8 A3.2 3.2 0 1 1 16 19.2 A3.2 3.2 0 1 1 16 12.8 Z"/>
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <!-- 隐藏文件选择器：首页头像 / 三格相框共用 -->
+  <input type="file" id="imgPicker" accept="image/*" hidden>
+
+</div>
+
+<!-- ===== v25：「时间相隔」设置弹窗 —— 只填数字时间（24 小时制），确认后自动算间隔秒数 ===== -->
+<div class="metric-mask" id="metricMask" hidden></div>
+<div class="metric-sheet" id="metricSheet" role="dialog" aria-modal="true" aria-labelledby="metricSheetTitle" hidden>
+  <h3 class="ms-title" id="metricSheetTitle">时间相隔</h3>
+  <div class="ms-row">
+    <span class="ms-label">我方时间</span>
+    <span class="ms-fields">
+      <input class="ms-input" id="msMineH" type="text" inputmode="numeric" maxlength="2" aria-label="我方时间·时">
+      <span class="ms-unit">时</span>
+      <input class="ms-input" id="msMineM" type="text" inputmode="numeric" maxlength="2" aria-label="我方时间·分">
+      <span class="ms-unit">分</span>
+    </span>
+  </div>
+  <div class="ms-row">
+    <span class="ms-label">对方时间</span>
+    <span class="ms-fields">
+      <input class="ms-input" id="msOtherH" type="text" inputmode="numeric" maxlength="2" aria-label="对方时间·时">
+      <span class="ms-unit">时</span>
+      <input class="ms-input" id="msOtherM" type="text" inputmode="numeric" maxlength="2" aria-label="对方时间·分">
+      <span class="ms-unit">分</span>
+    </span>
+  </div>
+  <div class="ms-row">
+    <span class="ms-label">间隔显示</span>
+    <span class="ms-seg" id="msUnitSeg" role="radiogroup" aria-label="间隔显示模式">
+      <button class="ms-seg-btn is-on" type="button" data-unit="sec" role="radio" aria-checked="true">秒</button>
+      <button class="ms-seg-btn" type="button" data-unit="min" role="radio" aria-checked="false">分钟</button>
+      <button class="ms-seg-btn" type="button" data-unit="hour" role="radio" aria-checked="false">小时</button>
+    </span>
+  </div>
+  <p class="ms-tip">24 小时制 · 显示单位可切换（秒 / 分钟 / 小时）</p>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="msCancel" type="button">取消</button>
+    <button class="save-btn" id="msConfirm" type="button">确认</button>
+  </div>
+</div>
+
+
+<!-- ===== v26：通用输入弹窗（新建字卡 / 新建分组 / 添加拍一拍） ===== -->
+<div class="metric-mask" id="wcPromptMask" hidden></div>
+<div class="metric-sheet" id="wcPromptSheet" role="dialog" aria-modal="true" aria-labelledby="wcPromptTitle" hidden>
+  <h3 class="ms-title" id="wcPromptTitle">添加</h3>
+  <div class="ms-row wc-prompt-fields">
+    <label class="wc-prompt-label" id="wcPromptGroupLabel" for="wcPromptGroupInput" hidden>分组</label>
+    <input class="lf-input wc-prompt-group" id="wcPromptGroupInput" type="text" maxlength="40" placeholder="分组名称，如：晚安文案" aria-label="分组名称" hidden>
+    <label class="wc-prompt-label" id="wcPromptContentLabel" for="wcPromptArea" hidden>内容</label>
+    <input class="lf-input" id="wcPromptInput" type="text" maxlength="40" aria-label="输入内容">
+    <textarea class="lf-input wc-prompt-area" id="wcPromptArea" rows="4" maxlength="400" aria-label="输入内容（支持多行）" hidden></textarea>
+  </div>
+  <label class="wc-line-toggle" id="wcLineToggleWrap" for="wcLineToggle" hidden>
+    <input type="checkbox" id="wcLineToggle">
+    <span>回车分行：一行一条</span>
+  </label>
+  <p class="ms-tip" id="wcPromptTip"></p>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="wcPromptCancel" type="button">取消</button>
+    <button class="save-btn" id="wcPromptOk" type="button">确认</button>
+  </div>
+</div>
+
+
+<!-- ===== 月汐笺语（月经记录）主弹窗：概览 / 周期日历 / 图例 / 记录卡 ===== -->
+<div class="metric-mask" id="moonMask" hidden></div>
+<div class="metric-sheet moon-sheet" id="moonSheet" role="dialog" aria-modal="true" aria-labelledby="moonTitle" hidden>
+  <h3 class="ms-title" id="moonTitle">月汐笺语</h3>
+  <div class="moon-ov" id="moonOverview"></div>
+  <div class="moon-cycle-view" id="moonCycleView" hidden></div>
+  <div class="moon-stats-view" id="moonStatsView" hidden></div>
+  <div class="moon-reminder-view" id="moonReminderView" hidden></div>
+  <div class="moon-cal" id="moonCalendar"></div>
+  <div class="moon-legend" id="moonLegend"></div>
+  <div class="moon-record-card" id="moonRecordCard" hidden></div>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="moonSettingsBtn" type="button" onclick="SnowCrystal.moonOpenSettings()">周期设置</button>
+    <button class="save-btn" id="moonCloseBtn" type="button" onclick="SnowCrystal.moonClose()">关闭</button>
+  </div>
+</div>
+
+<!-- ===== 月汐笺语 · 周期设置弹窗 ===== -->
+<div class="metric-mask" id="moonSettingsMask" hidden></div>
+<div class="metric-sheet" id="moonSettingsSheet" role="dialog" aria-modal="true" aria-labelledby="moonSettingsTitle" hidden>
+  <h3 class="ms-title" id="moonSettingsTitle">周期设置</h3>
+  <div class="ms-row">
+    <span class="ms-label">默认周期</span>
+    <div class="ms-fields">
+      <input class="ms-input" id="moonSettingsCycle" type="number" min="15" max="60" aria-label="默认周期天数">
+      <span class="ms-unit">天</span>
+    </div>
+  </div>
+  <div class="ms-row">
+    <span class="ms-label">默认经期</span>
+    <div class="ms-fields">
+      <input class="ms-input" id="moonSettingsPeriod" type="number" min="1" max="14" aria-label="默认经期天数">
+      <span class="ms-unit">天</span>
+    </div>
+  </div>
+  <p class="ms-tip">记录 2 次经期后，将自动用实际统计推算，不再依赖默认值</p>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="moonSettingsCancel" type="button" onclick="SnowCrystal.moonCloseSettings()">取消</button>
+    <button class="save-btn" id="moonSettingsOk" type="button" onclick="SnowCrystal.moonSaveSettings()">保存</button>
+  </div>
+</div>
+
+<!-- ===== 月汐笺语 · 月汐留言管理弹窗（账号设置内管理对方角色温柔留言） ===== -->
+<div class="metric-mask" id="moonMsgMask" hidden></div>
+<div class="metric-sheet moon-msg-sheet" id="moonMsgSheet" role="dialog" aria-modal="true" aria-labelledby="moonMsgTitle" hidden>
+  <h3 class="ms-title" id="moonMsgTitle">月汐留言</h3>
+  <p class="moon-msg-hint">经期前 3 天，对方角色会随机发送以下一条温柔留言给你</p>
+  <div class="moon-msg-list" id="moonMsgList"></div>
+  <div class="moon-msg-add">
+    <input class="moon-input" id="moonMsgInput" type="text" maxlength="60" placeholder="新增一条温柔留言…" aria-label="新增留言">
+    <button class="save-btn" type="button" onclick="SnowCrystal.moonAddMessage()">添加</button>
+  </div>
+  <div class="ms-actions">
+    <button class="ghost-btn" type="button" onclick="SnowCrystal.moonCloseMessages()">关闭</button>
+    <button class="save-btn" type="button" onclick="SnowCrystal.moonCloseMessages()">完成</button>
+  </div>
+</div>
+
+<!-- ===== v26：首页跨纬度短句 —— 点击可改「我在三维的▢▢▢▢，你在▢▢纬的▢▢▢▢」 ===== -->
+<div class="metric-mask" id="lfMask" hidden></div>
+<div class="metric-sheet lf-sheet" id="lfSheet" role="dialog" aria-modal="true" aria-labelledby="lfTitle" hidden>
+  <h3 class="ms-title" id="lfTitle">跨越纬度的那句话</h3>
+  <div class="ms-row">
+    <span class="ms-label">我在三维的</span>
+    <input class="lf-input" id="lfMine" type="text" maxlength="12" aria-label="我在三维的·后半句">
+  </div>
+  <div class="ms-row">
+    <span class="ms-label">你在</span>
+    <input class="lf-input lf-lat" id="lfLat" type="text" inputmode="text" maxlength="3" aria-label="你在第几纬（可输入汉字，如：十二）">
+    <span class="ms-field-unit">纬的</span>
+    <input class="lf-input" id="lfOther" type="text" maxlength="12" aria-label="你在几纬的·后半句">
+  </div>
+  <p class="ms-tip" id="lfPreview">我在三维的雪里念你，你在十二纬的星河里等我</p>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="lfCancel" type="button">取消</button>
+    <button class="save-btn" id="lfConfirm" type="button">确认</button>
+  </div>
+</div>
+
+<!-- v76：首页格言选择弹窗 —— 点击首页格言文字弹出，可选/自定义首页显示 -->
+<div class="metric-mask" id="hqMask" hidden></div>
+<div class="metric-sheet hq-sheet" id="hqSheet" role="dialog" aria-modal="true" aria-labelledby="hqTitle" hidden>
+  <h3 class="ms-title" id="hqTitle">选择首页格言</h3>
+  <p class="ms-tip">点击某条 → 立即设为首页格言；或输入自定义内容后点「设为首页格言」</p>
+  <div class="hq-list" id="hqList"></div>
+  <div class="ms-row hq-custom">
+    <input class="lf-input" id="hqInput" type="text" maxlength="120" placeholder="输入自定义格言" aria-label="自定义格言">
+    <button class="save-btn hq-ok" id="hqOk" type="button">设为首页格言</button>
+  </div>
+  <div class="ms-actions">
+    <button class="ghost-btn" id="hqRandom" type="button">恢复每日随机</button>
+    <button class="ghost-btn" id="hqCancel" type="button">取消</button>
+  </div>
+</div>
+
+  <!-- 账号设置：编辑模态框（头像 / 形状 / 昵称） -->
+  <div class="acc-overlay" id="accModalOverlay" role="dialog" aria-modal="true">
+    <div class="acc-panel">
+      <h3 class="acc-modal-title" id="accModalTitle">编辑</h3>
+
+      <div class="acc-avatar-edit">
+        <div class="acc-avatar-preview" id="accAvatarPreview" onclick="SnowCrystal.pickAccountAvatar()">
+          <span class="acc-photo-hint">点击上传</span>
+        </div>
+        <div class="acc-avatar-sub">
+          <div class="acc-avatar-ops">
+            <button type="button" class="acc-avatar-sub-btn" onclick="SnowCrystal.pickAccountAvatar()">上传头像</button>
+            <button type="button" class="acc-avatar-sub-btn" onclick="SnowCrystal.removeAccountAvatar()">删除头像</button>
+          </div>
+          <span class="acc-shape-seg">
+            <button type="button" class="acc-shape-btn is-on" id="accShapeCircle" onclick="SnowCrystal.toggleAvatarShape('circle')">圆形</button>
+            <button type="button" class="acc-shape-btn" id="accShapeSquare" onclick="SnowCrystal.toggleAvatarShape('square')">方形</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="acc-field">
+        <span class="acc-field-label">昵称</span>
+        <input type="text" id="accNameInput" class="acc-name-input" maxlength="12" placeholder="输入昵称…">
+      </div>
+
+      <div class="acc-modal-actions">
+        <button type="button" class="ghost-btn" onclick="SnowCrystal.closeAccountModal()">取消</button>
+        <button type="button" class="save-btn" onclick="SnowCrystal.saveAccount()">保存</button>
+      </div>
+    </div>
+  </div>
+  <input type="file" id="accAvatarPicker" accept="image/*" hidden>
+
+  <!-- 账号设置：状态选择弹窗（随机 / 预设 / 自定义） -->
+  <div class="acc-status-overlay" id="accStatusOverlay" role="dialog" aria-modal="true">
+    <div class="acc-status-panel">
+      <h3 class="acc-status-title" id="accStatusTitle">选择在线状态</h3>
+      <div class="acc-status-list" id="accStatusList"></div>
+    </div>
+  </div>
+
+  <div id="accToast" role="status" aria-live="polite"></div>
+
+<!-- v26：轻提示（已复制 / 已保存） -->
+
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <filter id="wpMotionTb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur id="wpMotionTbB" stdDeviation="0 8"/></filter>
+    <filter id="wpMotionLr" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur id="wpMotionLrB" stdDeviation="8 0"/></filter>
+    <filter id="wpMotionC" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur id="wpMotionCB" stdDeviation="8 8"/></filter>
+  </defs>
+</svg>
+
+<script src="js/01-cap.js"></script>
+<script src="js/02-navigation.js"></script>
+<script src="js/03-snow-button.js"></script>
+<script src="js/04-time-diff.js"></script>
+<script src="js/05-theme-engine.js"></script>
+<script src="js/06-home-components.js"></script>
+<script src="js/07-calendar.js"></script>
+<script src="js/08-wordcard-data.js"></script>
+<script src="js/09-init-global.js"></script>
+<script src="js/10-moon.js"></script>
+<script src="js/11-account.js"></script>
+<script src="js/12-chat.js"></script>
+<script src="js/13-vfix-voice.js"></script>
+<script src="js/14-msg-menu.js"></script>
+<script src="js/15-subpages.js"></script>
+<script src="js/16-stickers.js"></script>
+<script src="js/17-jingjie-bridge.js"></script>
+<script src="js/18-mtx.js"></script>
+<script src="js/19-visibility-engine.js"></script>
+<script src="js/20-echo.js"></script>
+</body>
+</html>
