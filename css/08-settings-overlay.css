@@ -1,0 +1,1073 @@
+/* 设置与组件覆盖层 */
+/* =========================================================
+   v28 ①：外观设置「区域图标颜色 / 区域字体颜色」—— 按功能分组
+   ========================================================= */
+.zone-panel { padding: calc(6px * var(--ui, 1)) 0; }
+.zone-group {
+  margin: calc(12px * var(--ui, 1)) var(--pad-x) calc(4px * var(--ui, 1));
+  font-size: calc(12px * var(--ui, 1)); letter-spacing: 0.5px;
+  color: var(--accent-deep); opacity: 0.85; font-weight: 600;
+}
+.zone-panel .zone-group:first-child { margin-top: calc(4px * var(--ui, 1)); }
+.zone-row {
+  display: flex; align-items: center; gap: calc(8px * var(--ui, 1));
+  padding: calc(8px * var(--ui, 1)) var(--pad-x);
+}
+.zone-row + .zone-row { border-top: 1px solid rgba(var(--accent-rgb), 0.14); }
+.zone-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.zone-name { font-size: calc(12px * var(--ui, 1)); font-weight: 600; color: var(--text-1); }
+.zone-desc { font-size: calc(9px * var(--ui, 1)); color: var(--text-4); }
+.zone-color {
+  flex: none; width: calc(30px * var(--ui, 1)); height: calc(30px * var(--ui, 1));
+  padding: 0; border: 0; border-radius: calc(8px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), 0.16); cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
+.zone-color::-webkit-color-swatch-wrapper { padding: calc(2px * var(--ui, 1)); }
+.zone-color::-webkit-color-swatch { border: 0; border-radius: calc(6px * var(--ui, 1)); }
+.zone-hex {
+  flex: none; min-width: calc(58px * var(--ui, 1)); text-align: right;
+  font-size: calc(10px * var(--ui, 1)); color: var(--text-4); letter-spacing: 0.3px;
+}
+.zone-reset {
+  flex: none; padding: calc(7px * var(--ui, 1)) calc(11px * var(--ui, 1));
+  border: 0; border-radius: calc(10px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), 0.18); color: var(--accent-deep);
+  font-size: calc(11px * var(--ui, 1)); font-weight: 600; cursor: pointer;
+}
+.zone-reset:active { background: rgba(var(--accent-rgb), 0.34); }
+.zone-actions { display: flex; justify-content: flex-end; padding: 0 var(--pad-x); margin-top: calc(10px * var(--ui, 1)); }
+
+/* v28 ①：区域配色的实际生效规则（未自定义时回落到主题色，保证默认观感不变） */
+.nav-btn .badge-sym { fill: var(--zone-ico-tabbar, var(--icon-ink, var(--accent-deep))); }
+.page[data-page="home"] .fn-ico, .page[data-page="home"] .fn-ico svg { color: var(--zone-ico-home, var(--accent-deep)); }
+.page[data-page="wordcard"] .row-ico, .page[data-page="wordcard"] .row-ico svg,
+.page[data-page^="wordcard-"] .row-ico, .page[data-page^="wordcard-"] .row-ico svg,
+.page[data-page^="wc-"] .row-ico, .page[data-page^="wc-"] .row-ico svg { color: var(--zone-ico-wordcard, var(--accent-deep)); }
+.page[data-page="discover"] .row-ico, .page[data-page="discover"] .row-ico svg { color: var(--zone-ico-discover, var(--accent-deep)); }
+.page[data-page="settings"] .row-ico, .page[data-page="settings"] .row-ico svg,
+.page[data-page="appearance"] .row-ico, .page[data-page="appearance"] .row-ico svg { color: var(--zone-ico-settings, var(--accent-deep)); }
+.page[data-page="home"] .fn-title, .page[data-page="home"] .page-title { color: var(--zone-txt-home, var(--text-1)); }
+.page[data-page="home"] .fn-desc, .page[data-page="home"] .page-sub { color: var(--zone-txt-home, var(--text-4)); }
+.page[data-page="wordcard"] .row-title, .page[data-page="wordcard"] .page-title,
+.page[data-page^="wordcard-"] .row-title, .page[data-page^="wordcard-"] .page-title,
+.page[data-page^="wc-"] .row-title, .page[data-page^="wc-"] .page-title { color: var(--zone-txt-wordcard, var(--text-1)); }
+.page[data-page="wordcard"] .row-desc, .page[data-page="wordcard"] .page-sub,
+.page[data-page^="wordcard-"] .row-desc, .page[data-page^="wordcard-"] .page-sub,
+.page[data-page^="wc-"] .row-desc, .page[data-page^="wc-"] .page-sub { color: var(--zone-txt-wordcard, var(--text-3)); }
+.page[data-page="discover"] .row-title, .page[data-page="discover"] .page-title { color: var(--zone-txt-discover, var(--text-1)); }
+.page[data-page="discover"] .row-desc, .page[data-page="discover"] .page-sub { color: var(--zone-txt-discover, var(--text-3)); }
+.page[data-page="settings"] .row-title, .page[data-page="settings"] .page-title,
+.page[data-page="appearance"] .row-title, .page[data-page="appearance"] .page-title { color: var(--zone-txt-settings, var(--text-1)); }
+.page[data-page="settings"] .row-desc, .page[data-page="settings"] .page-sub,
+.page[data-page="appearance"] .row-desc, .page[data-page="appearance"] .page-sub { color: var(--zone-txt-settings, var(--text-3)); }
+
+/* =========================================================
+   v28 ②：字卡二级页（分组列表 / 分组内容）—— 菜单栏 + 分组
+   ========================================================= */
+.lib-search {
+  display: flex; align-items: center; gap: calc(6px * var(--ui, 1));
+  padding: 0 var(--pad-x); margin-top: calc(8px * var(--ui, 1));
+}
+.lib-search[hidden] { display: none; }
+.lib-search-input { flex: 1 1 auto; margin: 0; height: calc(26px * var(--ui, 1)); font-size: calc(11px * var(--ui, 1)); border-radius: calc(5px * var(--ui, 1)); }
+#grpBody { margin-top: calc(8px * var(--ui, 1)); }
+.grp-empty { margin: calc(8px * var(--ui, 1)) var(--pad-x); font-size: calc(12px * var(--ui, 1)); color: var(--text-4); }
+.wc-card--pic { padding: 0; overflow: hidden; }
+.wc-card--pic img { width: 100%; height: calc(88px * var(--ui, 1)); object-fit: contain; display: block; }
+.wc-sticker-emoji { font-size: calc(16px * var(--ui, 1)); line-height: 1.1; }
+.lib-row-name { display: block; }
+
+/* =========================================================
+   v29：各区域卡片通透度 / 不透明度（外观设置页）
+     · --zc-a-{key}：区域卡片透明度系数，1 = 100%（默认不写变量 → 观感与 v28 完全一致）
+     · 二级页：JS 在页面根节点写入 --zc-a，页内卡片统一读它，不必逐页写选择器
+     · 首页浪卡 / 悬浮底栏：直接读 --zc-a-home / --zc-a-tabbar
+   ========================================================= */
+.zone-actions { gap: calc(8px * var(--ui, 1)); flex-wrap: wrap; }
+.zone-range {
+  -webkit-appearance: none; appearance: none;
+  flex: none; width: calc(92px * var(--ui, 1)); height: calc(26px * var(--ui, 1));
+  padding: 0; background: transparent; cursor: pointer;
+  touch-action: pan-y;
+}
+.zone-range::-webkit-slider-runnable-track {
+  height: calc(6px * var(--ui, 1)); border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.22);
+}
+.zone-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: calc(16px * var(--ui, 1)); height: calc(16px * var(--ui, 1));
+  margin-top: calc(-5px * var(--ui, 1)); border: 0; border-radius: 50%;
+  background: var(--accent-deep);
+  box-shadow: 0 calc(1px * var(--ui, 1)) calc(4px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.35);
+}
+.zone-range::-moz-range-track {
+  height: calc(6px * var(--ui, 1)); border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.22);
+}
+.zone-range::-moz-range-thumb {
+  width: calc(16px * var(--ui, 1)); height: calc(16px * var(--ui, 1));
+  border: 0; border-radius: 50%; background: var(--accent-deep);
+}
+.zone-range:focus { outline: none; }
+
+/* ---- ① 底部导航：悬浮底栏玻璃底 alpha × 区域系数 ---- */
+.bottom-nav {
+  background: rgba(var(--glass-nav-rgb, 255, 255, 255), calc(var(--glass-nav-a, 0.46) * var(--zc-a-tabbar, 1)));
+}
+
+/* ---- ② 内容页卡片（首页 / 字卡 / 课程 / 设置）：拾心界磨砂浅底色 alpha × 区域系数 ---- */
+.page[data-page] .row-list,
+.page[data-page] .wc-card,
+.page[data-page] .wc-chip {
+  background: linear-gradient(rgba(255, 255, 255, calc(0.50 * var(--zc-a, 1))), rgba(255, 255, 255, calc(0.50 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.14 * var(--zc-a, 1)));
+}
+/* v31：外观设置页的面板（主题颜色 / 自定义颜色 / 各区域 / 海浪卡 / 背景 / 当前主题）
+   由「实底白卡」改为与字卡 · 课程 · 设置条目卡完全同源的磨砂玻璃底：
+   0.66 浅底 + accent 柔光 + backdrop-filter(--glass-blur)，透出背后的弥散光斑。 */
+.page[data-page] .theme-panel {
+  background: linear-gradient(rgba(255, 255, 255, calc(0.66 * var(--zc-a, 1))), rgba(255, 255, 255, calc(0.66 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.32 * var(--zc-a, 1)));
+  -webkit-backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+}
+/* 实底白卡（保留）：格言面板 / 首页消息卡 / 课程横幅 */
+.page[data-page] .banner-card,
+.page[data-page] .msg-card,
+.page[data-page] .msg-card:hover {
+  background: rgba(var(--card-rgb, 255, 255, 255), var(--zc-a, 1));
+}
+/* 首页功能卡原为 --surface 实底 */
+.page[data-page] .fn-card {
+  background: linear-gradient(rgba(255, 255, 255, calc(0.50 * var(--zc-a, 1))), rgba(255, 255, 255, calc(0.50 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.14 * var(--zc-a, 1)));
+}
+
+/* ---- 暗色：底色的 alpha 同样乘区域系数（系数=1 时与 v28 逐值一致） ---- */
+[data-theme-mode="dark"] .page[data-page] .row-list {
+  background: linear-gradient(rgba(255, 255, 255, calc(0.06 * var(--zc-a, 1))), rgba(255, 255, 255, calc(0.06 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.18 * var(--zc-a, 1)));
+}
+[data-theme-mode="dark"] .page[data-page] .wc-card,
+[data-theme-mode="dark"] .page[data-page] .wc-chip {
+  background: linear-gradient(rgba(30, 32, 40, calc(0.72 * var(--zc-a, 1))), rgba(30, 32, 40, calc(0.72 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.28 * var(--zc-a, 1)));
+}
+/* v31：暗色下同样改成磨砂玻璃底（与暗色 row-list / wc-card 同源） */
+[data-theme-mode="dark"] .page[data-page] .theme-panel {
+  background: linear-gradient(rgba(30, 32, 40, calc(0.72 * var(--zc-a, 1))), rgba(30, 32, 40, calc(0.72 * var(--zc-a, 1)))), rgba(var(--accent-rgb), calc(0.28 * var(--zc-a, 1)));
+}
+[data-theme-mode="dark"] .page[data-page] .banner-card,
+[data-theme-mode="dark"] .page[data-page] .msg-card,
+[data-theme-mode="dark"] .page[data-page] .msg-card:hover {
+  background: rgba(var(--card-rgb, 30, 32, 40), var(--zc-a, 1));
+}
+[data-theme-mode="dark"] .page[data-page] .fn-card {
+  background: rgba(var(--surface-rgb, 38, 40, 48), var(--zc-a, 1));
+}
+
+/* ---- ③ 首页浪卡（顶部海浪白卡）整体通透度 ----
+   v30：改为独立变量 --wave-a（默认 0.65）；v34 起该旋钮在「设置 → 卡片颜色 · 首页海浪白卡」里，
+   与「区域卡片通透度」彻底解耦 —— 调首页卡片通透度不再把顶部白浪一起压淡。
+   v31：作用对象由「整张卡」收窄到「白浪块」—— 拖这个滑块时，
+   水晶簇 / 星点碎片 / 底层大雪花等装饰一律不跟随变淡（装饰各有自己的颜色与不透明度开关）。 */
+.phone .wave-card > svg.wave-body,
+.phone[data-page="home"] .wave-card > svg.wave-body { opacity: var(--wave-a, 0.65); }
+/* v87：100% 实心修复 —— 容器 opacity 恒为 1（旧 v30 规则若保留叠加会与 fill-opacity 双重相乘），
+   不透明度只由白浪填充 alpha（fill-opacity: var(--wave-a)）单独线性控制 */
+.phone .wave-card > svg.wave-body,
+.phone[data-page="home"] .wave-card > svg.wave-body { opacity: 1; }
+
+/* =========================================================
+   v30 迭代：区域卡片通透度补全 · 网站背景图 · 外观页自适应
+   ========================================================= */
+/* ---- ① 区域卡片通透度补全：相框卡片流卡面 / 功能滚轮卡 / 字卡页工具与输入卡
+         也乘各自的区域系数 --zc-a（未自定义 = 1，观感与 v29 完全一致）。
+         此前只有 row-list / wc-card / fn-card / theme-panel 等吃系数，
+         首页最大的那张「相框卡」反而不跟随，看起来就像「点了调节没反应」。 ---- */
+.page[data-page] .tri-cover { opacity: var(--zc-a, 1); }
+
+/* ---- ③b v31：首页「下方列表」「相册卡片流」拆出独立通透度 ----
+   此前两者都吃首页区域系数 --zc-a，现在各自一个开关，互不牵连；
+   未单独设置时回落到 --zc-a → 拆分前观感完全一致（默认 100% 时不写变量）。 ---- */
+.page[data-page="home"] .fn-card {
+  background: linear-gradient(rgba(255, 255, 255, calc(0.50 * var(--zc-a-home-list, var(--zc-a, 1)))), rgba(255, 255, 255, calc(0.50 * var(--zc-a-home-list, var(--zc-a, 1))))), rgba(var(--accent-rgb), calc(0.14 * var(--zc-a-home-list, var(--zc-a, 1))));
+}
+[data-theme-mode="dark"] .page[data-page="home"] .fn-card {
+  background: rgba(var(--surface-rgb, 38, 40, 48), var(--zc-a-home-list, var(--zc-a, 1)));
+}
+.page[data-page="home"] .tri-grid .tri-cover { opacity: var(--zc-a-frame, var(--zc-a, 1)); }
+
+/* ---- ③c v31：首页海浪卡装饰（水晶簇 / 底层大雪花）颜色与不透明度 ----
+   装饰与浪卡本体彻底解耦：拖「海浪卡不透明度」不带动装饰；
+   装饰的颜色 / 透明度各有专属开关（外观设置 · 首页装饰）。 ---- */
+.wave-crystal-hero { opacity: var(--hero-a, 1); }
+/* 底层大雪花：主枝 / 小枝（描边）+ 末梢圆点 / 中心六棱核（填充）统一改色 */
+.wave-crystal-hero[data-hero-color="1"] [fill]:not([fill="none"]) { fill: var(--hero-color); }
+.wave-crystal-hero[data-hero-color="1"] [stroke]:not([stroke="none"]) { stroke: var(--hero-color); }
+/* 细分项行（区域卡片下的子项）轻微缩进，视觉上从属于上面的区域 */
+.zone-row-sub .zone-info { padding-left: 10px; }
+.page[data-page] .wc-tool { background: rgba(var(--accent-rgb), calc(0.20 * var(--zc-a, 1))); }
+.page[data-page] .wc-tool:active { background: rgba(var(--accent-rgb), calc(0.36 * var(--zc-a, 1))); }
+.page[data-page] .wc-input { background: rgba(var(--accent-rgb), calc(0.16 * var(--zc-a, 1))); }
+
+/* ---- ② 网站背景图：垫在 .phone 底色与弥散光斑之上、所有卡片正文之下
+         （.page 是 z-index:1，本层 z-index:0），不参与交互
+         （pointer-events:none），随页面一起滚动 ---- */
+.bg-photo {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  display: none;
+  background-image: var(--bg-photo, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: var(--bg-photo-a, 1);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.bg-photo[data-on="1"] { display: block; }
+/* 外观页里的缩略图 */
+.bg-thumb {
+  flex: none;
+  width: calc(40px * var(--ui, 1)); height: calc(30px * var(--ui, 1));
+  border-radius: calc(8px * var(--ui, 1));
+  background-color: rgba(var(--accent-rgb), 0.16);
+  background-size: cover; background-position: center;
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.20);
+}
+
+/* ---- ③ 外观设置页：区域行允许换行，窄窗下不再把名称 / 滑块互相挤压 ---- */
+.zone-row { flex-wrap: wrap; row-gap: calc(6px * var(--ui, 1)); }
+.zone-info { min-width: calc(118px * var(--ui, 1)); }
+.zone-range { min-width: calc(88px * var(--ui, 1)); }
+/* 极窄窗（手机小窗）：名称 / 说明独占一行，滑块与按钮整排换到下一行，
+   避免「跟随主题」这类说明文字被挤在色块与复位按钮之间 */
+@media (max-width: 380px) {
+  .zone-info { min-width: 100%; }
+  .zone-row { row-gap: calc(8px * var(--ui, 1)); }
+}
+
+/* =========================================================================
+   v32 迭代（本轮四项改动）
+   ① 外观设置页删除「当前主题」面板（恢复默认主题按钮下沉到区域卡片下方）
+   ② 自定义主题颜色：点「保存」后，双击色块即可删除该颜色
+      —— 双击「自定义颜色」色块删对应色；内置主题不可删
+   ③ 字体颜色从原来外观设置页的「全站统一」拆出为独立二级页：
+      入口在「设置 → 外观设置」正下方，页内逐项细分 ——
+      首页格言 / 三维十二纬短句 / 日历（月份·星期·日期·今日·非本月）/
+      时间相隔（标签·数字·单位）/ 跨越纬度的爱恋 / 昵称（已命名·未命名）/
+      横排按键（未选中·选中）/ 功能卡片（标题·说明·箭头）/ 页面标题 / 条目卡片（标题·说明）
+   ④ 细项颜色由 JS（applyFontColors）下发 --fc-* 变量；
+      未设置的项自动 removeProperty → 逐级回落到各自原有的默认色（跟随主题）
+   ========================================================================= */
+
+/* ① 首页文案：格言 / 三维十二纬短句 / 昵称 */
+html body .user-slogan { color: var(--fc-quote, var(--accent-deep)) !important; }
+html body .lat-foot { color: var(--fc-latfoot, var(--text-4)) !important; }
+html body .avatar-name { color: var(--fc-nickname, var(--accent-deep)) !important; }
+html body .avatar-name.is-empty {
+  color: var(--fc-nickname-empty, var(--fc-nickname, rgba(var(--accent-deep-rgb), 0.66))) !important;
+}
+
+/* ② 时间相隔（标签 / 数字 / 单位）与「跨越纬度的爱恋」 */
+html body .avatar-metric,
+html body .avatar-metric .am-label { color: var(--fc-metric-label, var(--accent-deep)) !important; }
+html body .avatar-metric .am-num { color: var(--fc-metric-num, var(--fc-metric-label, var(--accent-deep))) !important; }
+html body .avatar-metric .am-unit { color: var(--fc-metric-unit, var(--fc-metric-label, var(--accent-deep))) !important; }
+html body .avatar-love { color: var(--fc-love, var(--accent-deep)) !important; }
+
+/* ③ 日历：首页横条 + 完整月历浮层 */
+html body .cal-month { color: var(--fc-cal-month, var(--accent-deep)) !important; }
+/* v38 ⑤：农历（首页横条最右侧「农历 ×月×日」）独立配色项 */
+html body .cal-lunar { color: var(--fc-cal-lunar, var(--accent-deep)) !important; }
+html body .cal-day:not(.today) .cal-w { color: var(--fc-cal-w, var(--text-4)) !important; }
+html body .cal-day:not(.today) .cal-d { color: var(--fc-cal-day, var(--text-2)) !important; }
+html body .cal-day.today .cal-w,
+html body .cal-day.today .cal-d { color: var(--fc-cal-today, var(--accent-deep)) !important; }
+html body .cal-cell:not(.is-today) { color: var(--fc-cal-day, var(--text-2)) !important; }
+html body .cal-cell.is-out:not(.is-today) { color: var(--fc-cal-out, var(--text-5)) !important; }
+html body .cal-cell.is-today { color: var(--fc-cal-today, #FFFFFF) !important; }
+
+/* ④ 各区域按键：横排按键（未选中 / 选中） */
+html body .tab-item { color: var(--fc-tab-idle, var(--text-4)) !important; }
+html body .tab-item.is-active { color: var(--fc-tab-active, var(--accent-deep)) !important; }
+
+/* ⑤ 功能卡片字体（标题 / 说明 / 箭头） */
+html body .fn-title { color: var(--fc-fn-title, var(--text-title)) !important; }
+html body .fn-desc { color: var(--fc-fn-desc, var(--text-4)) !important; }
+html body .fn-arrow { color: var(--fc-fn-arrow, var(--text-5)) !important; }
+
+/* ⑥ 标题与条目卡片 */
+html body .page-title { color: var(--fc-page-title, var(--text-title)) !important; }
+html body .row-title { color: var(--fc-card-title, var(--text-1)) !important; }
+html body .row-desc { color: var(--fc-card-desc, var(--text-4)) !important; }
+
+/* ⑦ 字体颜色设置页：分组标题与区域行沿用外观页样式，仅把分组间距放大一点 */
+.page[data-page="fontcolor"] .zone-panel { margin-bottom: calc(6px * var(--ui, 1)); }
+
+
+/* =========================================================
+   v33 ①：图标颜色细分（独立页「设置 → 图标颜色」）
+   全部走 --fic-{key} 变量；未设置时回落到原有默认
+   （按键背景 = accent 20%，图标 = accent-deep），默认观感不变。
+   选择器统一加 html body 前缀，确保覆盖前文的同款规则。
+   ========================================================= */
+/* 底部导航：未选中 / 激活 */
+html body .nav-btn .nav-icon { background: var(--fic-tab-bg, rgba(var(--accent-rgb), 0.20)); }
+html body .nav-btn .badge-sym {
+  fill: var(--fic-tab-ink, var(--icon-ink, var(--accent-deep)));
+  stroke: var(--fic-tab-ink, var(--icon-ink, var(--accent-deep)));
+}
+html body .nav-btn.active .nav-icon::before { background: var(--fic-tab-bg-on, var(--nav-active-bg)); }
+html body .nav-btn.active .badge-sym {
+  fill: var(--fic-tab-ink-on, #FFFFFF);
+  stroke: var(--fic-tab-ink-on, #FFFFFF);
+}
+/* v36：底栏雪花按键（右下角那枚 .snow-fab）—— 图形颜色可单独自定义，
+   未设置时回落主题色 */
+html body .snow-fab { color: var(--fic-snow, var(--accent-deep)); }
+/* 首页 · 功能列表按键：未激活 / 激活 */
+html body .page[data-page="home"] .fn-ico { background: var(--fic-home-bg, rgba(var(--accent-rgb), 0.20)); }
+html body .page[data-page="home"] .fn-ico svg { color: var(--fic-home-ink, var(--accent-deep)); }
+html body .page[data-page="home"] .fn-card:active .fn-ico {
+  background: var(--fic-home-bg-on, var(--fic-home-bg, rgba(var(--accent-rgb), 0.20)));
+}
+html body .page[data-page="home"] .fn-card:active .fn-ico svg {
+  color: var(--fic-home-ink-on, var(--fic-home-ink, var(--accent-deep)));
+}
+/* 字卡 · 条目按键 */
+html body .page[data-page="wordcard"] .row-ico,
+html body .page[data-page^="wordcard-"] .row-ico,
+html body .page[data-page^="wc-"] .row-ico {
+  background: var(--fic-wc-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-wc-ink, var(--accent-deep));
+}
+html body .page[data-page="wordcard"] .row-ico svg,
+html body .page[data-page^="wordcard-"] .row-ico svg,
+html body .page[data-page^="wc-"] .row-ico svg { color: var(--fic-wc-ink, var(--accent-deep)); }
+html body .page[data-page="wordcard"] .row-card:active .row-ico,
+html body .page[data-page^="wordcard-"] .row-card:active .row-ico,
+html body .page[data-page^="wc-"] .row-card:active .row-ico {
+  background: var(--fic-wc-bg-on, var(--fic-wc-bg, rgba(var(--accent-rgb), 0.20)));
+}
+html body .page[data-page="wordcard"] .row-card:active .row-ico svg,
+html body .page[data-page^="wordcard-"] .row-card:active .row-ico svg,
+html body .page[data-page^="wc-"] .row-card:active .row-ico svg {
+  color: var(--fic-wc-ink-on, var(--fic-wc-ink, var(--accent-deep)));
+}
+/* 课程 · 条目按键 */
+html body .page[data-page="discover"] .row-ico {
+  background: var(--fic-disc-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-disc-ink, var(--accent-deep));
+}
+html body .page[data-page="discover"] .row-ico svg { color: var(--fic-disc-ink, var(--accent-deep)); }
+html body .page[data-page="discover"] .row-card:active .row-ico {
+  background: var(--fic-disc-bg-on, var(--fic-disc-bg, rgba(var(--accent-rgb), 0.20)));
+}
+html body .page[data-page="discover"] .row-card:active .row-ico svg {
+  color: var(--fic-disc-ink-on, var(--fic-disc-ink, var(--accent-deep)));
+}
+/* 设置 · 条目按键（含外观设置等二级页） */
+html body .page[data-page="settings"] .row-ico,
+html body .page[data-page="appearance"] .row-ico,
+html body .page[data-page="fontcolor"] .row-ico,
+html body .page[data-page="iconcolor"] .row-ico,
+html body .page[data-page="cardcolor"] .row-ico {
+  background: var(--fic-set-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-set-ink, var(--accent-deep));
+}
+html body .page[data-page="settings"] .row-ico svg,
+html body .page[data-page="appearance"] .row-ico svg,
+html body .page[data-page="fontcolor"] .row-ico svg,
+html body .page[data-page="iconcolor"] .row-ico svg,
+html body .page[data-page="cardcolor"] .row-ico svg { color: var(--fic-set-ink, var(--accent-deep)); }
+html body .page[data-page="settings"] .row-card:active .row-ico,
+html body .page[data-page="appearance"] .row-card:active .row-ico,
+html body .page[data-page="fontcolor"] .row-card:active .row-ico,
+html body .page[data-page="iconcolor"] .row-card:active .row-ico,
+html body .page[data-page="cardcolor"] .row-card:active .row-ico {
+  background: var(--fic-set-bg-on, var(--fic-set-bg, rgba(var(--accent-rgb), 0.20)));
+}
+html body .page[data-page="settings"] .row-card:active .row-ico svg,
+html body .page[data-page="appearance"] .row-card:active .row-ico svg,
+html body .page[data-page="fontcolor"] .row-card:active .row-ico svg,
+html body .page[data-page="iconcolor"] .row-card:active .row-ico svg,
+html body .page[data-page="cardcolor"] .row-card:active .row-ico svg {
+  color: var(--fic-set-ink-on, var(--fic-set-ink, var(--accent-deep)));
+}
+
+/* =========================================================
+   v33 ②：卡片颜色 + 不透明度细分（独立页「设置 → 卡片颜色」）
+   --cc-rgb-{key} = 卡片底色 rgb；--cc-a-{key} = 不透明度系数
+   未设置时分别回落到原色 / 1（100%），默认观感与拆分前完全一致。
+   ========================================================= */
+/* 悬浮底栏 */
+html body .bottom-nav {
+  background:
+    linear-gradient(rgba(var(--cc-rgb-tabbar, var(--card-rgb, 255, 255, 255)), var(--cc-a-tabbar, 0.5)),
+                    rgba(var(--cc-rgb-tabbar, var(--card-rgb, 255, 255, 255)), var(--cc-a-tabbar, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-tabbar, 0.5)));
+}
+/* 首页 · 下方列表（功能列表卡） */
+html body .page[data-page="home"] .fn-card {
+  background:
+    linear-gradient(rgba(var(--cc-rgb-home-list, var(--card-rgb, 255, 255, 255)), var(--cc-a-home-list, 0.5)),
+                    rgba(var(--cc-rgb-home-list, var(--card-rgb, 255, 255, 255)), var(--cc-a-home-list, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-home-list, 0.5)));
+}
+/* 首页 · 相册卡片流（仅不透明度） */
+html body .page[data-page="home"] .tri-grid .tri-cover {
+  opacity: var(--cc-a-frame, var(--zc-a-frame, var(--zc-a, 1)));
+}
+/* 字卡 · 条目卡 / 面板（磨砂玻璃底：浅底 + accent 柔光） */
+html body .page[data-page="wordcard"] .row-list,
+html body .page[data-page^="wordcard"] .row-list,
+html body .page[data-page^="wc-"] .row-list,
+html body .page[data-page="wordcard"] .wc-card,
+html body .page[data-page="wordcard"] .wc-chip,
+html body .page[data-page="wordcard"] .theme-panel,
+html body .page[data-page^="wc-"] .wc-card,
+html body .page[data-page^="wc-"] .wc-chip,
+html body .page[data-page="quotes"] .row-list,
+html body .page[data-page="quotes"] .theme-panel {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-wordcard, var(--card-rgb, 255, 255, 255)), var(--cc-a-wordcard, 0.5)),
+      rgba(var(--cc-rgb-wordcard, var(--card-rgb, 255, 255, 255)), var(--cc-a-wordcard, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-wordcard, 0.5)));
+}
+/* 字卡 · 工具条 / 输入卡 */
+html body .page[data-page] .wc-tool {
+  background: rgba(var(--cc-rgb-wc-tool, var(--accent-rgb)), var(--cc-a-wc-tool, 0.5));
+}
+html body .page[data-page] .wc-tool:active {
+  background: rgba(var(--cc-rgb-wc-tool, var(--accent-rgb)), var(--cc-a-wc-tool, 0.5));
+}
+html body .page[data-page] .wc-input {
+  background: rgba(var(--cc-rgb-wc-tool, var(--accent-rgb)), var(--cc-a-wc-tool, 0.5));
+}
+/* 课程 · 条目卡 / 面板（磨砂） */
+html body .page[data-page="discover"] .row-list,
+html body .page[data-page="discover"] .theme-panel {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5)),
+      rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-discover, 0.5)));
+}
+/* 课程 · 横幅（实底卡） */
+html body .page[data-page="discover"] .banner-card {
+  background:
+    linear-gradient(rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5)),
+                    rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-discover, 0.5)));
+}
+/* 设置 · 条目卡 / 面板（含外观设置、字体颜色、图标颜色、卡片颜色各页） */
+html body .page[data-page="settings"] .row-list,
+html body .page[data-page="settings"] .theme-panel,
+html body .page[data-page="appearance"] .row-list,
+html body .page[data-page="appearance"] .theme-panel,
+html body .page[data-page="fontcolor"] .row-list,
+html body .page[data-page="fontcolor"] .theme-panel,
+html body .page[data-page="iconcolor"] .row-list,
+html body .page[data-page="iconcolor"] .theme-panel,
+html body .page[data-page="cardcolor"] .row-list,
+html body .page[data-page="cardcolor"] .theme-panel {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+
+/* =========================================================
+   v34 ③：卡片不透明度 0% = 完全透明
+   背景 alpha 归 0 后若还留着 backdrop-filter，卡片位置会残留一片「模糊」而不是彻底透明。
+   因此不透明度归零时由 JS 打标记，把对应的磨砂层一并关掉：
+     ① html[data-cca-zero~="key"] —— 单张卡片（「卡片颜色」页逐项 0%）；
+     ② [data-zc-off="1"]         —— 整页 / 悬浮底栏（区域级滑块 0% 时使用）。
+   ========================================================= */
+.page[data-zc-off="1"],
+.page[data-zc-off="1"] * {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.bottom-nav[data-zc-off="1"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+/* 0% 逐项关磨砂：选择器与上面 v33 ② 的卡片一一对应 */
+html[data-cca-zero~="tabbar"] .bottom-nav,
+html[data-cca-zero~="home-list"] .page[data-page="home"] .fn-card,
+html[data-cca-zero~="frame"] .page[data-page="home"] .tri-grid .tri-cover,
+html[data-cca-zero~="wordcard"] .page[data-page="wordcard"] .row-list,
+html[data-cca-zero~="wordcard"] .page[data-page^="wordcard"] .row-list,
+html[data-cca-zero~="wordcard"] .page[data-page^="wc-"] .row-list,
+html[data-cca-zero~="wordcard"] .page[data-page="wordcard"] .wc-card,
+html[data-cca-zero~="wordcard"] .page[data-page="wordcard"] .wc-chip,
+html[data-cca-zero~="wordcard"] .page[data-page="wordcard"] .theme-panel,
+html[data-cca-zero~="wordcard"] .page[data-page^="wc-"] .wc-card,
+html[data-cca-zero~="wordcard"] .page[data-page^="wc-"] .wc-chip,
+html[data-cca-zero~="wordcard"] .page[data-page="quotes"] .row-list,
+html[data-cca-zero~="wordcard"] .page[data-page="quotes"] .theme-panel,
+html[data-cca-zero~="wc-tool"] .page[data-page] .wc-tool,
+html[data-cca-zero~="wc-tool"] .page[data-page] .wc-input,
+html[data-cca-zero~="discover"] .page[data-page="discover"] .row-list,
+html[data-cca-zero~="discover"] .page[data-page="discover"] .theme-panel,
+html[data-cca-zero~="discover"] .page[data-page="discover"] .banner-card,
+html[data-cca-zero~="settings"] .page[data-page="settings"] .row-list,
+html[data-cca-zero~="settings"] .page[data-page="settings"] .theme-panel,
+html[data-cca-zero~="settings"] .page[data-page="appearance"] .row-list,
+html[data-cca-zero~="settings"] .page[data-page="appearance"] .theme-panel,
+html[data-cca-zero~="settings"] .page[data-page="fontcolor"] .row-list,
+html[data-cca-zero~="settings"] .page[data-page="fontcolor"] .theme-panel,
+html[data-cca-zero~="settings"] .page[data-page="iconcolor"] .row-list,
+html[data-cca-zero~="settings"] .page[data-page="iconcolor"] .theme-panel,
+html[data-cca-zero~="settings"] .page[data-page="cardcolor"] .row-list,
+html[data-cca-zero~="settings"] .page[data-page="cardcolor"] .theme-panel {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* =========================================================
+   v35 ①：默认主题（灰色系）专属默认
+     · 各图标圆角底色 #BBBBBB · 图标 #FFFFFF（底栏 / 首页 / 字卡 / 课程 / 设置）
+     · 顶栏大雪花 #BDBDBD · 水晶簇 #CFCFCF
+   仅在用户未单独自定义（无内联变量 / 无 data-hero-color 等）时生效，自定义优先。
+   ========================================================= */
+html[data-theme-key="default"] {
+  --fic-tab-bg: #BBBBBB;   --fic-tab-bg-on: #BBBBBB;
+  --fic-tab-ink: #FFFFFF;  --fic-tab-ink-on: #FFFFFF;
+  --fic-home-bg: #BBBBBB;  --fic-home-bg-on: #BBBBBB;
+  --fic-home-ink: #FFFFFF; --fic-home-ink-on: #FFFFFF;
+  --fic-wc-bg: #BBBBBB;    --fic-wc-bg-on: #BBBBBB;
+  --fic-wc-ink: #FFFFFF;   --fic-wc-ink-on: #FFFFFF;
+  --fic-disc-bg: #BBBBBB;  --fic-disc-bg-on: #BBBBBB;
+  --fic-disc-ink: #FFFFFF; --fic-disc-ink-on: #FFFFFF;
+  --fic-set-bg: #BBBBBB;   --fic-set-bg-on: #BBBBBB;
+  --fic-set-ink: #FFFFFF;  --fic-set-ink-on: #FFFFFF;
+}
+/* 顶栏大雪花（底层六向雪花）灰色系默认配色 */
+html[data-theme-key="default"] .wave-crystal-hero:not([data-hero-color="1"]) [fill]:not([fill="none"]) { fill: #BDBDBD; }
+html[data-theme-key="default"] .wave-crystal-hero:not([data-hero-color="1"]) [stroke]:not([stroke="none"]) { stroke: #BDBDBD; }
+
+/* =========================================================
+   v35 ②：字卡 / 课程 / 设置 顶栏 —— 副标题已删，主标题居中
+   ========================================================= */
+.page[data-page="wordcard"] .page-head,
+.page[data-page="discover"] .page-head,
+.page[data-page="settings"] .page-head { justify-content: center; }
+.page[data-page="wordcard"] .page-head > div,
+.page[data-page="discover"] .page-head > div,
+.page[data-page="settings"] .page-head > div { flex: 1; min-width: 0; text-align: center; }
+
+/* =========================================================
+   v35 ③：首页海浪白卡不透明度 = 0% 时，一并关掉容器磨砂层
+     —— 否则白浪块已全透明，.wave-card 的 backdrop-filter 仍把整片背景糊住，
+     上传的网站背景图无法完整清晰显示（属性由 waveApply() 维护）。
+   ========================================================= */
+.phone .wave-card[data-wave-off="1"] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* v101.6：海浪白卡不透明度 = 0% 时，连带关闭贴浪曲线的投影层（.wave-glow-line 高斯模糊描边），
+   做到「投影完全隐藏、相当于直接关闭投影」（同一 data-wave-off 属性控制） */
+.phone .wave-card[data-wave-off="1"] .wave-glow-line {
+  opacity: 0;
+}
+/* =========================================================
+   v38 ②：默认主题（灰色系）· 相册卡片流恢复「跟随主题色」
+     · 取消 v37 给默认主题单独加的「白底卡 + 浅灰描边 + 灰加号」覆盖，
+       未上传时的卡面回到与其它内置主题完全一致的「主题色渐变卡」——
+       默认主题的主色本身是灰（#D0D0D0），因此仍是灰色系观感。
+     · 卡面底色 / 不透明度继续由「卡片颜色 → 相册卡片流」控制，自定义优先。
+   ========================================================= */
+
+/* =========================================================
+   v37 ②：默认主题 · 日历「当日」日期字体纯黑
+   ========================================================= */
+html[data-theme-key="default"] body .cal-day.today .cal-w,
+html[data-theme-key="default"] body .cal-day.today .cal-d {
+  color: var(--fc-cal-today, #000000) !important;
+}
+
+/* =========================================================
+   v37 ③：全站颜色方块按钮 —— 去除黑色描边（含自定义主题色块 / 各区色块）
+   ========================================================= */
+.custom-color,
+.zone-color { border: 0 !important; }
+.custom-color::-webkit-color-swatch,
+.zone-color::-webkit-color-swatch,
+.custom-color::-moz-color-swatch,
+.zone-color::-moz-color-swatch { border: 0 !important; }
+.zone-color::-webkit-color-swatch-wrapper { padding: 0; }
+
+/* =========================================================
+   v37 ④：美化设置页（收纳外观 / 字体 / 图标 / 卡片）—— 样式对齐「设置」页
+   ========================================================= */
+.page[data-page="beautify"] {
+  padding-top: calc(8px * var(--ui, 1) + env(safe-area-inset-top, 0px));
+}
+.page[data-page="beautify"] .page-head {
+  padding-top: calc(6px * var(--ui, 1));
+  justify-content: center;
+}
+.page[data-page="beautify"] .page-head > div { flex: 1; min-width: 0; text-align: center; }
+html body .page[data-page="beautify"] .row-list {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+html body .page[data-page="beautify"] .row-ico {
+  background: var(--fic-set-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-set-ink, var(--accent-deep));
+}
+html body .page[data-page="beautify"] .row-ico svg { color: var(--fic-set-ink, var(--accent-deep)); }
+html body .page[data-page="beautify"] .row-card:active .row-ico {
+  background: var(--fic-set-bg-on, var(--fic-set-bg, rgba(var(--accent-rgb), 0.20)));
+}
+html body .page[data-page="beautify"] .row-card:active .row-ico svg {
+  color: var(--fic-set-ink-on, var(--fic-set-ink, var(--accent-deep)));
+}
+html[data-cca-zero~="settings"] .page[data-page="beautify"] .row-list {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* =========================================================
+   v37 ⑤：外观 / 字体 / 图标 / 卡片四个设置页 —— 精简
+     仅保留各功能区域主标题与控件，副标题（页头说明 + 行内说明）一律收起
+   ========================================================= */
+/* 访问路径上的「主题颜色」操作提示同样收起 —— 该页只保留各功能区主标题 */
+.page[data-page="appearance"] .theme-tip,
+.page[data-page="appearance"] .zone-desc,
+.page[data-page="fontcolor"] .zone-desc,
+.page[data-page="iconcolor"] .zone-desc,
+.page[data-page="cardcolor"] .zone-desc { display: none; }
+.page[data-page="appearance"] .zone-info,
+.page[data-page="fontcolor"] .zone-info,
+.page[data-page="iconcolor"] .zone-info,
+.page[data-page="cardcolor"] .zone-info { justify-content: center; }
+
+/* =========================================================
+   v40 ②：首页组件样式 —— 「相册卡片流」所在区域可切换 6 种组件（v42：邮票相册下线，新增相册卡片）
+     容器 .home-comp#homeComp；子项 id：
+       frameFlow（相册卡片流 · 保持原样）/ hcAlbum（相册卡片 · v42 新增）/ hcAnniv（纪念日 · v43 新增）
+       / hcTicket（飞机票）/ hcWeather（天气）/ hcPoster（渐变海报 · 整图上传）
+     每个组件占位高度与相册卡片流一致（8 + --tri-h + 14，单位 --ui），
+     换组件只换内容、不改首页版式高度，故一屏自适应（--ui）不受影响。
+     卡片底色 / 不透明度沿用站点变量（首页卡片），配色跟随当前主题。
+   ========================================================= */
+.home-comp { display: block; }
+.home-comp > .tri-grid[hidden] { display: none !important; }
+.hc-slot[hidden] { display: none !important; }
+.hc-slot {
+  height: calc(var(--tri-h) + calc(22px * var(--ui, 1)));
+  margin: 0 0 var(--stack-gap);
+  padding: calc(8px * var(--ui, 1)) var(--pad-x) calc(14px * var(--ui, 1));
+  box-sizing: border-box;
+}
+.hc-card {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: calc(14px * var(--ui, 1)) calc(18px * var(--ui, 1));
+  border-radius: calc(17px * var(--ui, 1));
+  background: rgba(var(--cc-rgb-home-list, var(--card-rgb, 255, 255, 255)), var(--cc-a-home-list, 0.5));
+  -webkit-backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  box-shadow: 0 calc(4px * var(--ui, 1)) calc(16px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.10);
+}
+/* 卡片不透明度调到 0 时，毛玻璃也不再留光晕（与首页其它卡片同一处理） */
+html[data-cca-zero~="home-list"] .hc-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* —— ②-3 飞机票（登机牌式 · 跨纬度专线） —— */
+.hc-ticket {
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0;
+}
+.hc-tk-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(11px * var(--ui, 1)) calc(13px * var(--ui, 1)) calc(10px * var(--ui, 1));
+  gap: calc(8px * var(--ui, 1));
+}
+.hc-tk-top { display: flex; align-items: baseline; justify-content: space-between; gap: calc(8px * var(--ui, 1)); }
+.hc-tk-brand {
+  font-size: calc(9.5px * var(--ui, 1));
+  font-weight: 800;
+  letter-spacing: calc(2.2px * var(--ui, 1));
+  color: var(--fc-fn-title, var(--accent-deep));
+}
+.hc-tk-cls { font-size: calc(8px * var(--ui, 1)); letter-spacing: calc(1.2px * var(--ui, 1)); color: var(--text-5); white-space: nowrap; }
+.hc-tk-route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: calc(10px * var(--ui, 1)); }
+.hc-tk-port { display: flex; flex-direction: column; align-items: center; gap: calc(1px * var(--ui, 1)); }
+.hc-tk-code {
+  font-size: calc(18px * var(--ui, 1));
+  font-weight: 800;
+  letter-spacing: calc(0.5px * var(--ui, 1));
+  color: var(--fc-metric-num, var(--accent-deep));
+  font-variant-numeric: tabular-nums;
+}
+.hc-tk-city { font-size: calc(8.5px * var(--ui, 1)); letter-spacing: calc(1.2px * var(--ui, 1)); color: var(--text-4); }
+.hc-tk-mid { display: flex; flex-direction: column; align-items: center; gap: calc(3px * var(--ui, 1)); color: rgba(var(--accent-deep-rgb), 0.72); }
+.hc-tk-mid svg { width: calc(14px * var(--ui, 1)); height: calc(14px * var(--ui, 1)); }
+.hc-tk-dash {
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(90deg, currentColor 0 calc(3px * var(--ui, 1)), transparent calc(3px * var(--ui, 1)) calc(7px * var(--ui, 1)));
+  background-size: calc(7px * var(--ui, 1)) 1px;
+  opacity: 0.6;
+}
+.hc-tk-fly { font-size: calc(7.5px * var(--ui, 1)); letter-spacing: calc(1.2px * var(--ui, 1)); color: var(--text-5); }
+.hc-tk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(4px * var(--ui, 1)) calc(10px * var(--ui, 1));
+  margin-top: auto;
+}
+.hc-tk-cell { display: flex; align-items: baseline; gap: calc(5px * var(--ui, 1)); min-width: 0; }
+.hc-tk-cell i { font-style: normal; font-size: calc(7.5px * var(--ui, 1)); letter-spacing: calc(0.8px * var(--ui, 1)); color: var(--text-5); white-space: nowrap; }
+.hc-tk-cell b {
+  font-size: calc(10px * var(--ui, 1));
+  font-weight: 700;
+  color: var(--fc-fn-title, var(--text-1));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hc-tk-foot {
+  margin: 0;
+  font-size: calc(8.5px * var(--ui, 1));
+  letter-spacing: calc(0.8px * var(--ui, 1));
+  color: var(--text-5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hc-tk-stub {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(38px * var(--ui, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--accent-rgb), 0.05);
+}
+.hc-tk-stub::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(2px * var(--ui, 1));
+  bottom: calc(2px * var(--ui, 1));
+  width: 1px;
+  background-image: linear-gradient(180deg, rgba(var(--accent-rgb), 0.55) 0 calc(4px * var(--ui, 1)), transparent calc(4px * var(--ui, 1)) calc(8px * var(--ui, 1)));
+  background-size: 1px calc(8px * var(--ui, 1));
+}
+.hc-tk-bars {
+  width: calc(17px * var(--ui, 1));
+  height: 76%;
+  background-image: repeating-linear-gradient(90deg, rgba(var(--accent-deep-rgb), 0.85) 0 calc(1.3px * var(--ui, 1)), transparent calc(1.3px * var(--ui, 1)) calc(3.1px * var(--ui, 1)));
+  border-radius: calc(1px * var(--ui, 1));
+}
+
+/* —— ②-4 天气（我这边填城市联网取实况 · 你那边点哪改哪） —— */
+.hc-weather {
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+  padding: calc(12px * var(--ui, 1)) calc(10px * var(--ui, 1));
+}
+.wx-side {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(3px * var(--ui, 1));
+  padding: 0 calc(3px * var(--ui, 1));
+}
+.wx-role { font-size: calc(8.5px * var(--ui, 1)); letter-spacing: calc(2.6px * var(--ui, 1)); color: var(--text-5); }
+.wx-city {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(3px * var(--ui, 1));
+  font-family: inherit;
+  font-size: calc(11px * var(--ui, 1));
+  font-weight: 600;
+  letter-spacing: calc(0.6px * var(--ui, 1));
+  color: var(--fc-fn-title, var(--accent-deep));
+  cursor: pointer;
+  max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.wx-city svg { flex: 0 0 auto; width: calc(9px * var(--ui, 1)); height: calc(9px * var(--ui, 1)); opacity: 0.7; }
+.wx-mid { display: flex; align-items: center; justify-content: center; gap: calc(5px * var(--ui, 1)); }
+.wx-ico { display: flex; align-items: center; justify-content: center; color: rgba(var(--accent-deep-rgb), 0.88); }
+.wx-ico svg { width: calc(18px * var(--ui, 1)); height: calc(18px * var(--ui, 1)); }
+.wx-temp {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+  color: var(--fc-metric-num, var(--accent-deep));
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  cursor: default;
+}
+button.wx-temp { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.wx-temp b { font-size: calc(33px * var(--ui, 1)); font-weight: 800; letter-spacing: calc(0.5px * var(--ui, 1)); font-variant-numeric: tabular-nums; }
+.wx-temp i { font-style: normal; font-size: calc(13px * var(--ui, 1)); font-weight: 700; margin-top: calc(3px * var(--ui, 1)); }
+.wx-cond {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: calc(10px * var(--ui, 1));
+  letter-spacing: calc(0.8px * var(--ui, 1));
+  color: var(--text-4);
+  cursor: default;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+button.wx-cond { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.wx-meta {
+  font-size: calc(8px * var(--ui, 1));
+  letter-spacing: calc(0.3px * var(--ui, 1));
+  color: var(--text-5);
+  text-align: center;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wx-poem {
+  margin: 0;
+  font-size: calc(8.5px * var(--ui, 1));
+  line-height: 1.5;
+  letter-spacing: calc(0.5px * var(--ui, 1));
+  color: var(--text-4);
+  text-align: center;
+  max-width: 100%;
+  cursor: default;
+}
+p.wx-poem[data-wx] { cursor: pointer; }
+.wx-mid-col {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4px * var(--ui, 1));
+  padding: calc(6px * var(--ui, 1)) 0;
+  color: rgba(var(--accent-rgb), 0.72);
+}
+.wx-mid-line {
+  flex: 1 1 auto;
+  width: 1px;
+  background-image: linear-gradient(180deg, rgba(var(--accent-rgb), 0.45) 0 calc(3px * var(--ui, 1)), transparent calc(3px * var(--ui, 1)) calc(6px * var(--ui, 1)));
+  background-size: 1px calc(6px * var(--ui, 1));
+}
+.wx-heart { flex: 0 0 auto; width: calc(11px * var(--ui, 1)); height: calc(11px * var(--ui, 1)); }
+
+/* —— ②-5 渐变海报（整张图片上传 · 单击上传 / 双击删除） —— */
+.hc-poster {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  background: linear-gradient(148deg, rgba(var(--accent-rgb), 0.92), rgba(var(--accent-deep-rgb), 0.86));
+  background-size: cover;
+  background-position: center;
+  box-shadow: calc(0px * var(--ui, 1)) calc(5px * var(--ui, 1)) calc(18px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.18);
+}
+.hc-poster-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8px * var(--ui, 1));
+  color: rgba(255, 255, 255, 0.94);
+  font-size: calc(11px * var(--ui, 1));
+  letter-spacing: calc(2.4px * var(--ui, 1));
+  text-shadow: calc(0px * var(--ui, 1)) calc(1px * var(--ui, 1)) calc(8px * var(--ui, 1)) rgba(0, 0, 0, 0.16);
+  pointer-events: none;
+}
+.hc-poster-hint svg { width: calc(24px * var(--ui, 1)); height: calc(24px * var(--ui, 1)); }
+.hc-poster.has-photo { box-shadow: calc(0px * var(--ui, 1)) calc(5px * var(--ui, 1)) calc(18px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.14); }
+.hc-poster.has-photo .hc-poster-hint { display: none; }
+/* —— ②-5 组件样式页（样式对齐「美化设置」） —— */
+.page[data-page="component"] {
+  padding-top: calc(8px * var(--ui, 1) + env(safe-area-inset-top, 0px));
+}
+.page[data-page="component"] .page-head { padding-top: calc(6px * var(--ui, 1)); }
+html body .page[data-page="component"] .row-list {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+html[data-cca-zero~="settings"] .page[data-page="component"] .row-list {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html body .page[data-page="component"] .comp-prev {
+  flex: 0 0 auto;
+  width: calc(46px * var(--ui, 1));
+  height: calc(46px * var(--ui, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(13px * var(--ui, 1));
+  background: var(--fic-set-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-set-ink, var(--accent-deep));
+  transition: background 0.18s ease;
+}
+html body .page[data-page="component"] .comp-prev svg { width: calc(23px * var(--ui, 1)); height: calc(23px * var(--ui, 1)); }
+html body .page[data-page="component"] .comp-check {
+  flex: 0 0 auto;
+  width: calc(22px * var(--ui, 1));
+  height: calc(22px * var(--ui, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.26);
+  color: var(--accent-deep);
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+html body .page[data-page="component"] .comp-check svg { width: calc(13px * var(--ui, 1)); height: calc(13px * var(--ui, 1)); }
+html body .page[data-page="component"] .comp-card.is-on { border-color: rgba(var(--accent-rgb), 0.72); box-shadow: 0 calc(2px * var(--ui, 1)) calc(14px * var(--ui, 1)) rgba(var(--accent-rgb), 0.20); }
+html body .page[data-page="component"] .comp-card.is-on .comp-prev { background: rgba(var(--accent-rgb), 0.34); }
+html body .page[data-page="component"] .comp-card.is-on .comp-check { opacity: 1; transform: scale(1); }
+html body .page[data-page="component"] .comp-card:focus-visible { outline: 2px solid rgba(var(--accent-rgb), 0.60); outline-offset: 2px; }
+
+
+
+
+/* =========================================================
+   v67：全站卡片底对齐「拾心界字卡页白卡」模式（撤销 v66 边框 + 双层阴影）
+   对标拾心界 css/theme.css + css/pages-wordcard.css 实测值：
+     · 底色  --card-soft-bg = linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.50)), rgba(主色,.14)
+              → 雪晶 --card 亮色同构；v33 卡片颜色规则已同步为 50%/14% 双层（--cc-rgb-* 自定义仍生效）
+     · 边框  --card-soft-border = none
+     · 圆角  --radius-lg 16px（大卡）/ --radius-md 12px（小卡/列表条目）
+     · 阴影  --shadow-sm = 0 2px 8px rgba(160,170,190,.06)（雪晶 --shadow-card 已同步）
+     · 内边距 拾心界 word-card 20px 16px / emoji-item 14px 8px（雪晶保持自身布局）
+     · 内文字色 拾心界 --text-dark #3A4050（雪晶 --text-1/--accent-deep 跟随主题，等效）
+     · 暗色 拾心界 rgba(42,42,52,.50) 半透明深底；雪晶深色实底 + 下方暗色分支，合理适配
+   ========================================================= */
+/* 边框清零（后加载兜底，防止早期描边规则回退；v78 补充底栏/相框） */
+html body .bottom-nav,
+html body .page[data-page="home"] .tri-grid .tri-cover,
+html body .page[data-page] .msg-card,
+html body .page[data-page] .fn-card,
+html body .page[data-page] .row-card,
+html body .page[data-page^="wordcard"] .wc-card,
+html body .page[data-page^="wordcard"] .wc-chip,
+html body .page[data-page] .theme-panel,
+html body .page[data-page="account-settings"] .acc-partner-row,
+html body .page[data-page="discover"] .banner-card {
+  border: none !important;
+}
+/* 条目容器去除残留玻璃 blur（卡片自身 blur 保留：拾心界 word-card 同款） */
+html body .page[data-page] .row-list,
+html body .page[data-page] .row-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+/* 暗色分支：白卡 → 深色半透底（对齐拾心界暗色 rgba(42,42,52,.50)）；区域不透明度系数直接生效：0% 无底 / 50% 默认半透 / 100% 实心 */
+html[data-theme-mode="dark"] html body .page[data-page="home"] .fn-card {
+  background: rgba(var(--cc-rgb-home-list, var(--card-rgb, 30, 32, 40)), var(--cc-a-home-list, 0.5));
+}
+html[data-theme-mode="dark"] html body .page[data-page^="wordcard"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page^="wordcard"] .wc-card,
+html[data-theme-mode="dark"] html body .page[data-page^="wordcard"] .wc-chip,
+html[data-theme-mode="dark"] html body .page[data-page^="wordcard"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page^="wc-"] .wc-card,
+html[data-theme-mode="dark"] html body .page[data-page^="wc-"] .wc-chip,
+html[data-theme-mode="dark"] html body .page[data-page="quotes"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="quotes"] .theme-panel {
+  background: rgba(var(--cc-rgb-wordcard, 42, 42, 52), var(--cc-a-wordcard, 0.5));
+}
+html[data-theme-mode="dark"] html body .page[data-page="discover"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="discover"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page="discover"] .banner-card {
+  background: rgba(var(--cc-rgb-discover, 42, 42, 52), var(--cc-a-discover, 0.5));
+}
+html[data-theme-mode="dark"] html body .page[data-page="settings"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="settings"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page="appearance"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="appearance"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page="fontcolor"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="fontcolor"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page="iconcolor"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="iconcolor"] .theme-panel,
+html[data-theme-mode="dark"] html body .page[data-page="cardcolor"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="cardcolor"] .theme-panel {
+  background: rgba(var(--cc-rgb-settings, 42, 42, 52), var(--cc-a-settings, 0.5));
+}
+html[data-theme-mode="dark"] html body .page[data-page="account-settings"] .acc-partner-row {
+  background: rgba(var(--cc-rgb-settings, var(--card-rgb, 30, 32, 40)), var(--cc-a-settings, 0.5));
+}
+
+/* v78 扩展：beautify / component / data-manage 页暗色适配（深色半透底，连接 settings 区域不透明度） */
+html[data-theme-mode="dark"] html body .page[data-page="beautify"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="component"] .row-list,
+html[data-theme-mode="dark"] html body .page[data-page="data-manage"] #dmStats,
+html[data-theme-mode="dark"] html body .page[data-page="data-manage"] .row-list {
+  background: rgba(var(--cc-rgb-settings, 42, 42, 52), var(--cc-a-settings, 0.5));
+}
+
+/* =========================================================
+   v94：首页纹理类型选择（外观设置 → 首页纹理）
+   5 选 1 胶囊按钮组，is-on 高亮当前纹理；zone-row 窄屏自动换行。
+   ========================================================= */
+.denim-kind-row { flex-wrap: wrap; row-gap: calc(6px * var(--ui, 1)); }
+.denim-kind-seg {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(4px * var(--ui, 1));
+}
+.denim-kind-btn {
+  padding: calc(5px * var(--ui, 1)) calc(10px * var(--ui, 1));
+  border: 1px solid rgba(var(--accent-rgb), 0.30);
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.10);
+  color: var(--text-2, #5c6675);
+  font-size: calc(11px * var(--ui, 1));
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.denim-kind-btn:hover { background: rgba(var(--accent-rgb), 0.22); }
+.denim-kind-btn.is-on {
+  background: var(--accent-strong, var(--accent-deep, #5b8def));
+  border-color: var(--accent-strong, var(--accent-deep, #5b8def));
+  color: #fff;
+  font-weight: 600;
+}
+
+

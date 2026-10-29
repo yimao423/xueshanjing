@@ -1,0 +1,1453 @@
+/* 组件样式与字卡数据管理覆盖层 */
+/* =========================================================================
+   v41 迭代（最后覆盖层）
+   ① 组件卡片（天气 / 飞机票）背景 → 网站主题色系弥散渐变，文字转白保可读
+   ② 天气：角色·城市·图标·温度·天气 收成一行，下方两行小字；城市名去图标，点文字即改
+   ④ 邮票相册：已下线（v42 移除组件，相关样式一并删除）
+   ⑤ 组件样式页副标题删除；图标颜色 / 卡片颜色页顶栏那截空白抹平
+   ⑥ 网站背景新增自定义背景颜色（纯色底，可与背景图叠加）
+   ========================================================================= */
+
+/* ---------- ① 组件卡片：主题色弥散渐变 ---------- */
+html body .hc-weather,
+html body .hc-ticket {
+  background-color: rgba(var(--accent-rgb), 0.94) !important;
+  background-image:
+    linear-gradient(148deg, rgba(10, 14, 26, 0.34) 0%, rgba(10, 14, 26, 0.20) 100%),
+    radial-gradient(120% 140% at 10% 6%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 44%),
+    radial-gradient(115% 125% at 94% 102%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 56%),
+    radial-gradient(95% 115% at 80% 6%, rgba(var(--accent-deep-rgb), 0.50) 0%, rgba(var(--accent-deep-rgb), 0) 62%),
+    linear-gradient(142deg, rgba(var(--accent-rgb), 0.95) 0%, rgba(var(--accent-deep-rgb), 0.98) 100%) !important;
+  border: 0 !important;
+  box-shadow: 0 calc(8px * var(--ui, 1)) calc(22px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.30) !important;
+  color: #fff;
+  text-shadow: 0 calc(1px * var(--ui, 1)) calc(2px * var(--ui, 1)) rgba(10, 14, 26, 0.32);
+}
+html body .hc-weather .wx-role,
+html body .hc-weather .wx-city,
+html body .hc-weather .wx-city span,
+html body .hc-weather .wx-ico,
+html body .hc-weather .wx-ico svg,
+html body .hc-weather .wx-temp,
+html body .hc-weather .wx-temp b,
+html body .hc-weather .wx-temp i,
+html body .hc-weather .wx-cond,
+html body .hc-weather .wx-cond span,
+html body .hc-weather .wx-meta,
+html body .hc-weather .wx-poem,
+html body .hc-weather .wx-mid-line,
+html body .hc-weather .wx-heart,
+html body .hc-ticket .hc-tk-brand,
+html body .hc-ticket .hc-tk-cls,
+html body .hc-ticket .hc-tk-code,
+html body .hc-ticket .hc-tk-city,
+html body .hc-ticket .hc-tk-mid,
+html body .hc-ticket .hc-tk-mid svg,
+html body .hc-ticket .hc-tk-fly,
+html body .hc-ticket .hc-tk-dash,
+html body .hc-ticket .hc-tk-cell i,
+html body .hc-ticket .hc-tk-cell b,
+html body .hc-ticket .hc-tk-foot,
+html body .hc-ticket .hc-tk-bars {
+  color: #fff !important;
+}
+html body .hc-weather .wx-role,
+html body .hc-weather .wx-meta,
+html body .hc-weather .wx-poem { color: rgba(255, 255, 255, 0.86) !important; }
+html body .hc-ticket .hc-tk-cls,
+html body .hc-ticket .hc-tk-fly,
+html body .hc-ticket .hc-tk-cell i,
+html body .hc-ticket .hc-tk-foot { color: rgba(255, 255, 255, 0.82) !important; }
+html body .hc-ticket .hc-tk-dash { background: rgba(255, 255, 255, 0.55) !important; }
+html body .hc-ticket .hc-tk-stub { background: rgba(255, 255, 255, 0.16) !important; }
+html body .hc-ticket .hc-tk-bars { background-image: repeating-linear-gradient(90deg, currentColor 0 calc(1.6px * var(--ui, 1)), transparent calc(1.6px * var(--ui, 1)) calc(4.4px * var(--ui, 1))) !important; }
+
+/* ---------- ② 天气：主信息一行 + 下方小字 ---------- */
+.hc-weather .wx-side {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4px * var(--ui, 1));
+  min-width: 0;
+  text-align: center;
+}
+.hc-weather .wx-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4px * var(--ui, 1));
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+}
+.hc-weather .wx-role { font-size: calc(9.5px * var(--ui, 1)); font-weight: 600; }
+.hc-weather .wx-city {
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  font-size: calc(11px * var(--ui, 1));
+  font-weight: 600;
+  max-width: calc(78px * var(--ui, 1));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hc-weather .wx-city:active { opacity: 0.62; }
+.hc-weather .wx-ico { display: inline-flex; align-items: center; }
+.hc-weather .wx-ico svg { width: calc(17px * var(--ui, 1)) !important; height: calc(17px * var(--ui, 1)) !important; }
+.hc-weather .wx-temp {
+  display: inline-flex;
+  align-items: baseline;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+}
+.hc-weather .wx-temp b { font-size: calc(21px * var(--ui, 1)); font-weight: 700; line-height: 1; letter-spacing: -0.5px; }
+.hc-weather .wx-temp i { font-size: calc(11px * var(--ui, 1)); font-style: normal; margin-left: 1px; }
+.hc-weather .wx-cond { padding: 0 !important; border: 0 !important; background: none !important; font-size: calc(11px * var(--ui, 1)); }
+.hc-weather .wx-meta { font-size: calc(9.5px * var(--ui, 1)); text-align: center; }
+.hc-weather .wx-poem { font-size: calc(9.5px * var(--ui, 1)); text-align: center; margin: 0; }
+
+/* ---------- ⑤ 顶栏空白 / 组件页副标题 ---------- */
+.page[data-page="iconcolor"], .page[data-page="cardcolor"] {
+  padding-top: calc(8px * var(--ui, 1) + env(safe-area-inset-top, 0px)) !important;
+}
+.page[data-page="iconcolor"] .page-head, .page[data-page="cardcolor"] .page-head {
+  padding-top: calc(6px * var(--ui, 1)) !important;
+}
+/* ---------- ⑥ 网站背景：自定义颜色 ---------- */
+html[data-site-bg="1"] body .phone {
+  background-color: var(--site-bg, var(--bg)) !important;
+  background-image: none !important;
+}
+html[data-site-bg="1"] body .phone::before { opacity: 0.55; }
+.zone-color {
+  flex: none;
+  width: calc(34px * var(--ui, 1));
+  height: calc(24px * var(--ui, 1));
+  padding: 0;
+  border: 0;
+  border-radius: calc(8px * var(--ui, 1));
+  background: none;
+  cursor: pointer;
+}
+.zone-color::-webkit-color-swatch-wrapper { padding: 0; }
+.zone-color::-webkit-color-swatch { border: 0; border-radius: calc(7px * var(--ui, 1)); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.zone-color::-moz-color-swatch { border: 0; border-radius: calc(7px * var(--ui, 1)); }
+
+/* =========================================================================
+   v42 迭代（最后覆盖层）
+   ① 天气 / 飞机票 两张组件卡：背景改回「相册卡片流未上传态」的主题色
+      浅玻璃底色（与 .tri-cover 同款），文字改回站点自适应色，浅底上依旧清晰
+   ② 天气：两侧文字整体放大；默认城市改长沙；「你那边」补第二行小字（可点击改）
+   ③ 音乐：封面 + 进度 / 时间整体居中并等比放大，进度条与时间行同步收窄，
+      右侧音波频谱删除
+   ④ 飞机票：22°N / 39°N 与 FLY 编号均可点击修改，FLY 字号放大；
+      右侧新增七棱水晶簇装饰（垂直对齐 39°N、水平对齐「心之所向」）
+   ⑤ 邮票相册下线 → 新增「相册卡片」：四格照片 + 右侧竖排条形码（照参考图）
+   ========================================================================= */
+
+/* ---------- ① 组件卡背景：回到相册卡片流未上传态的底色 ---------- */
+html body .hc-weather,
+html body .hc-ticket {
+  background-color: rgba(var(--accent-rgb), 0.24) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--accent-rgb), 0.66) 0%, rgba(var(--accent-rgb), 0.26) 48%, rgba(var(--accent-strong-rgb), 0.60) 100%) !important;
+  border: none !important; /* v78：全站卡片去边框 */
+  box-shadow: 0 calc(3px * var(--ui, 1)) calc(10px * var(--ui, 1)) rgba(var(--accent-rgb), 0.09),
+              inset 0 1px 0 rgba(255, 255, 255, 0.60) !important;
+  color: var(--text-1) !important;
+  text-shadow: none !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+}
+/* 天气（浅底深字，随主题自适应） */
+html body .hc-weather .wx-role { color: var(--text-5) !important; }
+html body .hc-weather .wx-city,
+html body .hc-weather .wx-city span { color: var(--fc-fn-title, var(--accent-deep)) !important; }
+html body .hc-weather .wx-ico,
+html body .hc-weather .wx-ico svg { color: rgba(var(--accent-deep-rgb), 0.88) !important; }
+html body .hc-weather .wx-temp,
+html body .hc-weather .wx-temp b,
+html body .hc-weather .wx-temp i { color: var(--fc-metric-num, var(--accent-deep)) !important; }
+html body .hc-weather .wx-cond,
+html body .hc-weather .wx-cond span { color: var(--text-4) !important; }
+html body .hc-weather .wx-meta { color: var(--text-5) !important; }
+html body .hc-weather .wx-poem { color: var(--text-4) !important; }
+html body .hc-weather .wx-heart { color: rgba(var(--accent-rgb), 0.72) !important; }
+/* 飞机票 */
+html body .hc-ticket .hc-tk-brand { color: var(--fc-fn-title, var(--accent-deep)) !important; }
+html body .hc-ticket .hc-tk-cls,
+html body .hc-ticket .hc-tk-fly,
+html body .hc-ticket .hc-tk-cell i,
+html body .hc-ticket .hc-tk-foot { color: #1A1A1A !important; }
+html body .hc-ticket .hc-tk-code { color: var(--fc-metric-num, var(--accent-deep)) !important; }
+html body .hc-ticket .hc-tk-city { color: #1A1A1A !important; }
+html body .hc-ticket .hc-tk-mid,
+html body .hc-ticket .hc-tk-mid svg { color: rgba(var(--accent-deep-rgb), 0.72) !important; }
+html body .hc-ticket .hc-tk-cell b { color: var(--fc-fn-title, var(--text-1)) !important; }
+html body .hc-ticket .hc-tk-dash { background: rgba(var(--accent-deep-rgb), 0.38) !important; }
+html body .hc-ticket .hc-tk-stub { background: rgba(var(--accent-rgb), 0.07) !important; }
+html body .hc-ticket .hc-tk-bars { color: rgba(var(--accent-deep-rgb), 0.72) !important; }
+html body .hc-ticket .hc-tk-stub::before {
+  background-image: linear-gradient(180deg, rgba(var(--accent-deep-rgb), 0.34) 0 calc(4px * var(--ui, 1)),
+    transparent calc(4px * var(--ui, 1)) calc(8px * var(--ui, 1))) !important;
+}
+/* ---------- ② 天气：两侧文字放大 / 第二行小字 ---------- */
+html body .hc-weather .wx-side { gap: calc(6px * var(--ui, 1)) !important; }
+html body .hc-weather .wx-role { font-size: calc(10.5px * var(--ui, 1)); letter-spacing: calc(1.6px * var(--ui, 1)); }
+html body .hc-weather .wx-city { font-size: calc(13px * var(--ui, 1)); max-width: calc(96px * var(--ui, 1)); }
+html body .hc-weather .wx-ico svg { width: calc(20px * var(--ui, 1)) !important; height: calc(20px * var(--ui, 1)) !important; }
+html body .hc-weather .wx-temp b { font-size: calc(25px * var(--ui, 1)); }
+html body .hc-weather .wx-temp i { font-size: calc(13px * var(--ui, 1)); }
+html body .hc-weather .wx-cond { font-size: calc(13px * var(--ui, 1)); }
+html body .hc-weather .wx-meta { font-size: calc(11px * var(--ui, 1)); letter-spacing: calc(0.5px * var(--ui, 1)); }
+html body .hc-weather .wx-poem { font-size: calc(11px * var(--ui, 1)); line-height: 1.5; }
+.hc-weather .wx-meta[data-wx] { cursor: pointer; }
+.hc-weather .wx-meta[data-wx]:active { opacity: 0.62; }
+
+/* ---------- ④ 飞机票：纬度 / 编号可点击修改 ---------- */
+html body .hc-ticket .hc-tk-main { position: relative; }
+html body .hc-ticket .hc-tk-code,
+html body .hc-ticket .hc-tk-fly {
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  font-family: inherit;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html body .hc-ticket .hc-tk-code:active,
+html body .hc-ticket .hc-tk-fly:active { opacity: 0.6; }
+html body .hc-ticket .hc-tk-fly { font-size: calc(9.5px * var(--ui, 1)) !important; letter-spacing: calc(1.4px * var(--ui, 1)); }
+
+/* ---------- ⑤ 相册卡片（新增）：四格照片 + 右侧竖排条形码 ---------- */
+html body .hc-album {
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  background-image: none !important;
+  border: none !important; /* v78：全站卡片去边框 */
+  box-shadow: 0 calc(4px * var(--ui, 1)) calc(16px * var(--ui, 1)) rgba(var(--accent-deep-rgb), 0.12) !important;
+  color: var(--text-2) !important;
+}
+html body .hc-album-grid {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  gap: calc(8px * var(--ui, 1));
+  padding: calc(10px * var(--ui, 1));
+}
+html body .hc-album-cell {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: calc(5px * var(--ui, 1));
+  background-color: rgba(23, 32, 51, 0.045);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px dashed rgba(23, 32, 51, 0.26);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+html body .hc-album-cell.has-photo { background-color: transparent; border-color: transparent; }
+html body .hc-album-plus {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(3px * var(--ui, 1));
+  color: rgba(23, 32, 51, 0.42);
+  pointer-events: none;
+}
+html body .hc-album-plus svg { width: calc(15px * var(--ui, 1)); height: calc(15px * var(--ui, 1)); }
+html body .hc-album-plus i { font-style: normal; font-size: calc(9px * var(--ui, 1)); letter-spacing: calc(1px * var(--ui, 1)); }
+html body .hc-album-cell.has-photo .hc-album-plus { display: none; }
+html body .hc-album-stub {
+  flex: 0 0 auto;
+  width: calc(30px * var(--ui, 1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4px * var(--ui, 1));
+  padding: calc(9px * var(--ui, 1)) 0;
+  border-left: 1px dashed rgba(23, 32, 51, 0.26);
+  background: rgba(23, 32, 51, 0.03);
+}
+html body .hc-album-bars {
+  flex: 1 1 auto;
+  width: calc(14px * var(--ui, 1));
+  color: rgba(23, 32, 51, 0.72);
+  background-image: repeating-linear-gradient(90deg, currentColor 0 calc(1.2px * var(--ui, 1)),
+    transparent calc(1.2px * var(--ui, 1)) calc(3.4px * var(--ui, 1)));
+  border-radius: calc(1px * var(--ui, 1));
+}
+html body .hc-album-no { font-size: calc(7px * var(--ui, 1)); letter-spacing: calc(0.6px * var(--ui, 1)); color: rgba(23, 32, 51, 0.42); }
+
+
+/* =========================================================================
+   迭代 v43（首页组件）
+     ① 天气：两侧第三行随天气变化；右侧城市 / 温度 / 天气 / 第二行小字均可点击自定义
+     ② 飞机票：删除水晶簇装饰；FLY 默认 1314
+     ③ 音乐组件下线，新增「纪念日」组件（我方生日 / 在一起 / 对方生日）
+     ④ 天气 / 飞机票 / 纪念日：点击卡片空白处上传背景图（本机永久保存），
+        未上传时显示默认主题底
+   ========================================================================= */
+
+/* —— ④-1 组件背景层：默认完全透明（露出主题底），上传后淡入 —— */
+html body .hc-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+html body .hc-bg.has-photo { opacity: 1; }
+/* 上传后压一层极浅薄雾，保证卡面文字依旧清晰（沿用雪晶的玻璃质感） */
+html body .hc-bg.has-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(155deg,
+    rgba(255, 255, 255, 0.58) 0%,
+    rgba(255, 255, 255, 0.30) 52%,
+    rgba(255, 255, 255, 0.48) 100%);
+}
+/* 卡面内容浮在背景层之上 */
+html body .hc-weather > *,
+html body .hc-ticket > *,
+html body .hc-anniv > * { position: relative; z-index: 1; }
+html body .hc-weather > .hc-bg,
+html body .hc-ticket > .hc-bg,
+html body .hc-anniv > .hc-bg { position: absolute; z-index: 0; }
+
+/* —— ③-1 纪念日组件（背景与其它组件一致：主题色浅玻璃） —— */
+html body .hc-anniv {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  gap: calc(9px * var(--ui, 1)) !important;
+  padding: calc(16px * var(--ui, 1)) calc(14px * var(--ui, 1)) calc(13px * var(--ui, 1)) !important;
+  background-color: rgba(var(--accent-rgb), 0.24) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--accent-rgb), 0.66) 0%, rgba(var(--accent-rgb), 0.26) 48%, rgba(var(--accent-strong-rgb), 0.60) 100%) !important;
+  border: none !important; /* v78：全站卡片去边框 */
+  box-shadow: 0 calc(3px * var(--ui, 1)) calc(10px * var(--ui, 1)) rgba(var(--accent-rgb), 0.09),
+              inset 0 1px 0 rgba(255, 255, 255, 0.60) !important;
+  color: var(--text-1) !important;
+  text-shadow: none !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+}
+html body .hc-anniv .an-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(8px * var(--ui, 1));
+  width: 100%;
+}
+html body .hc-anniv .an-cell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4px * var(--ui, 1));
+  margin: 0;
+  padding: calc(12px * var(--ui, 1)) calc(4px * var(--ui, 1));
+  border: 0;
+  border-radius: calc(13px * var(--ui, 1));
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.24s ease, transform 0.24s ease;
+}
+html body .hc-anniv .an-cell:active { transform: scale(0.975); background: rgba(255, 255, 255, 0.58); }
+html body .hc-anniv .an-label {
+  font-size: calc(10px * var(--ui, 1));
+  letter-spacing: calc(1.2px * var(--ui, 1));
+  color: var(--text-5) !important;
+  white-space: nowrap;
+}
+html body .hc-anniv .an-date {
+  font-size: calc(14.5px * var(--ui, 1));
+  font-weight: 600;
+  letter-spacing: calc(0.4px * var(--ui, 1));
+  color: var(--fc-fn-title, var(--accent-deep)) !important;
+  white-space: nowrap;
+}
+html body .hc-anniv .an-sub {
+  font-size: calc(9.5px * var(--ui, 1));
+  color: rgba(var(--accent-deep-rgb), 0.72) !important;
+  white-space: nowrap;
+}
+html body .hc-anniv .an-foot {
+  margin: 0;
+  text-align: center;
+  font-size: calc(10px * var(--ui, 1));
+  letter-spacing: calc(0.6px * var(--ui, 1));
+  color: var(--text-5) !important;
+}
+/* 上传背景后，卡面文字与内嵌小卡的对比度加固 */
+html body .hc-anniv .hc-bg.has-photo ~ .an-grid .an-cell { background: rgba(255, 255, 255, 0.56); }
+
+
+/* =========================================================================
+   v60 迭代（最后覆盖层）
+   ① 组件样式页（美化设置 → 组件样式）新增「组件样式各区域」：
+      区域颜色 / 区域不透明度 / 文字与图案颜色 / 磨砂模糊玻璃开关，
+      未设置时一律回落主题色；「卡片颜色 → 首页 → 相册卡片流」的设置整体挪到本页
+   ② 相册卡片：右侧条形码文字 70T → 520；未上传时改用与其它组件一致的主题色浅玻璃底
+   ③ 美化设置：各功能行副标题删除
+   ⑤ 数据管理页：备份 / 恢复 / 清理本地数据
+   ========================================================================= */
+
+/* ---------- ② 相册卡片：未上传态与其他组件对齐（不再强制白卡） ---------- */
+html body .hc-album.is-empty {
+  background-color: rgba(var(--accent-rgb), 0.24) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--accent-rgb), 0.66) 0%, rgba(var(--accent-rgb), 0.26) 48%, rgba(var(--accent-strong-rgb), 0.60) 100%) !important;
+  border: none !important; /* v78：全站卡片去边框 */
+  box-shadow: 0 calc(3px * var(--ui, 1)) calc(10px * var(--ui, 1)) rgba(var(--accent-rgb), 0.09),
+              inset 0 1px 0 rgba(255, 255, 255, 0.60) !important;
+  color: var(--text-1) !important;
+  text-shadow: none !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+}
+html body .hc-album.is-empty .hc-album-cell {
+  background-color: rgba(255, 255, 255, 0.42);
+  border-color: rgba(255, 255, 255, 0.62);
+}
+html body .hc-album.is-empty .hc-album-plus { color: rgba(var(--accent-deep-rgb), 0.72); }
+html body .hc-album.is-empty .hc-album-stub {
+  background: rgba(255, 255, 255, 0.30);
+  border-left-color: rgba(255, 255, 255, 0.62);
+}
+html body .hc-album.is-empty .hc-album-bars { color: rgba(var(--accent-deep-rgb), 0.72); }
+html body .hc-album.is-empty .hc-album-no { color: var(--text-4); }
+html[data-cp-blur-off~="album"] body .hc-album.is-empty {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ---------- ① 组件样式各区域：颜色 / 不透明度（未设置时不接管，回落主题） ---------- */
+/* 相册卡片流（相框卡面 = 卡片底色，不透明度作用在整张卡上） */
+html[data-cp-set~="frame"] body .page[data-page="home"] .tri-grid .tri-cover:not(.has-photo) {
+  background-color: rgba(var(--cp-rgb-frame, 255, 255, 255), 1) !important;
+  background-image: none !important;
+}
+html[data-cp-a~="frame"] body .page[data-page="home"] .tri-grid .tri-cover { opacity: var(--cp-a-frame) !important; }
+
+/* 相册卡片：只调不透明度时不动底色（未上传态仍与其它组件一致），指定颜色时才接管底色 */
+html[data-cp-a~="album"] body .hc-album,
+html[data-cp-a~="album"] body .hc-album.is-empty {
+  opacity: var(--cp-a-album) !important;
+}
+html[data-cp-set~="album"] body .hc-album {
+  background-color: rgba(var(--cp-rgb-album, 255, 255, 255), 0.94) !important;
+  background-image: none !important;
+}
+
+/* 纪念日 */
+html[data-cp-set~="anniv"] body .hc-anniv,
+html[data-cp-a~="anniv"] body .hc-anniv {
+  background-color: rgba(var(--cp-rgb-anniv, var(--accent-rgb)), calc(0.24 * var(--cp-a-anniv, 1))) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--cp-rgb-anniv, var(--accent-rgb)), calc(0.66 * var(--cp-a-anniv, 1))) 0%,
+    rgba(var(--cp-rgb-anniv, var(--accent-rgb)), calc(0.26 * var(--cp-a-anniv, 1))) 48%,
+    rgba(var(--cp-rgb-anniv, var(--accent-strong-rgb)), calc(0.60 * var(--cp-a-anniv, 1))) 100%) !important;
+}
+
+/* 飞机票 */
+html[data-cp-set~="ticket"] body .hc-ticket,
+html[data-cp-a~="ticket"] body .hc-ticket {
+  background-color: rgba(var(--cp-rgb-ticket, var(--accent-rgb)), calc(0.24 * var(--cp-a-ticket, 1))) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--cp-rgb-ticket, var(--accent-rgb)), calc(0.66 * var(--cp-a-ticket, 1))) 0%,
+    rgba(var(--cp-rgb-ticket, var(--accent-rgb)), calc(0.26 * var(--cp-a-ticket, 1))) 48%,
+    rgba(var(--cp-rgb-ticket, var(--accent-strong-rgb)), calc(0.60 * var(--cp-a-ticket, 1))) 100%) !important;
+}
+
+/* 天气 */
+html[data-cp-set~="weather"] body .hc-weather,
+html[data-cp-a~="weather"] body .hc-weather {
+  background-color: rgba(var(--cp-rgb-weather, var(--accent-rgb)), calc(0.24 * var(--cp-a-weather, 1))) !important;
+  background-image: linear-gradient(155deg,
+    rgba(var(--cp-rgb-weather, var(--accent-rgb)), calc(0.66 * var(--cp-a-weather, 1))) 0%,
+    rgba(var(--cp-rgb-weather, var(--accent-rgb)), calc(0.26 * var(--cp-a-weather, 1))) 48%,
+    rgba(var(--cp-rgb-weather, var(--accent-strong-rgb)), calc(0.60 * var(--cp-a-weather, 1))) 100%) !important;
+}
+
+/* 渐变海报（未上传时才有渐变底；已上传图片不受影响） */
+html[data-cp-set~="poster"] body .hc-poster:not(.has-photo),
+html[data-cp-a~="poster"] body .hc-poster:not(.has-photo) {
+  background-image: linear-gradient(148deg,
+    rgba(var(--cp-rgb-poster, var(--accent-rgb)), calc(0.92 * var(--cp-a-poster, 1))),
+    rgba(var(--cp-rgb-poster, var(--accent-deep-rgb)), calc(0.86 * var(--cp-a-poster, 1)))) !important;
+}
+
+/* ---------- ① 组件样式各区域：文字 / 图案颜色 ---------- */
+html[data-cp-txt~="frame"] body .page[data-page="home"] .tri-grid .tri-cover,
+html[data-cp-txt~="frame"] body .page[data-page="home"] .tri-grid .tri-cover * { color: var(--cp-txt-frame) !important; }
+html[data-cp-txt~="album"] body .hc-album,
+html[data-cp-txt~="album"] body .hc-album * { color: var(--cp-txt-album) !important; }
+html[data-cp-txt~="anniv"] body .hc-anniv,
+html[data-cp-txt~="anniv"] body .hc-anniv * { color: var(--cp-txt-anniv) !important; }
+html[data-cp-txt~="ticket"] body .hc-ticket,
+html[data-cp-txt~="ticket"] body .hc-ticket * { color: var(--cp-txt-ticket) !important; }
+html[data-cp-txt~="weather"] body .hc-weather,
+html[data-cp-txt~="weather"] body .hc-weather * { color: var(--cp-txt-weather) !important; }
+html[data-cp-txt~="poster"] body .hc-poster,
+html[data-cp-txt~="poster"] body .hc-poster * { color: var(--cp-txt-poster) !important; }
+
+/* ---------- ① 组件样式各区域：磨砂模糊玻璃开关 ---------- */
+html[data-cp-blur-off~="frame"] body .page[data-page="home"] .tri-grid .tri-cover,
+html[data-cp-blur-off~="album"] body .hc-album,
+html[data-cp-blur-off~="anniv"] body .hc-anniv,
+html[data-cp-blur-off~="ticket"] body .hc-ticket,
+html[data-cp-blur-off~="weather"] body .hc-weather,
+html[data-cp-blur-off~="poster"] body .hc-poster {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ---------- ① 组件样式页：行样式（副标题统一不显示） ---------- */
+.page[data-page="component"] .zone-desc { display: none; }
+.page[data-page="component"] .zone-group { margin-top: calc(10px * var(--ui, 1)); }
+.page[data-page="component"] .zone-row {
+  display: flex; align-items: center; gap: calc(7px * var(--ui, 1));
+}
+.page[data-page="component"] .zone-row .zone-info { flex: 1 1 auto; min-width: 0; }
+.page[data-page="component"] .zone-row .zone-info { justify-content: flex-start; }
+.page[data-page="component"] .zone-name { font-size: calc(11.5px * var(--ui, 1)); }
+.page[data-page="component"] .zone-hex { min-width: calc(52px * var(--ui, 1)); text-align: right; font-size: calc(10px * var(--ui, 1)); }
+.page[data-page="component"] .zone-reset { font-size: calc(10px * var(--ui, 1)); }
+.cp-switch {
+  position: relative; flex: 0 0 auto;
+  width: calc(40px * var(--ui, 1)); height: calc(23px * var(--ui, 1));
+}
+.cp-switch input {
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  margin: 0; opacity: 0; cursor: pointer; z-index: 2;
+}
+.cp-switch i {
+  position: absolute; left: 0; top: 0; right: 0; bottom: 0; border-radius: 999px;
+  background: rgba(var(--accent-rgb), calc(0.24 * var(--zc-a, 1)));
+  transition: background 0.18s;
+}
+.cp-switch i::after {
+  content: ""; position: absolute; top: calc(3px * var(--ui, 1)); left: calc(3px * var(--ui, 1));
+  width: calc(17px * var(--ui, 1)); height: calc(17px * var(--ui, 1)); border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.20);
+  transition: transform 0.18s;
+}
+.cp-switch input:checked + i { background: rgba(var(--accent-rgb), 0.88); }
+.cp-switch input:checked + i::after { transform: translateX(calc(17px * var(--ui, 1))); }
+
+/* ---------- ④ 字卡：菜单栏纯图标（ ---------- */
+.wc-toolbar .wc-tool.is-ico {
+  padding: 0;
+  width: calc(34px * var(--ui, 1));
+  height: calc(34px * var(--ui, 1));
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: calc(12px * var(--ui, 1));
+}
+.wc-toolbar .wc-tool.is-ico svg { width: calc(17px * var(--ui, 1)); height: calc(17px * var(--ui, 1)); }
+.lib-search .wc-tool.is-ico { width: calc(30px * var(--ui, 1)); height: calc(30px * var(--ui, 1)); }
+.lib-search .wc-tool.is-ico svg { width: calc(17px * var(--ui, 1)); height: calc(17px * var(--ui, 1)); }
+
+/* ---------- ④ 字卡：分组条目（图标 + 标题 + 描述 + 图标按钮， ---------- */
+.discover-list {
+  margin: calc(8px * var(--ui, 1)) var(--pad-x);
+  border-radius: calc(20px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), calc(0.07 * var(--zc-a, 1)));
+  overflow: hidden;
+}
+.group-item-wrapper { position: relative; }
+.group-item-wrapper .discover-item {
+  position: relative;
+  display: flex; align-items: center; gap: calc(9px * var(--ui, 1));
+  padding: calc(11px * var(--ui, 1)) calc(12px * var(--ui, 1));
+  padding-right: calc(86px * var(--ui, 1));
+  min-height: calc(59px * var(--ui, 1));
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.group-item-wrapper .discover-item:active { background: rgba(var(--accent-rgb), calc(0.10 * var(--zc-a, 1))); }
+.discover-icon {
+  width: calc(28px * var(--ui, 1));
+  height: calc(28px * var(--ui, 1));
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: calc(8px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), calc(0.20 * var(--zc-a, 1)));
+  color: var(--accent-deep);
+}
+.discover-icon svg { width: calc(14px * var(--ui, 1)); height: calc(14px * var(--ui, 1)); color: var(--accent-deep); }
+.group-item-wrapper .discover-icon.is-avatar { padding: 0; overflow: hidden; background: var(--tint-1); color: var(--text-2); }
+.group-item-wrapper .discover-icon.is-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.group-item-wrapper .discover-icon.is-avatar .chat-avatar-ph,
+.group-item-wrapper .discover-icon.is-avatar .sub-av-ph { font-size: calc(13px * var(--ui, 1)); font-weight: 600; line-height: 1; }
+.discover-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: calc(4px * var(--ui, 1)); }
+.discover-title { font-size: calc(15px * var(--ui, 1)); font-weight: 500; color: var(--text-1); }
+.discover-desc {
+  font-size: calc(10px * var(--ui, 1)); color: var(--text-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.discover-arrow {
+  position: absolute; right: calc(74px * var(--ui, 1)); top: 50%; transform: translateY(-50%);
+  color: var(--text-4); font-size: calc(10px * var(--ui, 1)); line-height: 1;
+}
+.group-item-actions {
+  position: absolute; right: calc(13px * var(--ui, 1)); top: 50%; transform: translateY(-50%);
+  display: flex; gap: calc(4px * var(--ui, 1));
+}
+.group-item-actions button {
+  width: calc(24px * var(--ui, 1)); height: calc(24px * var(--ui, 1));
+  border: 0; border-radius: 50%;
+  background: rgba(var(--accent-rgb), calc(0.18 * var(--zc-a, 1)));
+  color: rgba(var(--accent-deep-rgb), 0.92);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.group-item-actions button svg { width: calc(12px * var(--ui, 1)); height: calc(12px * var(--ui, 1)); }
+.group-item-actions button.is-danger { color: #E0605F; background: rgba(224, 96, 95, 0.16); }
+.group-item-actions button:active { opacity: 0.68; }
+.list-divider {
+  height: 1px; margin-left: calc(12px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), calc(0.16 * var(--zc-a, 1)));
+}
+.discover-list .grp-empty { padding: calc(14px * var(--ui, 1)); text-align: center; }
+#libGroups > .grp-empty { padding: calc(16px * var(--ui, 1)); text-align: center; }
+
+/* =====================================================================
+   v61 新增样式
+   ===================================================================== */
+
+/* ---- ① 磨砂玻璃：开了磨砂的组件，即使上传了图片也必须有磨砂感 ----
+   （以前 .hc-album 只在「未上传」时挂 blur，一上传磨砂就消失） */
+html:not([data-cp-blur-off~="frame"]) body .page[data-page="home"] .tri-grid .tri-cover,
+html:not([data-cp-blur-off~="album"]) body .hc-album,
+html:not([data-cp-blur-off~="anniv"]) body .hc-anniv,
+html:not([data-cp-blur-off~="ticket"]) body .hc-ticket,
+html:not([data-cp-blur-off~="weather"]) body .hc-weather,
+html:not([data-cp-blur-off~="poster"]) body .hc-poster {
+  -webkit-backdrop-filter: var(--glass-blur, blur(22px) saturate(180%)) !important;
+  backdrop-filter: var(--glass-blur, blur(22px) saturate(180%)) !important;
+}
+/* 图片层之上再压一层「磨砂膜」，把透上来的照片一起雾化 */
+html:not([data-cp-blur-off~="album"]) body .hc-album-cell.has-photo::after,
+html:not([data-cp-blur-off~="poster"]) body .hc-poster.has-photo::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  z-index: 2;
+  -webkit-backdrop-filter: blur(9px) saturate(150%);
+  backdrop-filter: blur(9px) saturate(150%);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* =====================================================================
+   v82：组件磨砂玻璃语义统一 —— 上传背景图后：
+   开启磨砂 → 整张背景图压一层「模糊磨砂膜」；未开启 → 显示上传原图。
+   补齐 .hc-bg（飞机票 / 纪念日 / 天气）与 .tri-cover（相册卡片流）的磨砂膜，
+   相册卡片 / 渐变海报沿用上方 v61 已有磨砂膜，语义与本段一致。
+   （膜为 .hc-bg 子层，文字区在 z-index:1 之上，模糊只作用背景图、不影响文字）
+   ===================================================================== */
+/* 开启磨砂：.hc-bg 背景图整体雾化（保留原有白色薄雾，文字依旧清晰） */
+html:not([data-cp-blur-off~="ticket"]) body .hc-ticket .hc-bg.has-photo::after,
+html:not([data-cp-blur-off~="anniv"]) body .hc-anniv .hc-bg.has-photo::after,
+html:not([data-cp-blur-off~="weather"]) body .hc-weather .hc-bg.has-photo::after {
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+}
+/* 开启磨砂：相册卡片流五格相框照片盖磨砂膜（关闭时无膜 = 原图） */
+html:not([data-cp-blur-off~="frame"]) body .page[data-page="home"] .tri-grid .tri-cover.has-photo {
+  position: relative;   /* v82：保证磨砂膜以相框格为定位上下文（仅上传照片时生效） */
+}
+html:not([data-cp-blur-off~="frame"]) body .page[data-page="home"] .tri-grid .tri-cover.has-photo::after {
+  content: ""; display: block; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  z-index: 2;
+  -webkit-backdrop-filter: blur(9px) saturate(150%);
+  backdrop-filter: blur(9px) saturate(150%);
+  background: rgba(255, 255, 255, 0.14);
+}
+/* 关闭磨砂：.hc-bg 背景图显示原图（不加模糊，仅保留既有白色薄雾） */
+html[data-cp-blur-off~="ticket"] body .hc-ticket .hc-bg.has-photo::after,
+html[data-cp-blur-off~="anniv"] body .hc-anniv .hc-bg.has-photo::after,
+html[data-cp-blur-off~="weather"] body .hc-weather .hc-bg.has-photo::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ---- ② 字卡界面：菜单栏居中 / 单句一横排 / 颜文字与 Emoji 自适应不拥挤 ---- */
+.wc-toolbar { justify-content: center; align-items: center; }
+.wc-grid { grid-template-columns: minmax(0, 1fr); }
+.wc-card { justify-content: flex-start; text-align: left; }
+.wc-chip-grid { grid-template-columns: minmax(0, 1fr); }
+.wc-chip-grid--2 { grid-template-columns: minmax(0, 1fr); }
+.wc-chip { min-height: calc(46px * var(--ui, 1)); padding: calc(5px * var(--ui, 1)) calc(12px * var(--ui, 1)); justify-content: flex-start; text-align: left; gap: calc(8px * var(--ui, 1)); font-size: calc(14px * var(--ui, 1)); }
+.wc-chip .wc-chip-text { flex: 1 1 auto; min-width: 0; white-space: pre-line; }
+.wc-chip .wc-del { width: calc(28px * var(--ui, 1)); height: calc(28px * var(--ui, 1)); font-size: calc(13px * var(--ui, 1)); display: inline-flex; align-items: center; justify-content: center; }
+.wc-chip .wc-del svg { width: calc(14px * var(--ui, 1)); height: calc(14px * var(--ui, 1)); }
+.wc-grid.is-card-grid { gap: calc(12px * var(--ui, 1)); margin-top: calc(12px * var(--ui, 1)); }
+.wc-grid.is-card-grid .wc-card { min-height: calc(56px * var(--ui, 1)); padding: calc(14px * var(--ui, 1)) calc(16px * var(--ui, 1)); font-size: calc(14px * var(--ui, 1)); border-radius: calc(14px * var(--ui, 1)); }
+.wc-grid.is-card-grid .wc-card { padding-right: calc(88px * var(--ui, 1)); }
+.wc-grid.is-card-grid .wc-card-text { padding-right: 0; overflow-wrap: anywhere; word-break: break-word; }
+/* v78：选择模式不渲染编辑/删除按钮，恢复常规右内边距，避免右侧空白 */
+.wc-grid.is-card-grid.is-selecting .wc-card { padding-right: calc(16px * var(--ui, 1)); }
+.wc-chip.is-emoji { font-size: clamp(calc(14px * var(--ui, 1)), 3.1vw, calc(16px * var(--ui, 1))); }
+/* v62：Emoji 一排 8 个自适应；删除改选择模式（勾选后点条目删除） */
+.wc-chip-grid.is-emoji-grid {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: calc(6px * var(--ui, 1));
+}
+.wc-chip-grid.is-emoji-grid .wc-chip {
+  min-height: 0;
+  padding: calc(3px * var(--ui, 1));
+  justify-content: center;
+  text-align: center;
+  aspect-ratio: 1 / 1;
+}
+.wc-chip-grid.is-emoji-grid .wc-chip .wc-chip-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: clip;
+}
+/* v64：Emoji 选择模式——仅已勾选条目（is-picked）显示选中态；勾选前不误伤 */
+.wc-chip-grid.is-emoji-grid.is-selecting .wc-chip,
+.wc-chip-grid.is-emoji-grid .wc-chip.is-selecting { cursor: pointer; }
+.wc-chip-grid.is-emoji-grid .wc-chip.is-picked {
+  position: relative;
+  outline: 1px solid rgba(229, 72, 77, 0.65);
+  outline-offset: -1px;
+  background: rgba(229, 72, 77, 0.05);
+}
+.wc-chip-grid.is-emoji-grid .wc-chip.is-picked::after {
+  content: "✓";
+  position: absolute;
+  top: calc(1px * var(--ui, 1));
+  right: calc(1px * var(--ui, 1));
+  width: calc(15px * var(--ui, 1));
+  height: calc(15px * var(--ui, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(229, 72, 77, 0.92);
+  color: #fff;
+  font-size: calc(10px * var(--ui, 1));
+  line-height: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+.wc-chip-grid.is-emoji-grid.is-selecting .wc-chip:active { transform: scale(0.92); }
+/* v70：选择模式泛化——quote/main/kao/sticker/pat 等所有字卡库统一选中态（emoji 沿用上方专用样式） */
+.wc-grid.is-selecting .wc-card,
+.wc-list.is-selecting .wc-row,
+.wc-chip-grid.is-selecting .wc-chip { cursor: pointer; }
+.wc-grid .wc-card.is-picked,
+.wc-list .wc-row.is-picked,
+.wc-chip-grid .wc-chip.is-picked {
+  position: relative;
+  outline: 1px solid rgba(229, 72, 77, 0.65);
+  outline-offset: -1px;
+  background: rgba(229, 72, 77, 0.05);
+}
+.wc-grid .wc-card.is-picked::after,
+.wc-list .wc-row.is-picked::after,
+.wc-chip-grid .wc-chip.is-picked::after {
+  content: "✓";
+  position: absolute;
+  top: calc(1px * var(--ui, 1));
+  right: calc(1px * var(--ui, 1));
+  width: calc(15px * var(--ui, 1));
+  height: calc(15px * var(--ui, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(229, 72, 77, 0.92);
+  color: #fff;
+  font-size: calc(10px * var(--ui, 1));
+  line-height: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+.wc-grid.is-selecting .wc-card:active,
+.wc-list.is-selecting .wc-row:active,
+.wc-chip-grid.is-selecting .wc-chip:active { transform: scale(0.94); }
+.wc-tool.is-on {
+  color: #fff;
+  background: rgba(229, 72, 77, 0.85);
+}
+/* v64：Emoji 选择模式下的批量删除垃圾桶按钮（危险红） */
+.wc-toolbar .wc-tool.is-danger {
+  color: #E0605F;
+  background: rgba(224, 96, 95, 0.16);
+}
+.wc-toolbar .wc-tool.is-danger:active { background: rgba(224, 96, 95, 0.30); }
+
+/* ---- ③ 精简显示：各功能副标题 / 底部注释文字一律不再展示 ---- */
+.page .row-desc,
+.page .page-sub,
+.page .page-foot,
+.page .dm-note { display: none !important; }
+
+/* ---- ④ 数据管理页：存储用量卡片（数据页布局） ---- */
+.dm-stats-grid {
+  display: flex; justify-content: space-around; align-items: flex-start;
+  gap: calc(8px * var(--ui, 1));
+  padding: calc(16px * var(--ui, 1)) calc(14px * var(--ui, 1)) calc(12px * var(--ui, 1));
+}
+.dm-stat-block { flex: 1; min-width: 0; text-align: center; }
+.dm-stat-block .dm-stat-ico {
+  display: block; line-height: 0; margin-bottom: calc(6px * var(--ui, 1));
+  color: var(--accent-deep);
+}
+.dm-stat-val {
+  display: block; font-size: calc(16px * var(--ui, 1)); font-weight: 700;
+  color: var(--text-1); font-variant-numeric: tabular-nums;
+}
+.dm-stat-key { display: block; margin-top: calc(2px * var(--ui, 1)); font-size: calc(10.5px * var(--ui, 1)); color: var(--text-3); }
+.dm-total {
+  padding: calc(2px * var(--ui, 1)) calc(14px * var(--ui, 1)) calc(10px * var(--ui, 1));
+  font-size: calc(11px * var(--ui, 1)); color: var(--text-3); text-align: center;
+}
+.dm-progress {
+  height: calc(6px * var(--ui, 1));
+  margin: 0 calc(14px * var(--ui, 1)) calc(14px * var(--ui, 1));
+  border-radius: 999px; overflow: hidden;
+  background: rgba(var(--accent-rgb), calc(0.18 * var(--zc-a, 1)));
+}
+.dm-progress i {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.90), rgba(var(--accent-strong-rgb), 0.95));
+  transition: width 0.5s ease;
+}
+
+/* ---------- ⑤ 数据管理页 ---------- */
+.dm-stat {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: calc(10px * var(--ui, 1));
+  padding: calc(11px * var(--ui, 1)) calc(14px * var(--ui, 1));
+}
+.dm-stat + .dm-stat { border-top: 1px solid rgba(var(--accent-rgb), calc(0.12 * var(--zc-a, 1))); }
+.dm-stat span { font-size: calc(12px * var(--ui, 1)); color: var(--text-3); }
+.dm-stat b { font-size: calc(12.5px * var(--ui, 1)); color: var(--accent-deep); }
+.dm-bar {
+  height: calc(7px * var(--ui, 1)); border-radius: 999px; overflow: hidden;
+  margin: calc(2px * var(--ui, 1)) calc(14px * var(--ui, 1)) calc(12px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), calc(0.18 * var(--zc-a, 1)));
+}
+.dm-bar i {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.90), rgba(var(--accent-strong-rgb), 0.95));
+}
+.dm-note {
+  margin: calc(6px * var(--ui, 1)) var(--pad-x) 0;
+  font-size: calc(10.5px * var(--ui, 1)); color: var(--text-5); line-height: 1.6;
+}
+
+/* ---------- ⑤ 数据管理页：容器与页面底色（与美化设置页同款玻璃） ---------- */
+.page[data-page="data-manage"] {
+  padding-top: calc(8px * var(--ui, 1) + env(safe-area-inset-top, 0px));
+}
+.page[data-page="data-manage"] .page-head {
+  padding-top: calc(6px * var(--ui, 1));
+  justify-content: center;
+}
+.page[data-page="data-manage"] .page-head > div { flex: 1; min-width: 0; text-align: center; }
+html body .page[data-page="data-manage"] #dmStats {
+  margin: calc(2px * var(--ui, 1)) var(--pad-x) 0;
+  border-radius: calc(16px * var(--ui, 1));
+  background: linear-gradient(
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+}
+html body .page[data-page="data-manage"] .row-list {
+  background: linear-gradient(
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+      rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+html body .page[data-page="data-manage"] .row-ico {
+  background: var(--fic-set-bg, rgba(var(--accent-rgb), 0.20));
+  color: var(--fic-set-ink, var(--accent-deep));
+}
+html body .page[data-page="data-manage"] .row-ico svg { color: var(--fic-set-ink, var(--accent-deep)); }
+html[data-cca-zero~="settings"] .page[data-page="data-manage"] #dmStats,
+html[data-cca-zero~="settings"] .page[data-page="data-manage"] .row-list {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+
+/* ===== 字卡/颜文字多行添加：回车分行开关 ===== */
+html body .wc-prompt-area {
+  display: block;
+  width: 100%;
+  min-height: calc(84px * var(--ui-base, 1));
+  height: auto;
+  padding: calc(8px * var(--ui-base, 1)) calc(10px * var(--ui-base, 1));
+  line-height: 1.5;
+  resize: vertical;
+  vertical-align: top;
+}
+/* v74：URL 批量导入弹窗 —— 默认更高输入区，容纳多条链接长文，无字数上限 */
+html body .wc-prompt-area.is-url-batch {
+  min-height: calc(220px * var(--ui-base, 1));
+}
+html body .wc-line-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(6px * var(--ui-base, 1));
+  margin: calc(4px * var(--ui-base, 1)) 0 0;
+  font-size: calc(12px * var(--ui-base, 1));
+  color: var(--accent-deep, var(--text-2, inherit));
+  cursor: pointer;
+  user-select: none;
+}
+html body .wc-line-toggle input[type="checkbox"] {
+  width: calc(16px * var(--ui-base, 1));
+  height: calc(16px * var(--ui-base, 1));
+  margin: 0;
+  accent-color: var(--accent-deep, currentColor);
+  cursor: pointer;
+}
+
+/* ===== v66：新建分组双输入弹窗：分组名在上、内容在下，带文字标注 ===== */
+html body #wcPromptSheet .wc-prompt-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: calc(4px * var(--ui-base, 1));
+  padding: calc(2px * var(--ui-base, 1)) 0;
+}
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-label {
+  display: block;
+  margin: calc(6px * var(--ui-base, 1)) 0 0;
+  font-size: calc(12px * var(--ui-base, 1));
+  font-weight: 600;
+  color: var(--accent-deep, var(--text-2, inherit));
+  line-height: 1.2;
+}
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-label:first-child {
+  margin-top: 0;
+}
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-group {
+  display: block;
+  width: 100%;
+  flex: none;
+}
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-area {
+  width: 100%;
+}
+
+/* ===== v68：修复 hidden 被 display:block 覆盖导致分组名/内容输入框隐藏失效 =====
+   根因：.wc-prompt-area / .wc-prompt-group 的 display:block 作者样式优先级高于
+   浏览器默认 [hidden]{display:none}，导致在应隐藏的模式下输入框仍显示（出现内容两条、
+   添加条目时误显分组名框）。此处显式以 [hidden] + !important 兜底。 */
+html body .wc-prompt-area[hidden],
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-group[hidden],
+html body #wcPromptSheet .wc-prompt-fields .wc-prompt-label[hidden] {
+  display: none !important;
+}
+
+/* v70.2：表情包图加载失败兜底 —— 隐藏破图 img，显示明确错误提示（不再用条目名称占位） */
+.wc-card--pic .wc-img-fallback {
+  display: none;
+  width: 100%;
+  height: calc(88px * var(--ui, 1));
+  box-sizing: border-box;
+  padding: calc(8px * var(--ui, 1));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: calc(11px * var(--ui, 1));
+  color: #999;
+  overflow: hidden;
+  word-break: break-all;
+}
+.wc-card--pic .wc-img-fallback-on { display: flex; }
+.wc-card--pic img.wc-img-fail { display: none !important; }
+
+/* vXX：表情包库 mediaKey 未从 IDB 绑定完成前隐藏无 src 图片，避免 alt「表情包」占位文字闪现；
+   绑定完成后立即显示真实图片（导入的图片直接显示图片本身） */
+.wc-card--pic img[data-mkey]:not([src]) { visibility: hidden; }
+.wc-card--pic img[data-mkey][src] { visibility: visible; }
+
+/* v74：图片缺失小提示 —— mediaKey 在本地媒体库取不到时的明确标识（替代误导性占位） */
+.wc-card--pic .wc-img-missing-tip {
+  display: block;
+  margin-top: calc(4px * var(--ui, 1));
+  font-size: calc(9px * var(--ui, 1));
+  color: #e5533c;
+  opacity: .85;
+}
+
+/* ---- v72：表情包网格 —— 对齐拾心界（5 列圆角正方形），仅作用于 sticker 内容页 ---- */
+.wc-grid.is-sticker-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: calc(10px * var(--ui, 1)); }
+.wc-grid.is-sticker-grid .wc-card--pic { aspect-ratio: 1 / 1; min-height: 0; padding: 0; }
+.wc-grid.is-sticker-grid .wc-card--pic img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ===== v76：首页格言选择弹窗 —— 列表滚动 + 自定义行 ===== */
+.hq-sheet { max-width: calc(360px * var(--ui-base, 1)); }
+.hq-list {
+  max-height: calc(300px * var(--ui-base, 1));
+  overflow-y: auto;
+  margin: calc(12px * var(--ui-base, 1)) 0;
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  border-radius: calc(12px * var(--ui-base, 1));
+}
+.hq-item {
+  padding: calc(10px * var(--ui-base, 1)) calc(12px * var(--ui-base, 1));
+  font-size: calc(13px * var(--ui-base, 1));
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.10);
+  cursor: pointer;
+}
+.hq-item:last-child { border-bottom: 0; }
+.hq-item.is-cur { color: var(--accent-strong); font-weight: 600; }
+.hq-custom { gap: calc(8px * var(--ui-base, 1)); }
+.hq-ok { flex: none; }
+
+/* ===== v88：字卡选中模式「转移到其他分组」弹窗 —— 分组候选列表（跨库 / 同库其他分组） ===== */
+.wc-group-pick-sheet { max-width: calc(340px * var(--ui-base, 1)); }
+.wc-group-pick-list {
+  max-height: calc(300px * var(--ui-base, 1));
+  overflow-y: auto;
+  margin: calc(12px * var(--ui-base, 1)) 0;
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  border-radius: calc(12px * var(--ui-base, 1));
+}
+.wc-group-pick-item {
+  display: flex;
+  align-items: center;
+  gap: calc(10px * var(--ui-base, 1));
+  padding: calc(10px * var(--ui-base, 1)) calc(12px * var(--ui-base, 1));
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.10);
+  cursor: pointer;
+}
+.wc-group-pick-item:last-child { border-bottom: 0; }
+.wc-group-pick-item:active { background: rgba(var(--accent-rgb), 0.08); }
+.wc-group-pick-ico {
+  flex: none;
+  width: calc(34px * var(--ui-base, 1));
+  height: calc(34px * var(--ui-base, 1));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(10px * var(--ui-base, 1));
+  background: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent-deep);
+}
+.wc-group-pick-ico svg { width: calc(18px * var(--ui-base, 1)); height: calc(18px * var(--ui-base, 1)); }
+.wc-group-pick-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(2px * var(--ui-base, 1));
+}
+.wc-group-pick-name {
+  font-size: calc(13px * var(--ui-base, 1));
+  font-weight: 600;
+  color: var(--text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wc-group-pick-desc {
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-4);
+}
+.wc-group-pick-item .discover-arrow {
+  flex: none;
+  font-size: calc(16px * var(--ui-base, 1));
+  color: var(--text-4);
+}
+
+/* ---- ⑤ 设置页 / 字卡页 / 课程页：恢复条目副标题 + 拾心界舒适尺寸（对齐图二/图三样式） ---- */
+html body .page[data-page="wordcard"] .row-desc,
+html body .page[data-page="discover"] .row-desc,
+html body .page[data-page="settings"] .row-desc,
+html body .page[data-page="appearance"] .row-desc { display: block !important; }
+
+html body .page[data-page="wordcard"] .row-list,
+html body .page[data-page="discover"] .row-list,
+html body .page[data-page="settings"] .row-list,
+html body .page[data-page="appearance"] .row-list {
+  gap: calc(11px * var(--ui, 1));
+  margin: calc(12px * var(--ui, 1)) var(--pad-x) 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+html body .page[data-page="wordcard"] .row-card,
+html body .page[data-page="discover"] .row-card,
+html body .page[data-page="settings"] .row-card,
+html body .page[data-page="appearance"] .row-card {
+  min-height: calc(60px * var(--ui, 1));
+  padding: calc(13px * var(--ui, 1)) calc(16px * var(--ui, 1));
+  gap: calc(12px * var(--ui, 1));
+  border-radius: calc(16px * var(--ui, 1));
+  border: none;
+  box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* v79：row-card 背景接入区域卡片不透明度（亮色回落白 / 暗色回落深灰，均跟随 --cc-a-*：
+   默认 50% 半透，0% 完全无底，100% 实心；不得再用写死的 var(--card) 实色底） */
+html body .page[data-page^="wordcard"] .row-card,
+html body .page[data-page^="wc-"] .row-card {
+  background: linear-gradient(rgba(var(--cc-rgb-wordcard, var(--card-rgb, 255, 255, 255)), var(--cc-a-wordcard, 0.5)),
+                              rgba(var(--cc-rgb-wordcard, var(--card-rgb, 255, 255, 255)), var(--cc-a-wordcard, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-wordcard, 0.5)));
+}
+html body .page[data-page="discover"] .row-card {
+  background: linear-gradient(rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5)),
+                              rgba(var(--cc-rgb-discover, var(--card-rgb, 255, 255, 255)), var(--cc-a-discover, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-discover, 0.5)));
+}
+html body .page[data-page="settings"] .row-card,
+html body .page[data-page="appearance"] .row-card,
+html body .page[data-page="fontcolor"] .row-card,
+html body .page[data-page="iconcolor"] .row-card,
+html body .page[data-page="cardcolor"] .row-card,
+html body .page[data-page="account-settings"] .row-card,
+html body .page[data-page="data-manage"] .row-card,
+html body .page[data-page="beautify"] .row-card,
+html body .page[data-page="component"] .row-card {
+  background: linear-gradient(rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+                              rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+html body .page[data-page="wordcard"] .row-card:hover,
+html body .page[data-page="discover"] .row-card:hover,
+html body .page[data-page="settings"] .row-card:hover,
+html body .page[data-page="appearance"] .row-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+html body .page[data-page="wordcard"] .row-card:active,
+html body .page[data-page="discover"] .row-card:active,
+html body .page[data-page="settings"] .row-card:active,
+html body .page[data-page="appearance"] .row-card:active {
+  transform: scale(0.98);
+}
+/* 图标块统一圆角方形（用户要求"方的"）；背景交给 overlay-settings.css 的
+   var(--fic-wc-bg, var(--fic-disc-bg, var(--fic-set-bg, ...)))，
+   不在此覆盖 —— 否则会把默认主题 v35 的 #BBBBBB 灰底覆盖成极浅灰 */
+html body .page[data-page="wordcard"] .row-ico,
+html body .page[data-page="discover"] .row-ico,
+html body .page[data-page="settings"] .row-ico,
+html body .page[data-page="appearance"] .row-ico {
+  width: calc(42px * var(--ui, 1));
+  height: calc(42px * var(--ui, 1));
+  border-radius: calc(12px * var(--ui, 1));
+}
+html body .page[data-page="wordcard"] .row-ico svg,
+html body .page[data-page="discover"] .row-ico svg,
+html body .page[data-page="settings"] .row-ico svg,
+html body .page[data-page="appearance"] .row-ico svg {
+  width: calc(24px * var(--ui, 1));
+  height: calc(24px * var(--ui, 1));
+}
+html body .page[data-page="wordcard"] .row-title,
+html body .page[data-page="discover"] .row-title,
+html body .page[data-page="settings"] .row-title,
+html body .page[data-page="appearance"] .row-title {
+  font-size: calc(15px * var(--ui, 1));
+}
+html body .page[data-page="wordcard"] .row-desc,
+html body .page[data-page="discover"] .row-desc,
+html body .page[data-page="settings"] .row-desc,
+html body .page[data-page="appearance"] .row-desc {
+  font-size: calc(11px * var(--ui, 1));
+  margin-top: calc(3px * var(--ui, 1));
+  line-height: 1.4;
+  white-space: normal;
+}
+
+/* ---- ㉖ 顶部组件页（v83 · 二级页）：行卡布局接入 settings 体系 + 启停/排序控件 ---- */
+html body .page[data-page="top-components"] .row-list {
+  gap: calc(11px * var(--ui, 1));
+  margin: calc(12px * var(--ui, 1)) var(--pad-x, calc(18px * var(--ui, 1))) 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+html body .page[data-page="top-components"] .row-card {
+  min-height: calc(60px * var(--ui, 1));
+  padding: calc(13px * var(--ui, 1)) calc(16px * var(--ui, 1));
+  gap: calc(12px * var(--ui, 1));
+  border-radius: calc(16px * var(--ui, 1));
+  border: none;
+  box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: linear-gradient(rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5)),
+                              rgba(var(--cc-rgb-settings, var(--card-rgb, 255, 255, 255)), var(--cc-a-settings, 0.5))),
+    rgba(var(--accent-rgb), calc(0.14 * var(--cc-a-settings, 0.5)));
+}
+html body .page[data-page="top-components"] .row-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); }
+html body .page[data-page="top-components"] .row-card:active { transform: scale(0.98); }
+
+/* 顶部组件卡：主区 + 顺序调节 + 启停开关 */
+.top-card { align-items: center !important; }
+.top-pos {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--ui, 1));
+}
+.top-pos-btn {
+  width: calc(26px * var(--ui, 1));
+  height: calc(26px * var(--ui, 1));
+  border: none;
+  border-radius: calc(8px * var(--ui, 1));
+  background: rgba(var(--accent-rgb), 0.14);
+  color: inherit;
+  font-size: calc(18px * var(--ui, 1));
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+.top-pos-btn:hover { background: rgba(var(--accent-rgb), 0.3); }
+.top-pos-btn:active { transform: scale(0.92); }
+.top-pos-num {
+  min-width: calc(20px * var(--ui, 1));
+  text-align: center;
+  font-size: calc(14px * var(--ui, 1));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-strong, inherit);
+}
+.top-toggle {
+  flex: 0 0 auto;
+  width: calc(42px * var(--ui, 1));
+  height: calc(24px * var(--ui, 1));
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.18);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.top-toggle::after {
+  content: "";
+  position: absolute;
+  top: calc(2.5px * var(--ui, 1));
+  left: calc(3px * var(--ui, 1));
+  width: calc(19px * var(--ui, 1));
+  height: calc(19px * var(--ui, 1));
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: left 0.2s ease;
+}
+.top-toggle.is-on { background: var(--accent-strong, #E86A92); }
+.top-toggle.is-on::after { left: calc(20px * var(--ui, 1)); }
+
+/* 链接状态配置：文本输入 / 滑杆 */
+.top-link-input {
+  flex: 0 1 calc(150px * var(--ui, 1));
+  min-width: calc(96px * var(--ui, 1));
+  text-align: left;
+  color: inherit;
+}
+.top-range {
+  flex: 0 1 calc(120px * var(--ui, 1));
+  min-width: calc(88px * var(--ui, 1));
+  accent-color: var(--accent-strong, #E86A92);
+  height: calc(22px * var(--ui, 1));
+  cursor: pointer;
+}
+
+/* ---- ㉘ 链接状态配置 v85：三态单选 seg + 文案预览 ----
+   v85 移除 v83 的进度滑杆（#linkPctInput），改为「未链接/链接中/已链接」三态单选；
+   首页符号实心数按状态联动（1/5 · 3/5 · 5/5），预览区同步显示当前实心数与对应文案。 */
+html body .page[data-page="top-components"] .link-state-seg {
+  flex: 0 1 calc(280px * var(--ui, 1));
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(6px * var(--ui, 1));
+}
+.link-state-seg .seg-btn {
+  padding: calc(5px * var(--ui, 1)) calc(11px * var(--ui, 1));
+  border: 1px solid rgba(var(--accent-rgb), 0.30);
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.10);
+  color: inherit;
+  font-size: calc(13px * var(--ui, 1));
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.link-state-seg .seg-btn:hover { background: rgba(var(--accent-rgb), 0.22); }
+.link-state-seg .seg-btn.is-on {
+  background: var(--accent-strong, #E86A92);
+  border-color: var(--accent-strong, #E86A92);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.link-state-preview {
+  flex: 0 0 100%;
+  font-size: calc(12px * var(--ui, 1));
+  color: var(--text-4, inherit);
+  opacity: 0.85;
+}
+
+/* ---- ㉙ 链接状态配置 v86：自动变化 + 双文案（短词/长句） ----
+   v86 移除三态单选，链接状态改为自动循环（未链接→链接中→已链接）；
+   每状态两个输入框：短词（4-5 字）+ 长句（文艺描述），并排展示。 */
+html body .page[data-page="top-components"] .link-twin-input {
+  flex: 0 1 calc(300px * var(--ui, 1));
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(6px * var(--ui, 1));
+}
+.link-twin-input .link-word-input {
+  flex: 0 1 calc(84px * var(--ui, 1));
+  min-width: calc(72px * var(--ui, 1));
+  text-align: center;
+}
+
+/* ---- ㉚ 链接状态配置 v91：输入框布局统一（对齐 / 等宽 / 间距） ----
+   v91 覆盖 v86 的 twin-input 固定 300px + 右对齐布局，解决：
+   ① 短词(84px)与长句(150px)宽度不一致 → 短词固定 96px、长句弹性 ≥150px
+   ② 标签区宽度随文字变化、两列起点不对齐 → 标签列固定 168px，输入区弹性占满
+   ③ 描述折行拥挤 / .wc-input 自带 margin-top 造成输入框下坠 → 行高 1.45 + margin-top 归零
+   ④ 显示模式「短词/长句」按钮宽度不一致 → seg-btn 等宽居中
+   overlay-components.css 为最后加载样式表，同权重后定义生效；旧 v86 块保留。 */
+html body .page[data-page="top-components"] .zone-row {
+  gap: calc(12px * var(--ui, 1));
+  padding-top: calc(9px * var(--ui, 1));
+  padding-bottom: calc(9px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .zone-info {
+  flex: 0 0 calc(168px * var(--ui, 1));
+  min-width: calc(168px * var(--ui, 1));
+  justify-content: center;
+}
+html body .page[data-page="top-components"] .zone-desc {
+  line-height: 1.45;
+}
+html body .page[data-page="top-components"] .zone-row > .top-link-input {
+  flex: 0 0 calc(120px * var(--ui, 1));
+  min-width: calc(100px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .link-twin-input {
+  flex: 1 1 auto;
+  min-width: calc(190px * var(--ui, 1));
+  max-width: calc(430px * var(--ui, 1));
+  justify-content: flex-start;
+  align-items: center;
+  gap: calc(8px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .link-twin-input .wc-input {
+  margin-top: 0;
+  height: calc(40px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .link-twin-input .link-word-input {
+  flex: 0 0 calc(96px * var(--ui, 1));
+  min-width: calc(88px * var(--ui, 1));
+  text-align: center;
+}
+html body .page[data-page="top-components"] .link-twin-input .top-link-input:not(.link-word-input) {
+  flex: 1 1 auto;
+  min-width: calc(150px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .link-state-seg {
+  flex: 1 1 auto;
+  min-width: calc(140px * var(--ui, 1));
+  max-width: calc(240px * var(--ui, 1));
+  justify-content: center;
+  gap: calc(8px * var(--ui, 1));
+}
+html body .page[data-page="top-components"] .link-state-seg .seg-btn {
+  flex: 1 1 0;
+  min-width: calc(56px * var(--ui, 1));
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 380px) {
+  html body .page[data-page="top-components"] .zone-info {
+    flex: 0 0 100%;
+    min-width: 100%;
+  }
+  html body .page[data-page="top-components"] .link-twin-input {
+    max-width: 100%;
+  }
+}
+
+/* ---- v92：跨纬度短句独立项（不占三个顶部组件位置 · 单独开关） ---- */
+html body .page[data-page="top-components"] .top-card-quote {
+  margin-top: calc(14px * var(--ui, 1));
+  border-left: calc(3px * var(--ui, 1)) solid var(--accent-strong, #E86A92);
+}
+/* 开关隐藏时布局随文档流自适应（兜底原生 [hidden]） */
+html body .lat-foot[hidden] { display: none !important; }
+
+/* ---- v93：字卡搜索框叉号按钮居中 + 搜索区 [hidden] 兜底 ----
+   叉号歪斜根因：居中规则只写在 .wc-toolbar .wc-tool.is-ico 上，
+   .lib-search .wc-tool.is-ico 只设了宽高，svg 按内联元素受基线/默认 padding 影响偏移；
+   此处补 flex 居中 + padding:0。 */
+html body .lib-search .wc-tool.is-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+/* 兜底原生 [hidden]：防作者 display 规则覆盖导致搜索框/结果区隐藏失效 */
+html body #libSearchWrap[hidden],
+html body #libSearchResults[hidden],
+html body #libGroups[hidden] {
+  display: none !important;
+}
+
+/* ---- v94：月汐三卡图标跟随外观主题 ----
+   覆盖 overlay-settings.css 的 html body .page[data-page="home"] .fn-ico
+   （特异性 0,3,2 且加载更靠后，会把月汐三卡图标拉回 --fic-home-ink/--accent-deep 淡蓝）。
+   此处同特异性、最后加载，改走全局 --icon-ink（THEMES 下发、月汐局部不覆盖）。 */
+html body .tab-panel[data-panel="moon"] .fn-ico {
+  color: var(--fic-home-ink, var(--accent-deep, var(--accent)));
+  background: rgba(var(--accent-rgb), 0.20);
+}
+html body .tab-panel[data-panel="moon"] .fn-ico svg { color: var(--fic-home-ink, var(--accent-deep, var(--accent))); }
+html body .tab-panel[data-panel="moon"] .fn-card:active .fn-ico {
+  background: rgba(var(--accent-rgb), 0.20);
+}
+html body .tab-panel[data-panel="moon"] .fn-card:active .fn-ico svg { color: var(--fic-home-ink, var(--accent-deep, var(--accent))); }
+
+

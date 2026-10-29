@@ -1,0 +1,799 @@
+/* 布局框架（手机壳/顶栏/用户区/底部导航/多页框架） */
+/* ---------- 手机壳 ---------- */
+.phone {
+  position: relative;
+  width: 100%;                     /* v16：始终满宽铺满，不再有设备框宽度限制 */
+  max-width: 100vw;
+  height: auto;            /* 随内容自然增长，不再被 flex 拉伸固定为 100vh */
+  min-height: 100vh;
+  min-height: 100dvh;      /* 移动端地址栏伸缩时更准确 */
+  align-self: flex-start;  /* 取消拉伸，手机壳高度 = 内容真实高度 */
+  /* 背景：跟随主题纯色 --bg（移除纵向渐变） */
+  background: var(--bg);
+  box-shadow: none;        /* 手机满宽无壳；平板/PC 的设备框投影见文末媒体查询 */
+  overflow-x: hidden;
+  padding-bottom: 26px; /* 底部导航悬浮占位（默认收起时留少量呼吸；展开时由 .nav-open-pad 补足） */
+}
+
+/* =========================================================
+   1. 顶部（v15：原 .status-bar 已删除）
+   —— 顶栏内部本来就是空的，只是在页面最上方留出一条 48px 的空白带，
+      手机上看就是一条「白条」。现整块移除；它原先占位的高度改为
+      各页自身的 padding-top（见 .page），因此布局位置不变，
+      但那条带子现在直接露出页面主题底色，不再是一块白。
+   ========================================================= */
+
+/* ============================================================
+   顶部背景装饰层：半透明磨砂波浪卡（投影落在波浪线「上沿外侧」）+ 波浪下方极浅绿延续
+   ------------------------------------------------------------
+   波浪形状由 svg 内的三次贝塞尔曲线决定（viewBox 448×48）：
+     · 曲线路径 path 出现三处，必须保持一致：
+       ①白色海浪块填充  ②波形描边  ③上方裁剪区（waveAboveClip 的边界）
+     · v7 调整（当前）：中间起伏全部拉直为水平直线，只保留三处弯：
+       ① 左端圆弧：M0 48 C 0 38.06, 16.12 30, 36 30（1/4 椭圆弧，端点切线竖直）
+       ② 中段直线：L 316 30（y 恒定 30，全平）
+       ③ 右段居中下弧：C 329 30, 343 40, 356 40 C 369 40, 383 30, 396 30
+          —— 弧底 (356,40)，较上一版（弧底 372）整体左移 16px，即容器宽度 79.5% 处；
+             弧底比直线低 10px，形成一道朝下的圆润拱形凹口
+       ④ 右端圆弧：C 431.88 30, 448 38.06, 448 48（与左端镜像）
+       所有节点进出控制点与节点等高（切线水平），直线与弧交界处无折角。
+     · 想调整波形：同时修改上述三处 path 的对应片段，保持曲线重合。
+     · 下弧正下方（x≈356，即容器宽度 79.5%）落一枚六向雪花❄️ —— 六道主晶枝每 60° 放射、
+       每道两侧各长 3 对小枝，中心六棱核收束；雪花沉在「弧线卡片的底层」，作为 .wave-card 的首个子元素
+       （z-index:0，被白浪块与卡面压住，呈卡内透出质感），水平居中于弧底正下方，
+       见 .wave-crystal-hero 规则。
+   投影方向（关键）：
+     · 投影只画在波浪线的「上沿外侧」（越过波浪线即被裁掉），不会落到卡片内部；
+       由 clipPath#waveAboveClip 承载，裁剪区 = y0(顶边) 到波浪线之间的区域。
+     · 投影 = 同一条曲线整体上移 3px + 高斯模糊，形成贴着曲线上沿的柔和阴影；
+       想更贴近/更疏离 → 调整 transform="translate(0,-3)" 的偏移量。
+   ============================================================ */
+.wave-card {
+  position: absolute;
+  top: 0;                       /* 波浪线绝对位置保持不变（曲线在 svg 内下移 20px 补偿） */
+  width: 100%;
+  /* 不再用 box-shadow：box-shadow 走的是矩形边框，会在波浪线上方拉出一条直线投影。
+     投影改为贴着波浪曲线走，且落在波浪线上沿（卡片外侧），见下方 .wave-card svg。 */
+  /* 下端一直铺到手机壳最底端（bottom: 0）：白卡面与页面底边贴齐，
+     不再在底部留出 26px 空隙裸露 .phone 背景（识别配色下会露出色带/渐变端）。
+     底部导航悬浮于其上（z-index 125 > 1），展开/收起均正常。 */
+  bottom: 0;
+  height: auto;
+  /* 卡片层：容器 backdrop-filter 模糊背后背景，svg 白色海浪块（填充路径一路铺到卡片底部，不再另起一层卡面） */
+  /* v31：磨砂配方对齐字卡 / 课程 / 设置条目卡 —— 直接引用全站玻璃参数 --glass-blur
+     （= blur(22px) saturate(180%)），不再单独写一套更弱的 18px / 150%。 */
+  -webkit-backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;             /* v10：波浪 SVG 已加高到 3000px，裁掉超出卡片的绘制区，避免撑出滚动条 */
+}
+/* 注意：波浪本体必须用「专属类 + 直接子代」双重限定 —— .wave-card > svg.wave-body。
+   1) 写成 .wave-card svg（优先级 0-1-1）会盖掉装饰星形 .wave-star--left 的 width/height（0-1-0），
+      星形会被拉成整屏宽、再按 preserveAspectRatio 居中，跑到页面中偏右。
+   2) 只写 .wave-card > svg（0-1-1）同样会误伤同为直接子元素的「底层水晶簇」
+      .wave-crystal-hero（0-1-0）：它会被强行改成 position:relative / width:100% / height:48px，于是
+      · 水晶簇被拉成整屏宽再居中缩放 → 右侧那簇水晶彻底看不见；
+      · position:relative 使其回到文档流并占位 48px，把后面的白浪块整体下推 → 整条波浪线被下移；
+      · 被拉宽的 svg 本身在顶部铺成一条全宽装饰带 → 观感上「顶部多了一层」。
+      故波浪本体改用专属类 .wave-body，与水晶簇互不干扰。 */
+.wave-card > svg.wave-body {
+  display: block;
+  position: relative;
+  z-index: 2;                   /* 白浪块显式压在「底层水晶簇」之上 */
+  width: 100%;
+  /* v10 接缝修正：元素高度与 viewBox 高度（3000）保持一致 → scaleY 恒为 1，
+     波浪曲线依旧是 0~48 像素（与 .wave-deco 的 48px 一一对应），
+     而白色填充块由路径一路填到 3000px，卡面与波浪之间不再有两层白。 */
+  height: 3000px;
+}
+/* v10 接缝修正：原 .wave-card-body（单独一层白色卡面）已删除 ——
+   它与波浪块颜色完全相同，两层上下相接处会因亚像素断差露出一条 1px 横向细缝；
+   现改由 .wave-body 的填充路径一路拉到卡片底部，白面由同一绘制层连续铺完。 */
+
+/* ---------- 波浪卡装饰层 ----------
+   ① 五角星：已按需求全部移除（左星删除，右星此前已删除），页面不再出现星形装饰。
+   ② 水晶簇（crystal cluster）：3~5 根长短不一的六棱水晶柱簇拥在同一底部、向外微张。
+      小簇 3 株：左 9% / 29% / 50%，尺寸依次递减、错落排列，均压在波浪线上方不越线。
+   ③ 底弧六向雪花（.wave-crystal-hero）：六道主晶枝 + 枝杈 + 中心六棱核，实心绿，尺寸 72×72、整体旋转 20°，
+      但不属于本层 —— 已沉到「弧线卡片的底层」，即作为 .wave-card 的首个子元素、z-index:0
+      压在白浪块与卡面之下，水平对准下弧弧底（x≈356 / 448，即 79.5%）正下方，
+      样式见上方 .wave-crystal-hero 规则。
+   ④ 星点 / 水晶碎片：大小不一、随机分散在波浪线上方，均不越过波浪线。 */
+
+/* ============================================================
+   底弧六瓣雪花（.wave-crystal-hero）—— 位于「弧线卡片的底层」
+   ------------------------------------------------------------
+   · 造型：实心六向雪花❄️ —— 六道主晶枝以 60° 均匀放射，每道两侧各长 3 对斜出小枝，
+           六枝末梢收圆点，中心以六棱核收束；整体加粗做实心处理（粗圆头描边 + 实心块面）；
+           统一实心绿：var(--accent-strong) 主枝 / 小枝 / 中心核，六枝末梢圆点 var(--accent-deep)（均已改为绿色）。
+   · 尺寸/位置：72×72（viewBox 仍为 0 0 40 40，整体等比缩放）、
+           水平居中于下弧弧底（x≈356 / 448 → 容器宽度 79.5%）、垂直 top:6px，
+           并整体旋转 20°。
+   · 层级：作为 .wave-card 的首个子元素，z-index:0 沉在白浪块 .wave-body（z-index:2）
+ → 呈「卡内底层透出」的磨砂质感。
+   ============================================================ */
+.wave-crystal-hero {
+  position: absolute;
+  left: calc(79.5% - 36px);   /* 半宽 36px（= 72/2），水平位置保持不变（与下弧弧底同一竖轴） */
+  top: 6px;                   /* 本次调整：放大后略上提（12px → 6px），雪花中心位置基本不变 */
+  width: 72px;                /* 本次调整：60px → 72px，整体再放大约 20% */
+  height: 72px;
+  z-index: 0;                   /* 底层：低于 .wave-card > svg.wave-body（白色卡面已并入该层） */
+  display: block;
+  pointer-events: none;
+  opacity: 1;
+  transform: rotate(20deg);   /* 本次调整：整体旋转 20°（绕雪花自身中心） */
+  /* 实心绿雪花自身对比度已足够，不再依赖 saturate/brightness 提亮，
+     仅保留一层柔和落影，让雪花贴在卡面上更有厚度 */
+  filter: drop-shadow(0 4px 12px rgba(var(--accent-strong-rgb), 0.26));
+}
+/* 说明：原 .deco-crystal-stop-a~d 渐变定义已废弃——底弧雪花改为统一实心绿
+   （var(--accent-strong) 主枝 / 小枝 / 中心六棱核，var(--accent-deep) 六枝末梢圆点），
+   不依赖任何渐变 class；雪花为六向放射的实心图形，非花瓣造型 */
+
+
+.status-time { font-size: 13px; font-weight: 600; letter-spacing: 0.3px; color: var(--text); z-index: 2; }
+.status-right { display: flex; align-items: center; gap: 7px; color: var(--text-2); z-index: 2; }
+.sb-ico { display: block; }
+
+/* =========================================================
+   2. 用户信息区（居中）
+   ========================================================= */
+.user-head {
+  position: relative;
+  z-index: 2;
+  padding: 10px var(--pad-x) 4px;
+  text-align: center;
+}
+
+/* 左右双头像：两份头像分居两侧，中间空余处用一条弧度柔和的不规则虚线连接 */
+.avatar-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(5px, 2vw, 12px);
+  max-width: min(300px, 86%);
+  margin: 2px auto 4px;
+}
+
+.user-avatar-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* v14：头像下方昵称（点击可改，本机永久保存） */
+.avatar-name {
+  display: block;
+  margin-top: 6px;
+  max-width: 96px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.avatar-name.is-empty { color: var(--text-4); font-weight: 500; }
+.avatar-name:active { background: var(--hover-bg); }
+.avatar-name-input {
+  margin-top: 6px;
+  width: 96px;
+  padding: 3px 7px;
+  font-family: inherit;
+  font-size: 12px;
+  text-align: center;
+  color: var(--text-1);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(var(--accent-rgb), 0.5);
+  border-radius: 8px;
+  outline: none;
+}
+
+/* 右侧头像水平镜像，与左侧形成对称呼应 */
+.user-avatar-wrap.mirror .user-avatar svg { transform: scaleX(-1); }
+.user-avatar-wrap.mirror .badge-check { left: auto; right: -2px; }
+
+/* 中间连接虚线：柔和不规则弧线 + 圆点虚线描边，随主题色变化 */
+.avatar-link {
+  flex: 1 1 auto;
+  min-width: 18px;
+  height: 37px;
+  display: block;
+  overflow: visible;
+}
+.avatar-link path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: 0.6;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 8.5;
+}
+
+.user-avatar {
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  /* v14：未上传时的默认样式 —— 磨砂玻璃圆 + 主色虚线圈 + 主色人像 + 右下角「+」，
+     不再是原来的实心渐变圆。上传后由 .has-photo 还原为图片底。 */
+  background: radial-gradient(120% 120% at 30% 18%,
+    rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.55) 58%, rgba(var(--accent-rgb), 0.24) 100%);
+  border: 1.5px dashed rgba(var(--accent-rgb), 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  background-size: cover;
+  background-position: center;
+  color: rgba(var(--accent-deep-rgb), 0.9);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 14px rgba(var(--accent-rgb), 0.20);
+  cursor: pointer;
+  overflow: hidden;
+  touch-action: manipulation;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.user-avatar:hover { transform: scale(1.05); }
+.user-avatar:active { transform: scale(0.95); }
+/* 已上传头像：隐藏占位图形与「+」，仅显示图片 */
+.user-avatar.has-photo svg { display: none; }
+.user-avatar.has-photo .avatar-plus { display: none; }
+.user-avatar.has-photo {
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.24);
+}
+/* 未上传时右下角「+」提示 */
+.avatar-plus {
+  position: absolute;
+  right: 2px; bottom: 2px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; line-height: 1;
+  color: #FFFFFF;
+  background: var(--accent-deep);
+  border: 1.5px solid #FFFFFF;
+  pointer-events: none;
+}
+
+.badge-check {
+  position: absolute;
+  left: -2px; bottom: 0;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent-deep);
+  border: 2px solid #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.user-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.leaf-ico { font-size: 12px; line-height: 1; }
+.user-name { font-size: 21px; font-weight: 700; color: var(--text); }
+
+.user-slogan {
+  font-size: 13px;
+  color: var(--text-2);
+  /* v14：与上方头像昵称拉开距离，避免拥挤 */
+  margin: 18px auto 0;
+  max-width: min(320px, 88%);
+  line-height: 1.75;
+  letter-spacing: 0.2px;
+}
+
+/* 说明：原「右侧播放 / 暂停竖排胶囊控件」（.user-controls / .ctrl-btn）
+   已按需求整体删除，样式规则一并移除。 */
+
+/* =========================================================
+   3. 横幅卡片
+   ========================================================= */
+/* 白色海浪卡片层(z-index:1)之上的内容层：所有主体容器提升到 z-index:2，
+   保证不被白色卡片盖住 */
+.banner-card, .tri-grid, .crystal-strip, .msg-list {
+  position: relative;
+  z-index: 2;
+}
+.banner-card {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 6px var(--pad-x) 8px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 14px var(--pad-x);
+}
+.banner-prefix { font-size: 17px; color: var(--text-5); font-weight: 600; }
+.banner-text {
+  font-size: 15px;
+  color: var(--text-2);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   4. 三列图片卡片区
+   ========================================================= */
+/* v17：三格相框 → 横向卡片流（carousel）
+   · 单排横向滚动，scroll-snap 强制居中吸附：滑动后离中心最近的一张自动回到正中；
+   · 居中卡最大、越往两侧越小越淡（缩放 / 透明度由 JS 按「卡片中心 ↔ 容器中心」距离实时算）；
+   · 卡片数量由 3 张增至 5 张，配色全部取自当前主题色阶。 */
+.tri-grid {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  /* 左右留白 = (容器宽 - 单卡宽)/2，保证首尾两张也能滚到正中 */
+  padding: 8px calc((100% - var(--tri-w)) / 2) 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc(50% - var(--tri-w) / 2);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+.tri-grid::-webkit-scrollbar { display: none; }
+
+.tri-card {
+  flex: 0 0 var(--tri-w);
+  width: var(--tri-w);
+  min-width: 0;
+  cursor: pointer;
+  scroll-snap-align: center;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.tri-cover {
+  position: relative;
+  height: var(--tri-h);
+  /* v17：主题色卡片 —— 圆角全包围，主色渐变卡面 + 白描边 + 主色柔光投影 */
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--accent-rgb), 0.24);
+  background-image: linear-gradient(155deg,
+    rgba(var(--accent-rgb), 0.66) 0%, rgba(var(--accent-rgb), 0.26) 48%, rgba(var(--accent-strong-rgb), 0.60) 100%);
+  border: none; /* v78：全站卡片去边框 */
+  /* v36：投影收近、减淡 —— 相框卡片流与其下方的横排文字按键之间不再出现明显的阴影分层 */
+  box-shadow: 0 3px 10px rgba(var(--accent-rgb), 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  touch-action: manipulation;
+  transition: box-shadow 0.2s ease, filter 0.2s ease;
+}
+.tri-card.is-center .tri-cover {
+  /* v36：居中卡投影同步收近、减淡，保持与两侧卡的自然过渡 */
+  box-shadow: 0 5px 14px rgba(var(--accent-rgb), 0.13), 0 0 0 1px rgba(var(--accent-rgb), 0.24) inset;
+}
+.tri-cover:active { filter: brightness(1.06); }
+
+/* 五张卡片各取主题色系中不同色阶，整体同色相、仅深浅微差（cover-c 为默认居中卡） */
+.cover-a { background-image: linear-gradient(155deg,
+  rgba(var(--accent-rgb), 0.60) 0%, rgba(var(--accent-rgb), 0.22) 50%, rgba(var(--accent-deep-rgb), 0.54) 100%); }
+.cover-b { background-image: linear-gradient(155deg,
+  rgba(var(--accent-deep-rgb), 0.62) 0%, rgba(var(--accent-rgb), 0.24) 50%, rgba(var(--accent-strong-rgb), 0.50) 100%); }
+.cover-c { background-image: linear-gradient(155deg,
+  rgba(var(--accent-rgb), 0.68) 0%, rgba(var(--accent-rgb), 0.28) 46%, rgba(var(--accent-strong-rgb), 0.64) 100%); }
+.cover-d { background-image: linear-gradient(155deg,
+  rgba(var(--accent-strong-rgb), 0.56) 0%, rgba(var(--accent-deep-rgb), 0.24) 50%, rgba(var(--accent-rgb), 0.62) 100%); }
+.cover-e { background-image: linear-gradient(155deg,
+  rgba(var(--accent-deep-rgb), 0.58) 0%, rgba(var(--accent-deep-rgb), 0.22) 50%, rgba(var(--accent-rgb), 0.58) 100%); }
+
+/* 默认态柔光高光：给玻璃相框一点纵深，避免整块太平 */
+.tri-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 92% at 16% 10%,
+    rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+}
+.tri-cover.has-photo::after { display: none; }
+
+/* 默认态中央「加图」图标（上传后隐藏） */
+.tri-plus {
+  position: relative;
+  z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 12px;
+  color: rgba(var(--accent-deep-rgb), 0.9);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.16);
+  pointer-events: none;
+}
+.tri-cover.has-photo { border-color: transparent; }
+.tri-cover.has-photo .tri-plus { display: none; }
+
+.cover-tag {
+  position: absolute;
+  top: 8px; left: 8px;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  padding: 2px 7px;
+}
+
+/* 底部半透明遮罩 */
+.cover-mask {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 62%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  pointer-events: none;
+}
+
+.cover-top {
+  position: absolute;
+  top: 30px; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  z-index: 2;
+}
+.mini-avatar {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex; align-items: center; justify-content: center;
+}
+.plus-btn {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.plus-btn:hover { transform: scale(1.1); background: var(--hover-bg); }
+.plus-btn:active { transform: scale(0.92); }
+
+.cover-caption {
+  position: absolute;
+  left: 8px; right: 8px; bottom: 8px;
+  z-index: 2;
+  text-align: left;
+}
+.cover-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFF;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+.cover-sub {
+  display: block;
+  font-size: 10px;
+  color: var(--text-4);
+  margin-top: 1px;
+}
+
+/* =========================================================
+   5. 星点水晶装饰带（替代标签导航）
+   ========================================================= */
+.crystal-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--stack-gap);
+  margin: 6px var(--pad-x) 10px;
+  height: 26px;
+  overflow: hidden;
+  user-select: none;
+}
+.cs-star,
+.cs-gem { flex-shrink: 0; }
+.cs-tiny { opacity: 0.8; }
+.cs-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--crystal-sky);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   6. 消息列表区
+   ========================================================= */
+.msg-list {
+  margin: 0 var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+}
+
+.msg-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--card);  /* 白卡：对齐拾心界 --card-soft-bg（50%白+14%主色） */
+  border: none;   /* 对齐拾心界 --card-soft-border: none */
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.msg-card:hover { transform: translateY(-2px); background: var(--card); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); }
+.msg-card:active { transform: scale(0.98); }
+
+.msg-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--surface-ghost);
+  border: 1.5px dashed var(--text-5);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.msg-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.msg-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.msg-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-time {
+  font-size: 10px;
+  color: var(--text-4);
+  flex-shrink: 0;
+}
+
+.msg-sub {
+  display: block;
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--text-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-content {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   7. 底部导航栏（固定悬浮）
+   ========================================================= */
+.bottom-nav {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateZ(0);
+  z-index: 100;
+  width: calc(var(--shell-w, 100%) - 32px);
+  max-width: 480px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* v14：底栏磨砂半透明玻璃（更透 + 更强模糊） */
+  background: var(--glass-nav);
+  backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  -webkit-backdrop-filter: var(--glass-blur, blur(22px) saturate(180%));
+  border: none; /* v78：全站卡片去边框 */
+  border-radius: 16px 16px 24px 24px;
+  box-shadow: var(--shadow-nav), 0 10px 26px rgba(0, 0, 0, 0.06);
+  padding: 10px 16px 8px;
+}
+
+/* 底部按键：36px 方形圆角 15px 玻璃图标（已删除文字标签），特效 */
+.nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 20%;
+  padding: 6px 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s;
+}
+.nav-btn:active { transform: scale(0.92); }
+
+/* 图标容器：36px 方形圆角 15px
+   v12：未激活底色由「白色磨砂玻璃」改为「对应主题的浅色系」（--leaf-soft），
+        图标色取 --icon-ink，与字卡 / 课程 / 设置页条目图标 .row-ico 完全同款
+（浅主题色底 + 深一档主题色图标），观感 */
+.nav-btn .nav-icon {
+  width: 36px; height: 36px;
+  border-radius: 15px;   /* 方形圆角 15（本次调整：原 5px） */
+  background: var(--leaf-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid rgba(var(--accent-rgb), 0.20);
+  box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.12);
+  /* v14 闪白修复：
+     ① 去掉 transition:all —— 底色原本在「透明 ↔ 浅色」之间过渡，且渐变不可插值，
+        切页时按键会闪出一层白；现只过渡 transform / border-color / box-shadow；
+     ② 选中态的渐变底改由 ::before 叠层用 opacity 淡入，不再改 background；
+     ③ 提升为独立合成层，避免外层 backdrop-filter 重绘时把图标层刷白。 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+.nav-btn .nav-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--nav-active-bg, linear-gradient(135deg, rgba(91, 140, 230, 0.72), rgba(131, 168, 236, 0.55)));
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+.nav-btn.active .nav-icon::before { opacity: 1; }
+.nav-btn .nav-icon svg { display: block; width: 20px; height: 20px; position: relative; z-index: 1; }
+/* 图标配色：未选中取 --icon-ink（与条目图标 .row-ico 同色），选中变白 */
+.nav-btn .badge { fill: rgba(var(--accent-rgb), 0.0); transition: fill 0.2s ease; }
+.nav-btn .badge-sym { fill: var(--icon-ink, var(--accent-deep)); stroke: var(--icon-ink, var(--accent-deep)); transition: fill 0.2s ease, stroke 0.2s ease; }
+
+/* 选中项：绿色实底、白色图标、放大 8%、绿色光晕环（ */
+.nav-btn.active .nav-icon {
+/* v11：，白色图标 + 主色描边；
+     原「深一档主色实底」太沉，与镜界浅色系不一致。 */
+  transform: scale(1.08) translateZ(0);
+  border-color: rgba(var(--accent-deep-rgb), 0.55);
+  box-shadow:
+    0 4px 16px rgba(var(--accent-rgb), 0.25),
+    0 0 0 4px rgba(var(--accent-rgb), 0.12);
+}
+/* v19：点击效果：
+   按下瞬间「整键缩 0.92 + 图标再缩到 0.88」，松手由 0.35s cubic-bezier(0.34,1.56,0.64,1) 弹性回弹。
+   只做形变、不动配色 —— 未选中 / 选中的底色、图标色、描边保持不变（与原版镜界一致，镜界按下也不换色相，只是加深透明度）。
+   本规则写在 .nav-btn.active 之后：按下选中键时同样由 0.88 接管（按优先级后者胜）。 */
+.nav-btn:active .nav-icon { transform: scale(0.88) translateZ(0); }
+.nav-btn.active .badge { fill: rgba(255, 255, 255, 0); }
+.nav-btn.active .badge-sym { fill: #FFFFFF; stroke: #FFFFFF; }
+
+
+/* 说明：底部按键的「文字标签」已按需求整体删除，仅保留方形圆角图标按键；
+   原 .nav-label / .nav-btn.active .nav-label 规则一并移除，颜色与动效保持不变 */
+
+/* =========================================================
+   7b. 多页框架（首页 / 字卡 / 发现 / 设置）
+   —— 单文件 SPA：.page 按 data-page 切换显示，底部导航同步选中态；
+      波浪装饰卡仅首页可见，其余页面为纯浅绿底 + 内容卡片
+   ========================================================= */
+.phone .wave-card { display: none; }              /* 默认隐藏，仅首页显示 */
+.phone[data-page="home"] .wave-card { display: block; }
+
+.page { display: none; padding-top: calc(8px * var(--ui, 1) + env(safe-area-inset-top, 0px)); padding-bottom: 16px; }   /* 顶栏零空余统一约定：不再保留 .status-bar 占位空白，顶栏上方仅保留必要安全区内边距（桌面≈8px，刘海屏叠加 safe-area）；新增页面默认生效 */
+.page.is-active { display: block; }
+
+/* 非首页页面头（标题 + 可选操作按钮） */
+.page-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px var(--pad-x) 12px;
+}
+.page-title { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; color: var(--text-title); }
+.page-sub { margin-top: 3px; font-size: 11px; color: var(--sub); }
+.head-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 600; line-height: 1; color: var(--accent-deep);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.head-btn:hover { transform: scale(1.08); background: var(--hover-bg); }
+.head-btn:active { transform: scale(0.94); }
+
+/* 横排条目列表：字卡 / 发现 / 设置三页通用，形态对齐首页消息列表 */
+.row-list {
+  position: relative;
+  z-index: 2;
+  margin: 0 var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.row-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  /* v67：条目卡对齐拾心界白卡模式（撤销 v14 玻璃底 + 描边 + inset 高光） */
+  background: var(--card);
+  border: none;
+  border-radius: 12px;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.row-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); }
+.row-card:active { transform: scale(0.98); }
+
+.row-ico {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  /* v10：渐变底改为「浅色纯色」底；图标改为实心样式（fill: currentColor），
+     色值取 --icon-ink（= 深一档主色），与底栏未选中图标严格同色。 */
+  background: var(--leaf-soft);
+  color: var(--icon-ink, var(--accent-deep));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.row-main { flex: 1; min-width: 0; }
+.row-title { display: block; font-size: 14px; font-weight: 600; color: var(--text-1); letter-spacing: 0.3px; }
+.row-desc {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--text-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row-meta { font-size: 12px; color: var(--text-4); flex-shrink: 0; }
+.row-arrow { font-size: 17px; line-height: 1; color: var(--text-5); flex-shrink: 0; }
+
+/* 分组小标题 / 页脚（设置页、发现页用） */
+.group-title { margin: 14px var(--pad-x) 6px; font-size: 11px; letter-spacing: 0.5px; color: var(--sub); }
+.page-foot { margin: 18px var(--pad-x) 6px; text-align: center; font-size: 10px; color: var(--text-4); }
+
+/* ---------- 滚动条：隐藏页面滚动条 ---------- */
+::-webkit-scrollbar { display: none; width: 0; height: 0; }
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+
+
+
+
+/* 颗粒层已移除：2026-10-19 应需求删除 feTurbulence 灰度噪点叠加层（原 v91 规则） */
+

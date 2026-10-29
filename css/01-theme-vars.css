@@ -1,0 +1,112 @@
+/* 主题色板与基础变量 */
+/* =========================================================
+   手机壳竖屏 390px 居中（iPhone 14 Pro 比例），桌面两侧留白
+   风格：纯白 #FFFFFF 背景 · 白色卡片 · 大圆角 · 清新柔和
+   ========================================================= */
+
+:root {
+/* ===== 主题色板（default = v11 浅色化后的「默认」蓝 #83A8EC，整体 =====
+     下列变量由 JS 的 SnowCrystal 主题引擎按「外观设置」所选主题动态覆盖，
+     此处静态值仅作首帧兜底；换主题请走界面，不要手改这里。
+     v37：内置 7 款主题均由 JS 动态覆盖，
+     与暗色主题一致不设独立静态块 —— 首帧固定「默认灰色系」兜底防跳变。 */
+  --accent: #D0D0D0;            /* 主色：选中态 / 图标 / 按钮（v61：静态兜底对齐默认「灰色系」） */
+  --accent-deep: #A6A6A6;       /* 主色深一档 */
+  --accent-strong: #8C8C8C;     /* 主色最深：雪花主枝等实心点缀 */
+  --leaf: #E8E8E8;              /* 浅色点缀 */
+  --leaf-soft: #F1F1F1;         /* 更浅点缀 */
+  --crystal-2: #D2D2D2;
+  --crystal-3: #E4E4E4;
+  --crystal-sky: #CCCCCC;
+  --accent-rgb: 208,208,208;
+  --accent-deep-rgb: 166,166,166;
+  --accent-strong-rgb: 140,140,140;
+  --leaf-rgb: 232,232,232;
+  --accent-2: #E6E6E6;             /* 对标拾心界 --accent 淡辅助色（灰主题 s=0 → 灰） */
+  --accent-2-rgb: 230,230,230;
+
+  /* 背景 / 表面
+     v15：页面底色由「近白」改为「主题色的浅色系」——静态默认值 = 默认主色 #83A8EC
+     的同色相浅调（hsl 219），JS 生成调色板后会按当前主题实时覆盖。 */
+  --bg: hsl(0, 0%, 96.5%);
+  --bg-top: hsl(0, 0%, 96.5%);   /* v17：顶部与底部同属主题色浅调，整页无白区 */
+  --bg-deep: hsl(0, 0%, 94%);
+  --page-outside: hsl(0, 0%, 90%);
+  --tint-1: hsl(0, 0%, 97.5%);
+  --tint-2: hsl(0, 0%, 93.5%);
+  --hover-bg: hsla(0, 0%, 95%, 0.9);
+  /* 对标拾心界：卡片 = 50% 半透明白 + 14% 主色叠加（--card-soft-bg 同构）；
+     分区卡底 = 55% 半透明白（--bg-card）；边框半透明白（--border-light） */
+  --card: linear-gradient(rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0.50)), rgba(208, 208, 208, 0.14);
+  --card-border: rgba(255, 255, 255, 0.65);
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-ghost: rgba(255, 255, 255, 0.70);
+  --glass-nav: rgba(255, 255, 255, 0.70);
+  --glass-icon: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.60);
+  /* v14：磨砂半透明玻璃（底栏 / 字卡·课程·设置条目卡 / 功能滚轮统一取值） */
+  --glass-card: rgba(255, 255, 255, 0.50);
+  --glass-card-border: rgba(255, 255, 255, 0.60);
+  --glass-blur: blur(22px) saturate(180%);
+  /* v15：白浪块改为「主题色浅调」半透明填色 —— 卡面不再是纯白，
+     整页露出主题色的浅色底（与 --bg / --bg-deep 同一色相，色阶仅差一两档）。 */
+  /* v31：白浪块通透度对齐全站玻璃卡的 0.66 浅底 —— 0.90 时几乎不透，
+     backdrop-filter 的磨砂感被整层挡住看不见；降到 0.66 后背后背景经 22px 模糊透上来，才是磨砂玻璃。 */
+  /* v87：100% 实心修复 —— 填充基色改不透明（alpha=1），通透度改由 .wave-fill-block 的
+     fill-opacity: var(--wave-a) 线性控制（见 appearance.css v87 段），0% 无底 / 100% 实心。 */
+  --wave-fill: hsla(0, 0%, 95.5%, 1);
+  --wave-body: hsla(0, 0%, 95.5%, 0.66);
+  --wave-glow: hsla(0, 0%, 78%, 0.9);
+
+  /* 文字 / 线条（对标拾心界灰阶文字：--text-dark → --text-lighter） */
+  --text: #454545;
+  --text-1: #616161;
+  --text-2: #8C8C8C;
+  --text-3: #B3B3B3;
+  --text-4: #C9C9C9;
+  --text-5: #DEDEDE;
+  --text-title: #3D3D3D;
+  --sub: #6B6B6B;
+  --divider: rgba(190, 195, 210, 0.45);
+
+  /* ===== 全站弹窗统一变量（v79：「外观设置 → 弹窗样式」由 JS 实时覆盖）
+     默认 = 100% 不透明实底 + 黑色字体（暗色未自定义时 JS 自动亮色保证可读性）。
+     仅作用于弹窗 / 模态 / 浮层面板；卡片不透明度沿用独立的 --cc-a-* / --zc-a-* 体系。 ===== */
+  --popup-a: 1;                  /* 弹窗面板不透明度（0~1，100% = 不透明实底） */
+  --popup-text: #000000;         /* 弹窗正文默认字体颜色（浅色默认黑 / 暗色未自定义自动亮色） */
+  --popup-bg-light: 255, 255, 255; /* 浅色模式弹窗实底底色（RGB 三元组） */
+  --popup-bg-dark: 38, 42, 52;   /* 暗色模式弹窗实底底色（RGB 三元组） */
+
+  /* 头像 / 阴影 */
+  --avatar-1: #3370E0;
+  --avatar-2: var(--avatar-2);
+  --shadow-card: 0 2px 8px rgba(160, 170, 190, 0.08);
+  --shadow-nav: 0 -2px 10px rgba(0, 0, 0, 0.05);
+
+  /* ===== 流式尺寸（v12）：除首页顶栏装饰 / 波浪卡片 / 雪花外，其余卡片尺寸与间距
+     全部改为随视口宽度连续缩放，兼顾移动端 / 平板 / PC / 浏览器小窗，
+     不再依赖固定 px 与离散断点跳变。 ===== */
+  --pad-x: clamp(12px, 4vw, 20px);          /* 页面左右内边距 */
+  --stack-gap: clamp(6px, 1.6vw, 12px);     /* 卡片纵向 / 网格间距 */
+  --cover-h: clamp(126px, 35vw, 156px);     /* 首页三列封面高度（手机段，保留兼容） */
+  --tri-w: clamp(150px, 45vw, 214px);       /* v17 相框横向卡片流：单卡宽度 */
+  --tri-h: clamp(172px, 54vw, 258px);       /* v17 相框横向卡片流：单卡高度 */
+  --wi-h: clamp(84px, 22vw, 106px);         /* v15：功能长条滚轮的单项高度（容器高 = 3 倍）。72~88 → 84~106，单条上下更宽松 */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  background: var(--page-outside);  /* 桌面两侧留白（跟随主题色浅调，靠投影与手机壳区分层次） */
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; border: none; background: none; color: inherit; cursor: pointer; }
+h1, h2, h3 { font-weight: 700; }
+
+
