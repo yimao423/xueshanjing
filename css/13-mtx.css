@@ -1,0 +1,1196 @@
+/* ============================================================================
+ * 次元镜界 · 传讯样式（雪晶侧）
+ * 复用 chat-room 基础布局类（.chat-room-head/.chat-room-body/.chat-room-input），
+ * 补充 mtx-session 页专属覆盖（对齐聊天室渐变气泡视觉）与弹窗 / 牌带 / 回响列表。
+ * 全部基于雪晶主题变量（--ui-base / --bg / --surface / --card / --accent-deep），
+ * 跟随 --ui 缩放。
+ * ==========================================================================*/
+
+/* ---- 传讯页：全屏布局（对齐 chat-room） ---- */
+html body .page[data-page="mtx-session"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 0;
+  display: none;
+  flex-direction: column;
+  /* 任务2：传讯页不铺白底，透明露出网站背景（壁纸 / 波浪 / 雪花装饰） */
+  background: transparent;
+}
+html body .page[data-page="mtx-session"].is-active { display: flex; }
+
+/* ---- 传讯页：顶栏 / 消息区 / 输入栏（对齐 chat-room 视觉） ---- */
+/* 顶栏背景规则与网站其他顶栏一致：删除毛玻璃渐晕覆盖，恢复 07-chat.css .chat-room-head 默认（var(--card) 实底 + 底部分隔线） */
+html body .page[data-page="mtx-session"] .chat-room-titles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(6px * var(--ui-base, 1));
+}
+html body .page[data-page="mtx-session"] #mtxRoomTitle {
+  font-size: calc(15px * var(--ui-base, 1));
+  font-weight: 600;
+  color: var(--text-1, #2b3345);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html body .page[data-page="mtx-session"] .mtx-head-deck {
+  flex: 0 0 auto;
+  width: calc(36px * var(--ui-base, 1));
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: var(--accent-deep, #5b8def);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+html body .page[data-page="mtx-session"] .mtx-head-deck:active { opacity: 0.55; }
+
+html body .page[data-page="mtx-session"] .chat-room-body {
+  /* 消息区透明，透出网站背景 */
+  background: transparent;
+  padding-top: 18px;
+  padding-bottom: 12px;
+}
+html body .page[data-page="mtx-session"] .chat-msg-avatar.chat-avatar-square {
+  border-radius: 10px;
+}
+/* 消息昵称：对标聊天室头像旁信息列，昵称置于气泡上方（我方靠右 / 对方靠左） */
+html body .page[data-page="mtx-session"] .chat-msg-col .chat-msg-name {
+  display: block;
+  font-size: calc(11px * var(--ui, 1));
+  line-height: 1.4;
+  color: var(--text-3, var(--text-1, #666));
+  margin-bottom: calc(3px * var(--ui, 1));
+  text-align: left;
+}
+html body .page[data-page="mtx-session"] .chat-msg-col .chat-msg-name.is-self {
+  text-align: right;
+}
+html body .page[data-page="mtx-session"] .chat-msg-avatar .chat-avatar-img {
+  width: calc(36px * var(--ui, 1));
+  height: calc(36px * var(--ui, 1));
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+/* 气泡样式跟随网站聊天气泡：删除 mtx 自定义气泡覆盖，统一使用 07-chat.css 的
+   .chat-bubble.is-self（主题色实底 + 小尾巴）与 .chat-bubble.is-other（卡片白底 + 小尾巴） */
+
+/* 底栏换样式：磨砂主题玻璃条（明暗跟随 --popup-bg），带主题色描边，不再是不透明白卡片 */
+html body .page[data-page="mtx-session"] .chat-room-input {
+  margin: 0 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  padding: 8px;
+  gap: 6px;
+  background: linear-gradient(to top, rgba(var(--popup-bg-light, 255, 255, 255), 0.74) 0%, rgba(var(--popup-bg-light, 255, 255, 255), 0.32) 100%);
+  border: 1px solid rgba(var(--accent-rgb, 200, 200, 200), 0.18);
+  border-top: none;
+  border-radius: 20px;
+  box-shadow: 0 3px 14px rgba(var(--accent-strong-rgb, 120, 130, 150), 0.18);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+html body .page[data-page="mtx-session"] #mtxInput {
+  flex: 1;
+  min-width: 0;
+  height: calc(38px * var(--ui-base, 1));
+  border: none;
+  outline: none;
+  border-radius: 16px;
+  padding: 0 14px;
+  background: rgba(var(--popup-bg-light, 255, 255, 255), 0.55);
+  font-size: 14px;
+  color: var(--text-1, #2b3345);
+  box-sizing: border-box;
+}
+html body .page[data-page="mtx-session"] .mtx-input-btn {
+  flex: 0 0 auto;
+  height: calc(38px * var(--ui-base, 1));
+  border: none;
+  border-radius: 14px;
+  padding: 0 14px;
+  font-size: calc(13px * var(--ui-base, 1));
+  cursor: pointer;
+  color: var(--text-2, #6b7488);
+  background: rgba(var(--accent-rgb, 200, 200, 200), 0.10);
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+html body .page[data-page="mtx-session"] .mtx-input-btn:hover {
+  color: var(--accent-deep, #5b8def);
+  background: rgba(var(--accent-rgb, 200, 200, 200), 0.16);
+}
+html body .page[data-page="mtx-session"] .mtx-input-btn.is-send {
+  color: var(--on-accent-deep, #fff);
+  background: var(--key-grad, linear-gradient(150deg, var(--accent-deep) 0%, var(--accent-strong) 100%));
+  box-shadow: 0 2px 8px rgba(var(--accent-strong-rgb, 140, 140, 140), 0.35);
+}
+html body .page[data-page="mtx-session"] .mtx-input-btn.is-send:active { opacity: 0.8; }
+
+/* ---- 系统行 / 洗牌动画 / 轻提示 ---- */
+html body .mtx-sys {
+  align-self: center;
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+  background: rgba(140, 150, 170, 0.10);
+  border-radius: 10px;
+  padding: 3px 10px;
+  margin: 5px 0;
+  max-width: 84%;
+  text-align: center;
+  line-height: 1.5;
+}
+html body .mtx-toast {
+  position: fixed;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  z-index: 100000;
+  background: rgba(30, 38, 54, 0.88);
+  color: #fff;
+  font-size: calc(13px * var(--ui-base, 1));
+  border-radius: 12px;
+  padding: 10px 18px;
+  max-width: 78%;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+html body .mtx-toast.show { opacity: 1; }
+
+/* ---- 牌带（对方抽牌气泡） ---- */
+html body .mtx-cards-bubble {
+  padding: 9px 10px 8px;
+}
+html body .mtx-cards {
+  display: flex;
+  flex-direction: row;
+  gap: calc(8px * var(--ui-base, 1));
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+html body .mtx-cards::-webkit-scrollbar { display: none; }
+html body .mtx-card {
+  flex: 0 0 auto;
+  width: calc(86px * var(--ui-base, 1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+html body .mtx-card-img {
+  width: 100%;
+  aspect-ratio: 480 / 672;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(40, 50, 80, 0.16);
+  background: rgba(255, 255, 255, 0.5);
+}
+html body .mtx-card-img:not([src]) { visibility: hidden; }
+html body .mtx-card-img.loaded { visibility: visible; }
+/* 逆位牌：图片旋转 180° 与“逆位”标注对应（正位牌正常竖立） */
+html body .mtx-card-img.is-rev { transform: rotate(180deg); }
+html body .mtx-card-pos {
+  font-size: calc(10px * var(--ui-base, 1));
+  color: var(--accent-deep, #5b8def);
+  line-height: 1.3;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html body .mtx-card-name {
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-1, #2b3345);
+  line-height: 1.3;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 正逆位标签：正位青绿 / 逆位暖红，加粗加大，明暗主题均可辨 */
+html body .mtx-card-dir {
+  font-size: calc(11px * var(--ui-base, 1));
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.2px;
+}
+html body .mtx-card-dir.is-upright { color: #1F8A70; }
+html body .mtx-card-dir.is-rev { color: #C4504E; }
+html[data-theme-mode="dark"] body .mtx-card-dir.is-upright { color: #6FD3B2; }
+html[data-theme-mode="dark"] body .mtx-card-dir.is-rev { color: #FF8A80; }
+
+/* ---- 弹窗：邀请 / 牌组设置 ---- */
+html body .mtx-modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 99990;
+  background: rgba(20, 26, 40, 0.42);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+html body .mtx-modal-mask.show { display: flex; }
+html body .mtx-modal {
+  width: 100%;
+  max-width: calc(340px * var(--ui-base, 1));
+  background: rgba(var(--popup-bg-light, 255, 255, 255), var(--popup-a, 1));
+  border: none;
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 22px;
+  padding: 20px 18px 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  box-sizing: border-box;
+  max-height: 78vh;
+  overflow-y: auto;
+}
+html[data-theme-mode="dark"] body .mtx-modal {
+  background: rgba(var(--popup-bg-dark, 38, 42, 52), var(--popup-a, 1));
+}
+html body .mtx-modal-title {
+  font-size: calc(16px * var(--ui-base, 1));
+  font-weight: 600;
+  color: var(--text-1, #2b3345);
+  text-align: center;
+  margin-bottom: 6px;
+}
+html body .mtx-modal-desc {
+  font-size: calc(12px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+html body .mtx-modal-sec { margin-bottom: 12px; }
+html body .mtx-modal-sec-title {
+  font-size: calc(12px * var(--ui-base, 1));
+  color: var(--text-2, #8a93a6);
+  margin-bottom: 7px;
+}
+html body .mtx-pick-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* 牌组选择：等宽网格，多牌组时自动换行并对齐 */
+html body .mtx-pick-row-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 8px;
+}
+/* 牌阵选择：单张/三张/凯尔特十字 三键一行等宽等高 */
+html body .mtx-pick-row-spread {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+html body .mtx-pick-row-spread .mtx-pick-chip {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  min-height: calc(54px * var(--ui-base, 1));
+  white-space: nowrap;
+}
+html body .mtx-pick-row-spread .mtx-pick-chip i {
+  font-size: calc(10px * var(--ui-base, 1));
+  line-height: 1;
+}
+html body .mtx-pick-chip {
+  border: 1px solid var(--border-light, rgba(140, 150, 170, 0.18));
+  background: var(--bg, #f6f8fc);
+  color: var(--text-1, #2b3345);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: calc(13px * var(--ui-base, 1));
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+html body .mtx-pick-chip i {
+  font-style: normal;
+  font-size: calc(10px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+}
+html body .mtx-pick-chip.is-on {
+  border-color: transparent;
+  color: var(--on-accent-deep, #fff);
+  background: var(--key-grad, linear-gradient(150deg, var(--accent-deep) 0%, var(--accent-strong) 100%));
+  box-shadow: 0 2px 8px rgba(var(--accent-strong-rgb, 140, 140, 140), 0.35);
+}
+html body .mtx-pick-chip.is-on i { color: var(--on-accent-deep, #fff); opacity: 0.85; }
+html body .mtx-rev-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: calc(13px * var(--ui-base, 1));
+  color: var(--text-1, #2b3345);
+  cursor: pointer;
+}
+html body .mtx-rev-row input { width: 16px; height: 16px; margin: 0; flex: none; accent-color: var(--accent-strong, #5b8def); }
+html body .mtx-spread-hint {
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+html body .mtx-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+html body .mtx-modal-btn {
+  flex: 1;
+  height: calc(42px * var(--ui-base, 1));
+  border: none;
+  border-radius: 14px;
+  font-size: calc(14px * var(--ui-base, 1));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--text-2, #8a93a6);
+  background: rgba(var(--accent-rgb, 208, 208, 208), 0.16);
+}
+html body .mtx-modal-btn.primary {
+  color: var(--on-accent-deep, #ffffff);
+  background: var(--key-grad, linear-gradient(150deg, var(--accent-deep) 0%, var(--accent-strong) 100%));
+  box-shadow: 0 2px 10px rgba(var(--accent-strong-rgb, 140, 140, 140), 0.35);
+}
+html body .mtx-modal-btn.primary:active { opacity: 0.8; }
+html body .mtx-loading {
+  text-align: center;
+  color: var(--text-3, #aab2c2);
+  font-size: calc(12px * var(--ui-base, 1));
+  padding: 12px 0;
+}
+
+/* ---- 邀请弹窗（居中排版） ---- */
+html body #mtxInviteModal .mtx-invite-avatar {
+  width: calc(54px * var(--ui-base, 1));
+  height: calc(54px * var(--ui-base, 1));
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  background: linear-gradient(135deg, var(--accent-2, #e6e6e6), rgba(var(--accent-rgb, 208, 208, 208), 0.38));
+  color: var(--accent-deep, #42506b);
+  font-size: calc(22px * var(--ui-base, 1));
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+html body #mtxInviteModal .mtx-invite-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* ---- 时空回响页（顶栏由 15-echo.css 全站统一收敛） ---- */
+html body .mtx-echo-list {
+  padding: 10px 14px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+html body .mtx-echo-item {
+  background: var(--card, #ffffff);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(30, 40, 60, 0.05);
+}
+html body .mtx-echo-main { flex: 1; min-width: 0; }
+html body .mtx-echo-name {
+  font-size: calc(15px * var(--ui-base, 1));
+  font-weight: 600;
+  color: var(--text-1, #2b3345);
+  margin-bottom: 3px;
+}
+html body .mtx-echo-sub {
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+  line-height: 1.5;
+}
+html body .mtx-echo-ops {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+html body .mtx-echo-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: calc(12px * var(--ui-base, 1));
+  cursor: pointer;
+  color: var(--accent-deep, #5b8def);
+  background: rgba(var(--accent-rgb, 200, 200, 200), 0.14);
+  -webkit-tap-highlight-color: transparent;
+}
+html body .mtx-echo-btn.danger { color: #e0646e; background: rgba(224, 100, 110, 0.10); }
+html body .mtx-echo-empty {
+  text-align: center;
+  color: var(--text-3, #aab2c2);
+  font-size: calc(13px * var(--ui-base, 1));
+  line-height: 2;
+  padding: 60px 24px;
+}
+html body .mtx-echo-foot {
+  padding: 10px 24px 26px;
+  text-align: center;
+}
+html body .mtx-echo-clear {
+  border: 1px solid var(--border-light, rgba(140, 150, 170, 0.2));
+  background: transparent;
+  color: #e0646e;
+  border-radius: 12px;
+  padding: 8px 22px;
+  font-size: calc(12px * var(--ui-base, 1));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- 暗色适配 ---- */
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"] .chat-room-input {
+  background: linear-gradient(to top, rgba(var(--popup-bg-dark, 38, 42, 52), 0.80) 0%, rgba(var(--popup-bg-dark, 38, 42, 52), 0.38) 100%);
+  border-color: rgba(var(--accent-rgb, 200, 200, 200), 0.22);
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"] #mtxInput {
+  background: rgba(var(--accent-rgb, 200, 200, 200), 0.12);
+  color: #d7deea;
+}
+html[data-theme-mode="dark"] body .mtx-echo-item {
+  background: var(--card, #1e2430);
+}
+html[data-theme-mode="dark"] body .mtx-card-img {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* ---- 任务2：传讯页隐藏底栏大雪花按键（仅保留顶栏返回键返回） ---- */
+html body .phone[data-page="mtx-session"] .snow-fab {
+  display: none !important;
+}
+
+/* ============================================================================
+ * 任务6：传讯页背景设置（弹窗 + 模式应用）
+ * 机制对齐网站聊天背景：通过页面 data 属性 + CSS 变量控制背景层。
+ * ==========================================================================*/
+html body #mtxBgModal .mtx-bg-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+html body #mtxBgModal .mtx-bg-wallpaper { margin: 4px 0 4px; }
+html body #mtxBgModal .mtx-bg-sec-title {
+  font-size: calc(12px * var(--ui-base, 1));
+  color: var(--text-2, #8a93a6);
+  margin-bottom: 7px;
+}
+html body #mtxBgModal .mtx-bg-hint {
+  font-size: calc(11px * var(--ui-base, 1));
+  color: var(--text-3, #aab2c2);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* 传讯页背景模式应用：默认（跟随主题）透明露出网站背景；自定义图片 */
+
+/* ============================================================================
+ * 任务8：洗牌抽取动画（与拾心界完全一致 · 洗牌抖动 → 聚拢抽牌 → 翻牌亮出 → 淡出，完整三阶段）
+ * 结构 / class / 阶段状态机 / 时序 / 视觉逐项对齐拾心界 pages-mt.css + transmit.js，
+ * 仅主题变量映射为雪晶 --accent-*（拾心界 --primary-*），其余数值零差异。
+ * ==========================================================================*/
+html body .mtx-shuffle {
+  padding: 4px 2px;
+  text-align: center;
+}
+html body .mtx-shuffle-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 78px;
+  perspective: 700px;
+}
+html body .mtx-shuffle-card {
+  --sw: 52px;
+  --sh: 74px;
+  --gx: 0px;
+  --grow: 0.92;
+  --d: 0s;
+  width: var(--sw);
+  height: var(--sh);
+  flex: none;
+  position: relative;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--accent-strong, #7a8fe8) 0%, var(--accent-deep, #5b8def) 50%, var(--accent-strong, #7a8fe8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 14px rgba(var(--accent-strong-rgb, 122, 143, 232), 0.35), inset 0 0 0 3px rgba(255, 255, 255, 0.35), inset 0 0 10px rgba(255, 255, 255, 0.28);
+  transform-style: preserve-3d;
+  animation: mtShuffleJitter 0.5s ease-in-out infinite alternate;
+}
+html body .mtx-shuffle-card::before,
+html body .mtx-shuffle-card::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+html body .mtx-shuffle-card::after {   /* 牌背 */
+  content: '✦';
+  background: linear-gradient(135deg, var(--accent-strong, #7a8fe8) 0%, var(--accent-deep, #5b8def) 50%, var(--accent-strong, #7a8fe8) 100%);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 17px;
+  text-shadow: 0 1px 3px rgba(var(--accent-strong-rgb, 122, 143, 232), 0.45);
+}
+html body .mtx-shuffle-card::before {  /* 牌面（亮出阶段翻转后可见）——浅调随主题色相，不写死白/灰 */
+  content: '✦';
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-strong) 7%, white) 0%, color-mix(in srgb, var(--accent-deep) 5%, white) 100%);
+  color: var(--accent-deep, #3A4050);
+  font-size: 21px;
+  transform: rotateY(180deg);
+}
+/* 深色主题主色偏深，牌背统一提亮（对齐拾心界 [data-theme="white"/"black"] 规则） */
+html[data-theme-mode="dark"] body .mtx-shuffle-card,
+html[data-theme-mode="dark"] body .mtx-shuffle-card::after {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-strong) 60%, white) 0%, color-mix(in srgb, var(--accent-deep) 45%, white) 50%, color-mix(in srgb, var(--accent-strong) 60%, white) 100%);
+}
+@keyframes mtShuffleJitter {
+  from { transform: translateX(-3px) rotate(-3deg); }
+  to   { transform: translateX(3px) rotate(3deg); }
+}
+/* 阶段二：抽牌聚拢——两侧向中间收拢、中间牌轻微放大（各卡位移见 nth-child） */
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card { animation: mtShuffleGather 0.9s ease-in-out forwards; }
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card:nth-child(1) { --gx: 34px; --d: 0s; }
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card:nth-child(2) { --gx: 15px; --d: 0.05s; }
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card:nth-child(4) { --gx: -15px; --d: 0.05s; }
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card:nth-child(5) { --gx: -34px; --d: 0s; }
+html body .mtx-shuffle.phase-draw .mtx-shuffle-card:nth-child(3) { --gx: 0px; --d: 0.12s; --grow: 1.12; }
+@keyframes mtShuffleGather {
+  from { transform: translateX(0) rotate(0) scale(1); }
+  to   { transform: translateX(var(--gx, 0px)) rotate(0) scale(var(--grow, 0.92)); }
+}
+/* 阶段三：翻牌亮出——两侧牌轻浮淡出、中间牌抬升翻转 180° 亮出牌面（对齐拾心界 phase-reveal，2026-10-30 节奏/动效优化） */
+html body .mtx-shuffle.phase-reveal .mtx-shuffle-card { transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.3, 0.7, 0.4, 1); }
+html body .mtx-shuffle.phase-reveal .mtx-shuffle-card:not(:nth-child(3)) {
+  opacity: 0; transform: translateX(var(--gx, 0px)) translateY(-9px) scale(0.86);
+}
+html body .mtx-shuffle.phase-reveal .mtx-shuffle-card:nth-child(3) {
+  animation: mtShuffleFlip 0.72s cubic-bezier(0.22, 0.68, 0.34, 1) 0.12s forwards;
+  box-shadow: 0 8px 26px rgba(var(--accent-strong-rgb, 122, 143, 232), 0.5), inset 0 0 0 3px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+@keyframes mtShuffleFlip {
+  0%   { transform: rotateY(0deg) translateY(0) scale(var(--grow, 1.12)); }
+  32%  { transform: rotateY(78deg) translateY(-7px) scale(1.24); }
+  68%  { transform: rotateY(174deg) translateY(-2px) scale(1.2); }
+  100% { transform: rotateY(180deg) translateY(0) scale(1.1); }
+}
+/* 思考文案：随动画阶段切换（洗牌 → 聚拢 → 浮现） */
+html body .mtx-shuffle-text {
+  margin-top: 9px;
+  font-size: 12.5px;
+  letter-spacing: 1.5px;
+  color: var(--text-2, #606878);
+  animation: mtShuffleTextIn 0.45s ease;
+}
+@keyframes mtShuffleTextIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+/* 结束淡出后由 JS 移除动画 */
+html body .mtx-shuffle.mtx-shuffle-done {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/* 深色背景适配（对齐拾心界 #page-transmit.chat-room-bg-dark） */
+html[data-theme-mode="dark"] body .mtx-shuffle-text { color: rgba(255, 255, 255, 0.72); }
+/* PC 布局放大（对齐拾心界） */
+@media (min-width: 768px) {
+  html body .mtx-shuffle-card { --sw: 60px; --sh: 84px; }
+  html body .mtx-shuffle-cards { gap: 10px; min-height: 90px; }
+}
+/* 占位气泡：动画播放于对方消息气泡内（.mtx-anim-bubble 仅作 DOM 容器，样式与普通对方气泡一致） */
+
+
+/* ============================================================================
+ * 任务2：链接进入动效（确认邀请后 2-3 秒进入传讯页）
+ * 全屏遮罩：光环扫描展开 + 中心光晕 + 文案，随后淡出切换页面。
+ * ==========================================================================*/
+html body .mtx-linkin-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 99995;
+  background: rgba(16, 22, 36, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  backdrop-filter: blur(10px) saturate(1.1);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+html body .mtx-linkin-mask.show { display: flex; opacity: 1; }
+html body .mtx-linkin-mask.hide { opacity: 0; }
+html body .mtx-linkin-core {
+  position: relative;
+  width: calc(150px * var(--ui-base, 1));
+  height: calc(150px * var(--ui-base, 1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* [2026-10-30 任务2] 链接动效换新：星形连线网络 + 中心节点脉冲 + 环轨扫描（原：光环扫描）
+   所有颜色均引用外观主题 CSS 变量（--accent-* / --key-grad），跟随主题自动变色 */
+html body .mtx-linkin-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(var(--accent-rgb, 208, 208, 208), 0.45);
+  animation: mtxLinkRing 1.6s linear infinite;
+}
+html body .mtx-linkin-ring.r2 {
+  border-color: rgba(var(--accent-rgb, 208, 208, 208), 0.22);
+  animation-duration: 2.4s;
+  animation-direction: reverse;
+}
+@keyframes mtxLinkRing {
+  0% { transform: rotate(0deg) scale(0.55); opacity: 0; }
+  18% { opacity: 0.9; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+}
+/* 四条主题色连线由中心向外辐射，光点沿连线流动（ring / r2 各含两条，0/90/180/270°） */
+html body .mtx-linkin-ring::before,
+html body .mtx-linkin-ring::after,
+html body .mtx-linkin-ring.r2::before,
+html body .mtx-linkin-ring.r2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(64px * var(--ui-base, 1));
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb, 208, 208, 208), 0.95), rgba(var(--accent-rgb, 208, 208, 208), 0.5) 60%, rgba(var(--accent-rgb, 208, 208, 208), 0));
+  transform-origin: left center;
+  animation: mtxLinkBeam 1.4s ease-in-out infinite;
+}
+html body .mtx-linkin-ring::before { --rot: 0deg; }
+html body .mtx-linkin-ring::after { --rot: 90deg; animation-delay: 0.18s; }
+html body .mtx-linkin-ring.r2::before { --rot: 180deg; animation-delay: 0.36s; }
+html body .mtx-linkin-ring.r2::after { --rot: 270deg; animation-delay: 0.54s; }
+@keyframes mtxLinkBeam {
+  0%, 100% { transform: rotate(var(--rot, 0deg)) scaleX(0.3); opacity: 0.3; }
+  50% { transform: rotate(var(--rot, 0deg)) scaleX(1); opacity: 1; }
+}
+/* 中心节点：主题渐变圆 + 内外双层脉冲光晕 */
+html body .mtx-linkin-glow {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: var(--key-grad, linear-gradient(150deg, var(--accent-deep) 0%, var(--accent-strong) 100%));
+  box-shadow: 0 0 46px rgba(var(--accent-strong-rgb, 140, 140, 140), 0.8), inset 0 0 16px rgba(255, 255, 255, 0.45);
+  animation: mtxLinkGlow 1.25s ease-in-out infinite;
+}
+html body .mtx-linkin-glow::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.26);
+  animation: mtxLinkCore 1.25s ease-in-out infinite;
+}
+@keyframes mtxLinkGlow {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+@keyframes mtxLinkCore {
+  0%, 100% { transform: scale(0.8); opacity: 0.55; }
+  50% { transform: scale(1.35); opacity: 0; }
+}
+html body .mtx-linkin-label {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 20px);
+  transform: translateX(-50%);
+  color: #fff;
+  text-shadow: 0 0 14px rgba(var(--accent-strong-rgb, 140, 140, 140), 0.9), 0 0 4px rgba(var(--accent-rgb, 208, 208, 208), 0.6);
+  font-size: calc(14px * var(--ui-base, 1));
+  letter-spacing: 2px;
+  white-space: nowrap;
+  opacity: 0.95;
+}
+
+
+/* =========================================================
+ * [2026-10-30] 次元镜界换壁纸对齐今日传讯（四模式 + 沉浸式）
+ * 1) #mtxBgModal 内复制 wp13 面板样式（chat-room 前缀 → #mtxBgModal 前缀），
+ *    保证次元镜界弹窗与今日传讯换壁纸面板视觉完全一致；
+ * 2) mtx-session 页沉浸式规则：data-wp-mode / data-bar-mode 对齐 chat-room；
+ * 3) mtx-session 页面背景统一由 --mtx-bg 变量驱动（theme/white/color/custom）。
+ * ========================================================= */
+/* ---- 面板通用区块 ---- */
+html body #mtxBgModal .wallpaper-section { margin: 14px 0 4px; }
+html body #mtxBgModal .wallpaper-section:first-child { margin-top: 6px; }
+html body #mtxBgModal .wallpaper-sec-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-main, #3a3f45);
+}
+html[data-theme-mode="dark"] body #mtxBgModal .wallpaper-sec-title { color: var(--text-main, #e6eaf3); }
+
+/* ---- 背景模式按钮（wp13 副本） ---- */
+html body #mtxBgModal .wp13-mode-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+html body #mtxBgModal .wp13-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(120, 130, 155, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+html body #mtxBgModal .wp13-mode-btn:hover { background: rgba(255, 255, 255, 0.85); }
+html body #mtxBgModal .wp13-mode-btn.is-active {
+  border-color: rgba(var(--accent-rgb, 91, 141, 239), 0.55);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb, 91, 141, 239), 0.18);
+}
+html body #mtxBgModal .wp13-mode-swatch {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 3px rgba(60, 70, 95, 0.18);
+  background-size: cover;
+  background-position: center;
+}
+html body #mtxBgModal .wp13-sw-theme { background: linear-gradient(135deg, #eef3fa 0 50%, #1c2233 50% 100%); }
+html body #mtxBgModal .wp13-sw-white { background: #ffffff; }
+html body #mtxBgModal .wp13-sw-color { background: linear-gradient(160deg, #f6f8fc 0%, #c7d2dc 100%); }
+html body #mtxBgModal .wp13-mode-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+html body #mtxBgModal .wp13-mode-title { font-size: 13px; font-weight: 700; color: var(--text-main, #3a3f45); }
+html body #mtxBgModal .wp13-mode-hint { font-size: 11px; color: var(--text-weak, #9aa0a8); margin-top: 2px; line-height: 1.45; }
+html body #mtxBgModal .wp13-check {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 130, 155, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: transparent;
+}
+html body #mtxBgModal .wp13-mode-btn.is-active .wp13-check {
+  background: rgba(var(--accent-rgb, 91, 141, 239), 0.9);
+  border-color: rgba(var(--accent-rgb, 91, 141, 239), 0.9);
+  color: #fff;
+}
+/* ---- 自定义颜色区 ---- */
+html body #mtxBgModal .wp13-color-zone {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid rgba(120, 130, 155, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.4);
+}
+html body #mtxBgModal .wp13-type-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+html body #mtxBgModal .wp13-type-btn {
+  flex: 1;
+  min-height: 32px;
+  border: 1px solid rgba(120, 130, 155, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-main, #3a3f45);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+html body #mtxBgModal .wp13-type-btn.is-active {
+  border-color: rgba(var(--accent-rgb, 91, 141, 239), 0.55);
+  background: rgba(var(--accent-rgb, 91, 141, 239), 0.12);
+  color: var(--accent-deep, #4f7cf7);
+}
+html body #mtxBgModal .wp13-color-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+html body #mtxBgModal .wp13-color-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+}
+html body #mtxBgModal .wp13-color-label input[type="color"] {
+  width: 100%;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+html body #mtxBgModal .wp13-color-name {
+  font-size: 11px;
+  color: var(--text-main, #3a3f45);
+}
+html body #mtxBgModal .wp13-grad-dir {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+html body #mtxBgModal .wp13-dir-btn {
+  min-height: 30px;
+  border: 1px solid rgba(120, 130, 155, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-main, #3a3f45);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+html body #mtxBgModal .wp13-dir-btn.is-active {
+  border-color: rgba(var(--accent-rgb, 91, 141, 239), 0.55);
+  background: rgba(var(--accent-rgb, 91, 141, 239), 0.12);
+  color: var(--accent-deep, #4f7cf7);
+}
+html body #mtxBgModal .wp13-upload-hint {
+  margin: 8px 4px 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-weak, #9aa0a8);
+}
+html body #mtxBgModal .wp13-bar-hint {
+  margin: 10px 2px 6px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--text-weak, #9aa0a8);
+  letter-spacing: 0.2px;
+}
+html body #mtxBgModal .wp13-bar-zone {
+  margin-top: 10px;
+}
+/* ---- 随机弥散调节区 ---- */
+html body #mtxBgModal .wp13-rr-zone {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(120, 130, 155, 0.25);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.35);
+}
+html body #mtxBgModal .wp13-rr-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main, #3a3f45);
+  margin-bottom: 4px;
+}
+html body #mtxBgModal .wp13-rr-val {
+  flex: 0 0 22px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-deep, #8c8fa8);
+}
+html body #mtxBgModal .wp13-rr-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+html body #mtxBgModal .wp13-rr-actions .wp13-type-btn { flex: 1; min-height: 30px; font-size: 11.5px; }
+html body #mtxBgModal .wp13-rr-name-row { margin-top: 8px; }
+html body #mtxBgModal .wp13-rr-name-row input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(120, 130, 155, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-main, #3a3f45);
+  font-size: 11.5px;
+  outline: none;
+}
+html body #mtxBgModal .wp13-rr-tpls {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+html body #mtxBgModal .wp13-rr-tpl-empty {
+  font-size: 11px;
+  color: var(--text-weak, #9aa0a8);
+  text-align: center;
+  padding: 4px 0;
+}
+html body #mtxBgModal .wp13-rr-tpl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.55);
+}
+html body #mtxBgModal .wp13-rr-tpl-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-main, #3a3f45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html body #mtxBgModal .wp13-rr-tpl-btn {
+  flex: 0 0 auto;
+  min-height: 24px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 7px;
+  background: rgba(var(--accent-rgb, 91, 141, 239), 0.12);
+  color: var(--accent-deep, #4f7cf7);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+html body #mtxBgModal .wp13-rr-tpl-btn.is-danger {
+  background: rgba(239, 107, 107, 0.12);
+  color: #e26b6b;
+}
+/* 深色模式：面板控件同步 */
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-rr-zone { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-rr-title { color: var(--text-main, #e6eaf3); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-rr-name-row input[type="text"] { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.14); color: var(--text-main, #e6eaf3); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-rr-tpl { background: rgba(255, 255, 255, 0.08); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-rr-tpl-name { color: var(--text-main, #e6eaf3); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-mode-btn { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-mode-btn:hover { background: rgba(255, 255, 255, 0.12); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-mode-title { color: var(--text-main, #e6eaf3); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-color-zone { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-color-label { background: rgba(255, 255, 255, 0.08); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-color-name { color: var(--text-main, #e6eaf3); }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-type-btn { background: rgba(255, 255, 255, 0.10); color: #e6eaf3; }
+html[data-theme-mode="dark"] body #mtxBgModal .wp13-dir-btn { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.14); color: #e6eaf3; }
+
+/* 弹窗内容区可滚动（面板较长） */
+html body #mtxBgModal .mtx-modal-sec {
+  max-height: 58vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 4px;
+}
+
+/* ---- mtx-session 页面背景由 --mtx-bg 驱动 ---- */
+html body .page[data-page="mtx-session"] {
+  background: var(--mtx-bg, transparent) center / cover no-repeat;
+}
+
+/* ---- 沉浸式：custom / color 模式（对齐 chat-room 配方） ---- */
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-input,
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-input {
+  background: color-mix(in srgb, var(--wp-bar, #f1f3f7) 42%, transparent) !important;
+  -webkit-backdrop-filter: blur(calc(18px * var(--ui-base, 1))) saturate(1.6) !important;
+  backdrop-filter: blur(calc(18px * var(--ui-base, 1))) saturate(1.6) !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-input-wrap,
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-input-wrap {
+  background: rgba(255, 255, 255, 0.35) !important;
+  -webkit-backdrop-filter: blur(calc(8px * var(--ui-base, 1))) !important;
+  backdrop-filter: blur(calc(8px * var(--ui-base, 1))) !important;
+  box-shadow: inset 0 calc(1px * var(--ui-base, 1)) calc(2px * var(--ui-base, 1)) rgba(0, 0, 0, 0.03) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-input,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-input {
+  background: color-mix(in srgb, var(--wp-bar, #1a202b) 42%, transparent) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-input-wrap,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-input-wrap {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+/* 顶栏同步磨砂毛玻璃 */
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head {
+  background: color-mix(in srgb, var(--wp-bar, #f1f3f7) 42%, transparent) !important;
+  -webkit-backdrop-filter: blur(calc(18px * var(--ui-base, 1))) saturate(1.6) !important;
+  backdrop-filter: blur(calc(18px * var(--ui-base, 1))) saturate(1.6) !important;
+  box-shadow: 0 calc(4px * var(--ui-base, 1)) calc(14px * var(--ui-base, 1)) rgba(20, 30, 50, 0.10) !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head .back-btn,
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head .back-btn,
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head .mtx-head-deck,
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head .mtx-head-deck {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head {
+  background: color-mix(in srgb, var(--wp-bar, #1a202b) 42%, transparent) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head .back-btn,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head .back-btn,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head .mtx-head-deck,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head .mtx-head-deck {
+  background: transparent !important;
+}
+/* white 模式：顶底栏固定浅色底 */
+html body .page[data-page="mtx-session"][data-wp-mode="white"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="white"] .chat-room-input {
+  background: color-mix(in srgb, var(--bg-deep, hsl(0, 0%, 94%)) 78%, #ffffff 22%) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="white"] .chat-room-head,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="white"] .chat-room-input {
+  background: var(--bg-deep, hsl(0, 0%, 94%)) !important;
+}
+/* color 模式：顶底栏三档 + 全透明档 */
+html body .page[data-page="mtx-session"][data-wp-mode="color"] .chat-room-head {
+  box-shadow: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="half"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="half"] .chat-room-input {
+  background: color-mix(in srgb, var(--wp-bar, #f1f3f7) 50%, transparent) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="half"] .chat-room-head,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="half"] .chat-room-input {
+  background: color-mix(in srgb, var(--wp-bar, #1a202b) 50%, transparent) !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="full"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="full"] .chat-room-input {
+  background: var(--wp-bar, #f1f3f7) !important;
+  box-shadow: none !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="full"] .chat-room-head,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="full"] .chat-room-input {
+  background: var(--wp-bar, #1a202b) !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-room-input {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-room-head .back-btn,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-room-head .mtx-head-deck,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-room-input .chat-bar-btn {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-input-wrap {
+  background: rgba(255, 255, 255, 0.55) !important;
+  -webkit-backdrop-filter: blur(calc(8px * var(--ui-base, 1))) saturate(1.4) !important;
+  backdrop-filter: blur(calc(8px * var(--ui-base, 1))) saturate(1.4) !important;
+  box-shadow: inset 0 calc(1px * var(--ui-base, 1)) calc(2px * var(--ui-base, 1)) rgba(0, 0, 0, 0.04) !important;
+}
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-input-wrap {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-room-input {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-room-head .back-btn,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-room-head .mtx-head-deck,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-room-input .chat-bar-btn {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-input-wrap {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+/* custom / color(full|half)：顶栏外部投影与伪元素描边清除 */
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="half"] .chat-room-head,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="full"] .chat-room-head {
+  box-shadow: none !important;
+}
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head::before,
+html body .page[data-page="mtx-session"][data-wp-mode="custom"] .chat-room-head::after {
+  box-shadow: none !important;
+}
+/* =========================================================
+ * [2026-10-30] 次元镜界底栏换壁纸键 #mtxBgBtn 纯 icon 化
+ * 图标：Phosphor heart-fill 实心爱心（256 viewBox 官方路径，见 index.html）
+ * 样式：仅 icon 本身 —— 无渐变圆底 / 无背景 / 无阴影；
+ *       hover 仅变色不产生背景；clear / transparent 沿用既有透明规则。
+ * ========================================================= */
+html body .page[data-page="mtx-session"] .chat-bar-btn.mtx-bg-btn {
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-1, #2b3345);
+}
+html body .page[data-page="mtx-session"] .chat-bar-btn.mtx-bg-btn:hover {
+  background: transparent;
+  box-shadow: none;
+  color: var(--accent-deep, #5b8def);
+}
+html body .page[data-page="mtx-session"] .chat-bar-btn.mtx-bg-btn svg {
+  width: 24px;
+  height: 24px;
+}
+/* clear / transparent 透明底模式：继承既有 !important 透明规则，图标色保持自适应 */
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="clear"] .chat-bar-btn.mtx-bg-btn,
+html body .page[data-page="mtx-session"][data-wp-mode="color"][data-bar-mode="transparent"] .chat-bar-btn.mtx-bg-btn {
+  color: var(--text-1, #2b3345);
+}

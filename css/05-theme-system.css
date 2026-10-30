@@ -1,0 +1,342 @@
+/* 主题系统与外观设置页 */
+/* =========================================================
+   9. 主题系统（v9 新增）：外观设置 / 主题皮肤
+   —— 全站配色收敛为 CSS 变量，由 JS（SnowCrystal 主题引擎）按所选主题写入 :root。
+      内置 7 款：默认（灰）/ 蓝色系 / 浅绿 / 浅紫 / 浅粉 / 浅红 / 浅橙，
+      另支持自定义任意颜色（最多保存 6 个），选择即生效并记忆在本机。
+   ========================================================= */
+
+/* ---- 9a. 内联 SVG 属性色 → 主题变量（CSS 规则覆盖 presentation attribute） ---- */
+[fill="#A6A6A6"] { fill: var(--accent-deep); }
+[stroke="#A6A6A6"] { stroke: var(--accent-deep); }
+[fill="#D0D0D0"] { fill: var(--accent); }
+[stroke="#D0D0D0"] { stroke: var(--accent); }
+[fill="#E8E8E8"] { fill: var(--leaf); }
+[stroke="#E8E8E8"] { stroke: var(--leaf); }
+[fill="#F1F1F1"] { fill: var(--leaf-soft); }
+[stroke="#F1F1F1"] { stroke: var(--leaf-soft); }
+[fill="#8C8C8C"] { fill: var(--accent-strong); }
+[stroke="#8C8C8C"] { stroke: var(--accent-strong); }
+[fill="#D2D2D2"] { fill: var(--crystal-2); }
+[stroke="#D2D2D2"] { stroke: var(--crystal-2); }
+[fill="#E4E4E4"] { fill: var(--crystal-3); }
+[stroke="#E4E4E4"] { stroke: var(--crystal-3); }
+[fill="#B3DCF0"] { fill: var(--crystal-sky); }
+[stroke="#B3DCF0"] { stroke: var(--crystal-sky); }
+[fill="#000"] { fill: var(--text); }
+[fill="#000000"] { fill: var(--text); }
+[stroke="#000"] { stroke: var(--text); }
+[stroke="#000000"] { stroke: var(--text); }
+[fill="#9E9E9E"] { fill: var(--text-4); }
+
+/* 波浪卡：白色海浪块 / 浅绿柔光，改为跟随主题 */
+/* v87：100% 实心修复 —— 填充 alpha 由 --wave-a 线性控制（fill-opacity），
+   0% 无底 / 100% 实心；基色 --wave-fill 已改不透明，主题色相/明度联动不变 */
+.wave-fill-block { fill: var(--wave-fill); fill-opacity: var(--wave-a, 0.65); }
+.wave-glow-line { stroke: var(--wave-glow); }
+
+/* 认证小勾的白色描边始终贴合头像，不随主题（浅色细描边固定白） */
+.badge-check { border-color: #FFFFFF; }
+
+/* ---- 9b. 暗色模式的少量额外修正 ---- */
+[data-theme-mode="dark"] .tri-cover { filter: saturate(0.88) brightness(0.86); }
+/* v31：暗色压暗只作用于星点 / 碎片；水晶簇改由专属系数控制，不再被连带压淡
+   v38：星点不透明度已可自定义 —— 暗色下未自定义仍按 0.9 压暗，自定义后以用户值为准
+        （选择器加一层 .wave-deco 提高特异性，压过 v38 的基础规则） */
+[data-theme-mode="dark"] .bottom-nav { box-shadow: var(--shadow-nav), 0 10px 26px rgba(0, 0, 0, 0.55); }
+[data-theme-mode="dark"] .user-avatar { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5); }
+[data-theme-mode="dark"] .msg-card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+[data-theme-mode="dark"] .row-card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); }
+[data-theme-mode="dark"] .banner-card { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
+
+/* =========================================================
+   9c. 外观设置页（二级页）
+   ========================================================= */
+.page-head .back-btn {
+  align-self: center;
+  width: 34px; height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text-1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.page-head .back-btn:hover { transform: scale(1.08); opacity: 0.75; }
+.page-head .back-btn:active { transform: scale(0.94); }
+.page-head .page-head-main { flex: 1; min-width: 0; text-align: left; }
+.page-head .page-head-main .page-sub { margin-top: 2px; }
+/* 精简页统一：页头去掉副标题后，标题在 back 键与右侧占位之间水平居中 */
+.page-head .page-head-center { flex: 1; min-width: 0; text-align: center; }
+
+/* ===== 识别颜色（美化设置 → 识别颜色）===== */
+.ai-palette-body { padding: calc(6px * var(--ui,1)) 0; }
+.ai-upload-zone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(6px * var(--ui,1));
+  margin: calc(4px * var(--ui,1)) calc(14px * var(--ui,1));
+  padding: calc(22px * var(--ui,1)) calc(16px * var(--ui,1));
+  border: calc(1.5px * var(--ui,1)) dashed rgba(var(--accent-rgb, 128,128,128), 0.38);
+  border-radius: calc(14px * var(--ui,1));
+  background: rgba(var(--accent-rgb, 128,128,128), 0.06);
+  color: var(--accent-deep, var(--text-1));
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.ai-upload-zone:active { transform: scale(0.98); }
+.ai-upload-title { font-size: calc(15px * var(--ui,1)); font-weight: 700; }
+.ai-upload-hint { font-size: calc(11px * var(--ui,1)); color: var(--text-4); line-height: 1.5; }
+.ai-photo-row { margin: calc(6px * var(--ui,1)) calc(14px * var(--ui,1)); text-align: center; }
+.ai-photo-row img { max-width: 100%; max-height: 130px; border-radius: calc(12px * var(--ui,1)); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.ai-schemes { padding: calc(2px * var(--ui,1)) calc(14px * var(--ui,1)); }
+.ai-scheme {
+  display: flex; align-items: center; gap: calc(10px * var(--ui,1));
+  margin-bottom: calc(10px * var(--ui,1));
+  padding: calc(10px * var(--ui,1));
+  border: calc(1.5px * var(--ui,1)) solid transparent;
+  border-radius: calc(12px * var(--ui,1));
+  background: rgba(var(--accent-rgb,128,128,128), 0.07);
+  cursor: pointer;
+}
+.ai-scheme.is-sel { border-color: var(--accent-deep, var(--text-1)); background: rgba(var(--accent-rgb,128,128,128), 0.12); }
+.ai-scheme-radio {
+  width: calc(18px * var(--ui,1)); height: calc(18px * var(--ui,1));
+  border-radius: 50%; border: calc(2px * var(--ui,1)) solid var(--text-3, #888);
+  flex: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-scheme.is-sel .ai-scheme-radio { border-color: var(--accent-deep); }
+.ai-scheme.is-sel .ai-scheme-radio::after { content:""; width: calc(9px * var(--ui,1)); height: calc(9px * var(--ui,1)); border-radius: 50%; background: var(--accent-deep); }
+.ai-scheme-name { font-size: calc(13px * var(--ui,1)); font-weight: 700; color: var(--text-1); min-width: calc(66px * var(--ui,1)); }
+.ai-scheme-grads { flex: 1; display: flex; gap: calc(4px * var(--ui,1)); }
+.ai-scheme-grads i { flex: 1; height: calc(34px * var(--ui,1)); border-radius: calc(8px * var(--ui,1)); }
+.ai-scheme-apply {
+  flex: none; border: none; cursor: pointer;
+  padding: calc(6px * var(--ui,1)) calc(12px * var(--ui,1));
+  border-radius: calc(9px * var(--ui,1));
+  font-size: calc(12px * var(--ui,1)); font-weight: 700; color: var(--accent-deep, #3a3f4a);
+  background: linear-gradient(135deg, var(--ai-btn-1, #aab4c4), var(--ai-btn-2, #c2ccda));
+}
+.ai-scheme.is-applied .ai-scheme-apply { background: none; color: var(--text-3); }
+.ai-scheme.is-applied .ai-scheme-apply::before { content: "✓ 已应用 "; }
+.ai-actions { display: flex; justify-content: center; padding: calc(4px * var(--ui,1)) 0 calc(12px * var(--ui,1)); }
+
+/* 应用识别配色后：全站渐变（背景 / 卡片 / 按键 / 选中态） */
+html[data-ai-palette="1"] body .phone {
+  background: linear-gradient(165deg, var(--ai-bg-1, #eee) 0%, var(--ai-bg-2, #fafafa) 100%) !important;
+}
+/* 页面层透明：识别配色不盖住壁纸层，上传壁纸后正常显示 */
+html[data-ai-palette="1"] body .page {
+  background: transparent !important;
+}
+/* 今日絮语列表：识别配色时保持不透明跟随识别背景渐变，避免透出底层弥散层遮罩 */
+html[data-ai-palette="1"] body .page[data-page="chat-list"] {
+  background: linear-gradient(165deg, var(--ai-bg-1, #eee) 0%, var(--ai-bg-2, #fafafa) 100%) !important;
+}
+html[data-ai-palette="1"] body .page[data-page="chat-list"] .page-head {
+  background: linear-gradient(165deg, var(--ai-bg-1, #eee) 0%, var(--ai-bg-2, #fafafa) 100%) !important;
+}
+/* 聊天室页（识别配色）：单独设置的聊天背景（内置 data-bg / 自定义 --chat-bg）优先显示；
+   未单独设置（无 data-bg、无内联 --chat-bg）时回退显示识别配色背景渐变。
+   覆盖上方 .page 的透明化，保证聊天背景不被识别配色覆盖。 */
+html[data-ai-palette="1"] body .page[data-page="chat-room"] {
+  background: var(--chat-bg, linear-gradient(165deg, var(--ai-bg-1, #eee) 0%, var(--ai-bg-2, #fafafa) 100%)) !important;
+}
+html[data-ai-palette="1"] body .page[data-page="chat-room"]:not([data-bg]) {
+  --chat-bg: linear-gradient(165deg, var(--ai-bg-1, #eee) 0%, var(--ai-bg-2, #fafafa) 100%);
+}
+/* 次元镜界页（识别配色）：背景只由自身设置决定——跟随主题（--mtx-bg=var(--bg)）回退透明露出站点背景，
+   white/color/custom（--mtx-bg 有具体值）优先显示。覆盖上方 .page 的透明化，保证镜界背景不被识别配色覆盖。 */
+html[data-ai-palette="1"] body .page[data-page="mtx-session"] {
+  background: var(--mtx-bg, transparent) center / cover no-repeat !important;
+}
+/* 卡片跟随主题主色与用户卡片颜色设置（--cc-rgb-* 优先），识别配色不再锁死卡片自定义 */
+html[data-ai-palette="1"] .ai-upload-zone {
+  background-image: linear-gradient(135deg, var(--ai-card-1, #fff) 0%, var(--ai-card-2, #fff) 100%) !important;
+}
+/* 清透按键：浅渐变底 + 自动文字色（按背景亮度生成 --ai-btn-text：默认白字，白/近白底黑字），
+   替代原深底白字 / 同色系深字 */
+html[data-ai-palette="1"] .head-btn,
+html[data-ai-palette="1"] .save-btn {
+  background: linear-gradient(135deg, var(--ai-btn-1, #aab4c4) 0%, var(--ai-btn-2, #c2ccda) 100%) !important;
+  color: var(--ai-btn-text, #FFFFFF);
+}
+/* 识别配色：方案卡「应用」按钮文字同样走 --ai-btn-text（浅底白字 / 白底黑字） */
+html[data-ai-palette="1"] .ai-scheme-apply {
+  color: var(--ai-btn-text, #FFFFFF);
+}
+html[data-ai-palette="1"] .nav-btn .nav-icon,
+html[data-ai-palette="1"] .nav-btn.active .nav-icon {
+  background: linear-gradient(135deg, var(--ai-btn-1) 0%, var(--ai-btn-2) 100%) !important;
+  background-image: linear-gradient(135deg, var(--ai-btn-1) 0%, var(--ai-btn-2) 100%) !important;
+  color: #FFFFFF;
+}
+html[data-ai-palette="1"] .nav-btn.active .nav-icon::before {
+  background: linear-gradient(135deg, var(--ai-btn-1) 0%, var(--ai-btn-2) 100%) !important;
+}
+/* 识别配色：底栏应用图标 icon（简笔画图案/线条/填充图形）固定白色（badge-sym fill/stroke），
+   图标底图背景不固定白色，跟随对应识图方案的浅色系（--ai-btn-1/2）变色，
+   避免深色 icon 配深色底过丑，同时不冲突单独设置的聊天背景 */
+html[data-ai-palette="1"] .nav-btn .badge-sym,
+html[data-ai-palette="1"] .nav-btn.active .badge-sym {
+  fill: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* 白色面板（与 .row-card 同层次的容器） */
+.theme-panel {
+  position: relative;
+  z-index: 2;
+  margin: 0 var(--pad-x);
+  background: var(--card);
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+/* ---- 主题色卡网格 ---- */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px 6px;
+  padding: 16px 12px 14px;
+}
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+.swatch:active { transform: scale(0.93); }
+.swatch-dot {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.10);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.swatch-dot svg {
+  width: 18px; height: 18px;
+  opacity: 0; transform: scale(0.6);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.swatch.active .swatch-dot {
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--accent-strong), 0 4px 12px rgba(var(--accent-rgb), 0.35);
+  transform: scale(1.05);
+}
+.swatch.active .swatch-dot svg { opacity: 1; transform: scale(1); }
+.swatch-name {
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.swatch.active .swatch-name { color: var(--accent-deep); font-weight: 600; }
+
+/* ---- 自定义颜色 ---- */
+.custom-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px 10px;
+  position: relative;
+  z-index: 2;
+}
+.custom-color {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px; height: 44px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+.custom-color::-webkit-color-swatch-wrapper { padding: 0; }
+.custom-color::-webkit-color-swatch { border: 1px solid var(--card-border); border-radius: 12px; }
+.custom-color::-moz-color-swatch { border: 1px solid var(--card-border); border-radius: 12px; }
+.custom-hex {
+  flex: 1; min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: var(--tint-1);
+  color: var(--text-1);
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.custom-hex:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.14); }
+.save-btn {
+  height: 44px;
+  padding: 0 18px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.32);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.save-btn:hover { filter: brightness(1.06); }
+.save-btn:active { transform: scale(0.96); }
+.theme-tip {
+  padding: 0 12px 14px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--text-4);
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- 当前主题（v32：面板已删除，样式同步移除） ---- */
+.ghost-btn {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1px solid var(--card-border);
+  background: var(--tint-1);
+  color: var(--text-2);
+  font-size: 11px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.ghost-btn:hover { background: var(--hover-bg); }
+.ghost-btn:active { transform: scale(0.95); }
+
+/* ---- 9d. 首页相框卡面：v17 起统一由上方 .cover-a ~ .cover-e 主题色阶定义 ----
+   （原此处覆盖了 .cover-a/b/c 且引用遗留的 leaf / crystal 绿蓝变量，已移除以避免色彩串味） */
+
+/* ---- 9e. 主色底上的前景色：浅黄/浅橙等亮主色自动改用深色字，保证可读 ---- */
+.save-btn { color: var(--on-accent, #FFFFFF); }
+.badge-check svg { stroke: var(--on-accent-deep, #FFFFFF); }
+[data-theme-mode="dark"] .save-btn { color: var(--on-accent, #FFFFFF); }
+/* v10 修正①：底栏选中图标「永远白色」，不再跟随 --on-accent 自动转深色 ——
+   浅粉/浅橙/浅黄/浅灰这几个亮主色算出来的 --on-accent 是近黑色，选中后图标就变黑了；
+   选中底同时改为「深一档主色实底」（见 .nav-btn.active .nav-icon），白图标在所有主题上都清晰。 */
+.nav-btn.active .badge-sym { fill: #FFFFFF; stroke: #FFFFFF; }
+/* v10 修正②：底栏未选中图标与字卡/课程/设置页条目图标（.row-ico）统一取 --icon-ink，
+   两处颜色从此严格同色（原先分两条规则各写一份，容易改一处漏一处）。 */
+.nav-btn .badge-sym { fill: var(--icon-ink, var(--accent-deep)); stroke: var(--icon-ink, var(--accent-deep)); }
+
+@media (max-width: 400px) {
+  .theme-grid { gap: 12px 4px; padding: 14px 8px 12px; }
+  .swatch-dot { width: 38px; height: 38px; }
+  .save-btn { padding: 0 14px; }
+}
+
+
+
