@@ -1,0 +1,34 @@
+/* 雪山晶 · 30-flat-cards ｜ 源：雪山晶.html L36295-L36329 ｜ CSS 模块 */
+/* [V35] 云笺卡片去投影 / 写信底栏去背景描边（末位兜底，覆盖历史分层规则） */
+html body #xjLetterApp .xjl-card,
+html body #xjLetterApp .xjl-cards.is-vl > .xjl-card,
+html body #xjLetterApp .xjl-card-thumb,
+html body #xjLetterApp .xjl-paper-card,
+html body #xjLetterApp .xjl-paper-card.is-on,
+html body #xjLetterApp .xjl-empty,
+html body #xjLetterApp .xjs-lrow,
+html body #xjLetterApp .xjs-cover,
+html body #xjLetterApp .xjs-card.is-all .xjs-cover{
+  box-shadow:none!important;
+}
+html body #xjLetterApp .xjl-card-thumb,
+html body #xjLetterApp .xjs-cover{filter:none!important}
+/* 底栏：无底色、无上描边 */
+html body #xjLetterApp.xjl-root .xjl-drawer{
+  background-color:transparent!important;
+  background-image:none!important;
+  border-top:0!important;
+  box-shadow:none!important;
+}
+/* 工具条选中态：不再使用色块背景 */
+html body #xjLetterApp.xjl-root .xjl-tools .xjl-tool.is-on{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+/* 只有展开字式/笺纸面板时才需要一层底色，避免文字叠在笺纸上 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3) #xjLetterApp.xjl-root .xjl-drawer:has(> .xjl-panel.is-on){
+  background-color:rgba(255,255,255,.94)!important;
+}

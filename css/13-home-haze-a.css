@@ -1,0 +1,18 @@
+/* 雪山晶 · 13-home-haze-a ｜ 源：雪山晶.html L26335-L26353 ｜ CSS 模块 */
+html body .page[data-page="home"] .app-pages .app-page .home-haze{
+  position:absolute;inset:0;z-index:-1;display:block;pointer-events:none;overflow:hidden;
+  contain:layout paint style;--hz-a:1;background-color:transparent;background-repeat:no-repeat;
+  background-image:
+  
+  radial-gradient(circle closest-side,rgba(138,76,46,calc(0.18 * var(--hz-a,1))) 0%,rgba(138,76,46,calc(0.1692 * var(--hz-a,1))) 12%,rgba(138,76,46,calc(0.126 * var(--hz-a,1))) 24%,rgba(138,76,46,calc(0.0846 * var(--hz-a,1))) 35%,rgba(138,76,46,calc(0.0468 * var(--hz-a,1))) 48%,rgba(138,76,46,calc(0.0252 * var(--hz-a,1))) 60%,rgba(138,76,46,calc(0.018 * var(--hz-a,1))) 70%,rgba(138,76,46,calc(0.0081 * var(--hz-a,1))) 82%,rgba(138,76,46,calc(0.0027 * var(--hz-a,1))) 92%,rgba(138,76,46,0) 100%),
+  radial-gradient(circle closest-side,rgba(122,68,42,calc(0.18 * var(--hz-a,1))) 0%,rgba(122,68,42,calc(0.1692 * var(--hz-a,1))) 12%,rgba(122,68,42,calc(0.126 * var(--hz-a,1))) 24%,rgba(122,68,42,calc(0.0846 * var(--hz-a,1))) 35%,rgba(122,68,42,calc(0.0468 * var(--hz-a,1))) 48%,rgba(122,68,42,calc(0.0252 * var(--hz-a,1))) 60%,rgba(122,68,42,calc(0.018 * var(--hz-a,1))) 70%,rgba(122,68,42,calc(0.0081 * var(--hz-a,1))) 82%,rgba(122,68,42,calc(0.0027 * var(--hz-a,1))) 92%,rgba(122,68,42,0) 100%),
+  radial-gradient(circle closest-side,rgba(122,68,42,calc(0.2 * var(--hz-a,1))) 0%,rgba(122,68,42,calc(0.188 * var(--hz-a,1))) 12%,rgba(122,68,42,calc(0.14 * var(--hz-a,1))) 24%,rgba(122,68,42,calc(0.094 * var(--hz-a,1))) 35%,rgba(122,68,42,calc(0.052 * var(--hz-a,1))) 48%,rgba(122,68,42,calc(0.028 * var(--hz-a,1))) 60%,rgba(122,68,42,calc(0.02 * var(--hz-a,1))) 70%,rgba(122,68,42,calc(0.009 * var(--hz-a,1))) 82%,rgba(122,68,42,calc(0.003 * var(--hz-a,1))) 92%,rgba(122,68,42,0) 100%),
+  radial-gradient(circle closest-side,rgba(58,31,22,calc(0.208 * var(--hz-a,1))) 0%,rgba(58,31,22,calc(0.1955 * var(--hz-a,1))) 12%,rgba(58,31,22,calc(0.1456 * var(--hz-a,1))) 24%,rgba(58,31,22,calc(0.0978 * var(--hz-a,1))) 35%,rgba(58,31,22,calc(0.0541 * var(--hz-a,1))) 48%,rgba(58,31,22,calc(0.0291 * var(--hz-a,1))) 60%,rgba(58,31,22,calc(0.0208 * var(--hz-a,1))) 70%,rgba(58,31,22,calc(0.0094 * var(--hz-a,1))) 82%,rgba(58,31,22,calc(0.0031 * var(--hz-a,1))) 92%,rgba(58,31,22,0) 100%),
+  radial-gradient(circle closest-side,rgba(90,46,30,calc(0.2 * var(--hz-a,1))) 0%,rgba(90,46,30,calc(0.188 * var(--hz-a,1))) 12%,rgba(90,46,30,calc(0.14 * var(--hz-a,1))) 24%,rgba(90,46,30,calc(0.094 * var(--hz-a,1))) 35%,rgba(90,46,30,calc(0.052 * var(--hz-a,1))) 48%,rgba(90,46,30,calc(0.028 * var(--hz-a,1))) 60%,rgba(90,46,30,calc(0.02 * var(--hz-a,1))) 70%,rgba(90,46,30,calc(0.009 * var(--hz-a,1))) 82%,rgba(90,46,30,calc(0.003 * var(--hz-a,1))) 92%,rgba(90,46,30,0) 100%),
+  radial-gradient(circle closest-side,rgba(122,68,42,calc(0.186 * var(--hz-a,1))) 0%,rgba(122,68,42,calc(0.1748 * var(--hz-a,1))) 12%,rgba(122,68,42,calc(0.1302 * var(--hz-a,1))) 24%,rgba(122,68,42,calc(0.0874 * var(--hz-a,1))) 35%,rgba(122,68,42,calc(0.0484 * var(--hz-a,1))) 48%,rgba(122,68,42,calc(0.026 * var(--hz-a,1))) 60%,rgba(122,68,42,calc(0.0186 * var(--hz-a,1))) 70%,rgba(122,68,42,calc(0.0084 * var(--hz-a,1))) 82%,rgba(122,68,42,calc(0.0028 * var(--hz-a,1))) 92%,rgba(122,68,42,0) 100%);
+  background-size:
+  20vw 20vw,15vw 15vw,88vw 88vw,74vw 74vw,78vw 78vw,66vw 66vw;
+  background-position:
+  44% 34%,20% 74%,10% 12%,80% 20%,30% 88%,94% 66%;
+}
+html body .page[data-page="home"] .app-pages .app-page.is-haze-light .home-haze{--hz-a:.55}

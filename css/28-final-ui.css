@@ -1,0 +1,513 @@
+/* 雪山晶 · 28-final-ui ｜ 源：雪山晶.html L35582-L36097 ｜ CSS 模块 */
+/* ==================================================================
+   [V37] 云笺 · 分组列表 / 来信列表 / 年度笺记收口
+   9 层 :not(#id) 递增特异性，压过全部历史版本（V18~V28）的 !important
+   ================================================================== */
+
+/* 0. 统计纯色变量：全部取自写信自身主题，切主题即时跟随 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root{
+  --xjs-st-main: var(--xjl-blue-deep, var(--xjl-ink));
+  --xjs-st-soft: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 26%, transparent);
+  --xjs-st-line: var(--xjl-blue-deep, var(--xjl-ink));
+  --xjs-st-slot: color-mix(in srgb, var(--xjl-ink) 8%, transparent);
+  --xjs-st-card: color-mix(in srgb, #FFFFFF 74%, var(--xjl-bg));
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root[data-xjl-theme="night"]{
+  --xjs-st-card: color-mix(in srgb, #FFFFFF 10%, var(--xjl-bg));
+}
+
+/* 1. 顶栏上方空余收窄：列表页 / 分组页 / 信件页共用 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjl-scroll{
+  padding-top: max(calc(var(--xjl-safe) + 2px * var(--ui,1)), 10px)!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-pane{
+  padding-top: max(calc(var(--xjl-safe) + 6px * var(--ui,1)), 12px)!important;
+  background: var(--xjl-bg)!important;
+  background-image: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-head{
+  display: flex!important;
+  align-items: center!important;
+  gap: calc(10px * var(--ui,1))!important;
+  margin: 0 2px calc(16px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-title{
+  margin-right: auto!important;
+  font-size: calc(22px * var(--ui,1))!important;
+  color: var(--xjl-ink)!important;
+  text-shadow: none!important;
+}
+
+/* 2. 添加分组：停靠在分组列表顶栏最右侧的实心胶囊 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-add,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjs-pane .xjs-add{
+  position: static!important;
+  inset: auto!important;
+  z-index: auto!important;
+  margin-left: auto!important;
+  flex: 0 0 auto!important;
+  white-space: nowrap!important;
+  display: inline-flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+  height: calc(30px * var(--ui,1))!important;
+  padding: 0 calc(13px * var(--ui,1))!important;
+  border: 0!important;
+  border-radius: 999px!important;
+  background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 16%, var(--xjl-bg))!important;
+  background-image: none!important;
+  color: var(--xjl-on-tint)!important;
+  font-size: calc(12.5px * var(--ui,1))!important;
+  font-weight: 600!important;
+  letter-spacing: .02em!important;
+  box-shadow: none!important;
+  
+  
+}
+
+/* 3. 分组卡：封面纯色无投影；名称按键实心纯色、无模糊无磨砂 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-cover{
+  border-radius: calc(14px * var(--ui,1))!important;
+  background-color: var(--cc,#c9d4e6)!important;
+  background-image: none!important;
+  box-shadow: none!important;
+  border: 0!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-card.is-all .xjs-cover{
+  background: var(--cc,#c9d4e6)!important;
+  background-image: none!important;
+  box-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-label{
+  margin-top: calc(8px * var(--ui,1))!important;
+  height: calc(38px * var(--ui,1))!important;
+  border: 0!important;
+  border-radius: calc(12px * var(--ui,1))!important;
+  background: color-mix(in srgb, var(--cc,#DCE9F2) 74%, var(--xjl-bg))!important;
+  background-image: none!important;
+  
+  
+  box-shadow: none!important;
+  color: var(--xjl-ink)!important;
+  font-size: calc(12.5px * var(--ui,1))!important;
+  font-weight: 600!important;
+  letter-spacing: .06em!important;
+  text-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-label::before,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-label::after,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-card::after,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-cover::before,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-cover::after{
+  content: none!important;
+  display: none!important;
+}
+
+/* 4. 信封卡片：左侧竖线已移除，正文左内边距回到正常留白 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjl-card{
+  padding-left: calc(15px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjl-card-bar,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjl-card.is-letter::before{
+  display: none!important;
+  content: none!important;
+}
+
+/* 5. 对方写来的信：未读点 / 摘要 / 署名 / 字数 / 计数条，全部纯色随主题 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lcount{
+  margin: 0 2px calc(10px * var(--ui,1));
+  font-size: calc(11.5px * var(--ui,1));
+  font-weight: 600!important;
+  letter-spacing: .04em!important;
+  color: var(--xjl-sub)!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lrow{
+  align-items: flex-start!important;
+  gap: calc(11px * var(--ui,1))!important;
+  padding: calc(13px * var(--ui,1)) calc(14px * var(--ui,1))!important;
+  border: 0!important;
+  border-radius: calc(14px * var(--ui,1))!important;
+  background: var(--xjs-st-card)!important;
+  background-image: none!important;
+  box-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lrow.is-unread{
+  background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 10%, var(--xjs-st-card))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lico{
+  position: relative!important;
+  width: calc(36px * var(--ui,1))!important;
+  height: calc(36px * var(--ui,1))!important;
+  border-radius: calc(10px * var(--ui,1))!important;
+  background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 14%, transparent)!important;
+  background-image: none!important;
+  color: var(--xjl-blue-deep, var(--xjl-ink))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lun{
+  position: absolute!important;
+  top: calc(-2px * var(--ui,1))!important;
+  right: calc(-2px * var(--ui,1))!important;
+  width: calc(8px * var(--ui,1))!important;
+  height: calc(8px * var(--ui,1))!important;
+  border-radius: 50%!important;
+  background: var(--xjl-blue-deep, var(--xjl-ink))!important;
+  box-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lmain{
+  flex: 1 1 auto!important;
+  min-width: 0!important;
+  display: flex!important;
+  flex-direction: column!important;
+  gap: calc(3px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lt{
+  font-size: calc(14.5px * var(--ui,1))!important;
+  font-weight: 600!important;
+  color: var(--xjl-ink)!important;
+  white-space: nowrap!important;
+  overflow: hidden!important;
+  text-overflow: ellipsis!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-lx{
+  font-size: calc(12px * var(--ui,1))!important;
+  line-height: 1.55!important;
+  color: var(--xjl-sub)!important;
+  display: -webkit-box!important;
+  -webkit-line-clamp: 2!important;
+  -webkit-box-orient: vertical!important;
+  overflow: hidden!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-ld{
+  display: flex!important;
+  align-items: center!important;
+  gap: calc(5px * var(--ui,1))!important;
+  font-size: calc(11px * var(--ui,1))!important;
+  color: var(--xjl-sub)!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-ld b{font-weight: 600!important; color: var(--xjl-ink-2, var(--xjl-ink))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-ld i{font-style: normal!important; opacity: .45!important}
+
+/* 6. 年度笺记：四块面板去投影去磨砂、尺寸收紧、纯色呈现 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp.xjl-root .xjl-panel-card{
+  background: var(--xjs-st-card)!important;
+  background-image: none!important;
+  border: 0!important;
+  border-radius: calc(16px * var(--ui,1))!important;
+  box-shadow: none!important;
+  
+  
+  padding: calc(14px * var(--ui,1)) calc(15px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-sec{margin-top: calc(20px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-sec-title{
+  font-size: calc(12.5px * var(--ui,1))!important;
+  margin-bottom: calc(9px * var(--ui,1))!important;
+  color: var(--xjl-ink-2, var(--xjl-ink))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-sec-dot{background: var(--xjl-blue-deep, var(--xjl-ink))!important; width: calc(6px * var(--ui,1))!important; height: calc(6px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-kpi{font-size: calc(23px * var(--ui,1))!important; letter-spacing: .3px!important; color: var(--xjl-ink)!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-kpi em{color: var(--xjl-blue-deep, var(--xjl-ink))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-kpi-sub{margin-top: calc(6px * var(--ui,1))!important; font-size: calc(11.5px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-avg{margin-bottom: calc(8px * var(--ui,1))!important; font-size: calc(12px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-avg b{font-size: calc(17px * var(--ui,1))!important; color: var(--xjl-ink)!important}
+
+/* 6.1 热力图：单元格改用主题色纯色档位（无渐变） */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat{gap: calc(8px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-col{gap: calc(4px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell{
+  width: calc(17px * var(--ui,1))!important;
+  height: calc(17px * var(--ui,1))!important;
+  border-radius: calc(4px * var(--ui,1))!important;
+  background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 10%, transparent)!important;
+  background-image: none!important;
+  box-shadow: none!important;
+  border: 0!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell.lv1{background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 30%, transparent)!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell.lv2{background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 50%, transparent)!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell.lv3{background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 70%, transparent)!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell.lv4{background: var(--xjl-blue-deep, var(--xjl-ink))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-lab{font-size: calc(9.5px * var(--ui,1))!important; height: 13px!important; line-height: 13px!important}
+
+/* 6.2 折线 / 柱状：纯色，无渐变定义残留 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-chart{height: calc(96px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-chart-axis{margin-top: calc(5px * var(--ui,1))!important; font-size: calc(9.5px * var(--ui,1))!important}
+
+/* 6.3 落笔偏好：进度条纯色 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-row{gap: calc(9px * var(--ui,1))!important; padding: calc(6px * var(--ui,1)) 0!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-bar{width: calc(3px * var(--ui,1))!important; border-radius: 3px!important; background-image: none!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-track{
+  height: calc(10px * var(--ui,1))!important;
+  border-radius: 6px!important;
+  background: color-mix(in srgb, var(--xjl-blue-deep, var(--xjl-ink)) 16%, var(--xjl-bg))!important;
+  background-image: none!important;
+  box-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-fill{
+  border-radius: 6px!important;
+  background: var(--xjl-blue-deep, var(--xjl-ink))!important;
+  background-image: none!important;
+  box-shadow: none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-name{color: var(--xjl-ink)!important; font-size: calc(12px * var(--ui,1))!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-pref-val{font-size: calc(10.5px * var(--ui,1))!important}
+
+/* ================= V40 · 顶栏上方留白收紧（全屏层已吃 safe-area，去掉额外冗余） ================= */
+html:not(#\9):not(#\8):not(#\7)
+body:not(#\9):not(#\8):not(#\7)
+#xjLetterApp.xjl-root .xjl-list-head{
+  min-height: calc(34px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7)
+body:not(#\9):not(#\8):not(#\7)
+#xjLetterApp.xjl-root .xjl-cards{
+  margin-top: calc(12px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7)
+body:not(#\9):not(#\8):not(#\7)
+#xjLetterApp.xjl-root .xjl-stats-head{
+  padding-top: 0!important;
+}
+
+/* ================= V41 · 年度笺记尺寸与可读性微调 ================= */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-chart-axis{
+  font-size: 10px!important;
+  letter-spacing: .2px!important;
+  opacity: .82!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-kpi-sub{
+  font-size: 10.5px!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-sec-title{
+  font-size: 11.5px!important;
+  letter-spacing: .3px!important;
+  margin-bottom: calc(8px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-panel-card{
+  padding: calc(13px * var(--ui,1)) calc(13px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-chart{
+  height: calc(88px * var(--ui,1))!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjl-heat-cell{
+  width: calc(15px * var(--ui,1))!important;
+  height: calc(15px * var(--ui,1))!important;
+}
+
+/* ================= V42 · 分组名称键字号可读性 ================= */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1)
+#xjLetterApp .xjs-label{
+  font-size: 12.5px!important;
+  height: 34px!important;
+}
+
+
+/* ==================================================================
+   [V38] 界面收口：底栏描边 / 圆角浮层 / 信件操作键
+   ------------------------------------------------------------------
+   1) 底栏：删掉兼容补丁留下的 1px 灰黑描边与 0 2px 10px 投影，
+      圆角仍由 .chat-room-input 本体提供（不再是「叠了一层圆角卡片」）；
+      圆角处直接露出上方聊天背景，底栏与聊天区不再有描边/阴影分层。
+   2) 信件：只保留一枚左对齐的回信键，去掉 .xjs-sheet-foot 的
+      纸色渐隐层 + 下圆角 + 负外边距（那层白色半透明卡片），
+      按钮本身也不再叠白底/阴影，信纸恢复为完整一页。
+   ================================================================== */
+
+/* ---------- 1. 聊天底栏 ---------- */
+html body .page.page[data-page="chat-room"] .chat-room-input.chat-room-input{
+  border:0!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  -webkit-box-shadow:none!important;
+  border-radius:calc(24px * var(--ui-base,1)) calc(24px * var(--ui-base,1)) 0 0!important;
+}
+html body .page.page[data-page="chat-room"] .chat-room-input.chat-room-input::before,
+html body .page.page[data-page="chat-room"] .chat-room-input.chat-room-input::after{
+  content:none!important;
+  display:none!important;
+}
+/* 阴/阳主题、壁纸自定义模式下都不许再补描边或投影 */
+html[data-theme-mode="dark"] body .page.page[data-page="chat-room"] .chat-room-input.chat-room-input,
+html[data-polarity="yin"] body .page.page[data-page="chat-room"] .chat-room-input.chat-room-input,
+html body .page.page[data-page="chat-room"][data-bar-custom="1"] .chat-room-input.chat-room-input{
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* ---------- 2. 信件弹窗操作区 ---------- */
+html:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) body:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot{
+  justify-content:flex-end!important;
+  gap:0!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  margin-bottom:0!important;
+  padding:calc(10px * var(--ui,1)) 0 calc(2px * var(--ui,1))!important;
+  background:none!important;
+  background-image:none!important;
+  border:0!important;
+  border-top:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  
+  
+}
+html:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) body:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button{
+  flex:0 0 auto!important;
+  min-width:0!important;
+  height:calc(36px * var(--ui,1))!important;
+  padding:0 calc(18px * var(--ui,1))!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border:calc(1px * var(--ui,1)) solid color-mix(in srgb, var(--xjl-ink, #3d4654) 45%, transparent)!important;
+  color:var(--xjl-ink, #3d4654)!important;
+  font-size:calc(12.8px * var(--ui,1))!important;
+  font-weight:600!important;
+  letter-spacing:.06em!important;
+  text-shadow:none!important;
+  opacity:1!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  
+  
+  cursor:pointer!important;
+}
+html:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) body:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button:active{
+  transform:scale(.96)!important;
+  filter:brightness(.92)!important;
+}
+/* 暗色信纸：描边与文字跟随该张纸的墨色，不额外补白底 */
+html:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) body:not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9):not(#\9) .xjs-letter-mask .xjs-sheet-paper.is-dark-paper .xjs-sheet-foot button{
+  background:transparent!important;
+  color:var(--xjl-ink, #F0F3F7)!important;
+  border-color:color-mix(in srgb, var(--xjl-ink, #F0F3F7) 52%, transparent)!important;
+  box-shadow:none!important;
+}

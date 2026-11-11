@@ -1,0 +1,68 @@
+/* 雪山晶 · 11-chat-fwd-card ｜ 源：雪山晶.html L25584-L25652 ｜ CSS 模块 */
+/* 1) 卡片本体：纯白底 + 极淡描边 + 轻投影（我方 self / 对方 other 完全一致） */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card,
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card.is-self,
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card.is-other,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card.is-self,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card.is-other{
+  background:#FFFFFF!important;
+  background-color:#FFFFFF!important;
+  background-image:none!important;
+  color:#1A1A1A!important;
+  border:1px solid rgba(17,17,17,.12)!important;
+  ;
+box-shadow:0 1px 3px rgba(0,0,0,.10)!important;}
+/* 我方气泡：白卡置于绿色气泡位置上时，用更明显的描边+投影保证边界清晰（卡片本身仍纯白底黑字） */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card.is-self,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card.is-self{
+  border-color:rgba(17,17,17,.16)!important;
+  ;
+box-shadow:0 1px 4px rgba(0,0,0,.16)!important;}
+
+/* 2) 卡片内标题：深层黑 */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-title,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-title{
+  color:#1A1A1A!important;
+}
+
+/* 3) 卡片内摘要（发送人名前缀 + 正文预览）：深黑，前缀略降一档仍属黑字 */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview,
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview-text,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview-text{
+  color:#1A1A1A!important;
+}
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview-name,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-preview-name{
+  color:#333333!important;
+}
+
+/* 4) 底部入口「聊天记录」与箭头 ›：与标题同色系深黑；分隔线收敛为极淡灰，不留彩色描边 */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-foot,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-foot{
+  background:transparent!important;
+  background-image:none!important;
+  border-top:1px solid rgba(17,17,17,.10)!important;
+  box-shadow:none!important;
+}
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-open,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-open{
+  color:#1A1A1A!important;
+}
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-arrow,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-arrow{
+  color:#1A1A1A!important;
+}
+
+/* 5) 卡片内顺带的头部元素（转发人 / 条数）保持同色系，不影响卡片外任何消息类型 */
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-from,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-from{
+  color:#1A1A1A!important;
+  opacity:.85!important;
+}
+html body .page[data-page="chat-room"] .chat-bubble.chat-fwd-card .chat-fwd-card-count,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-fwd-card .chat-fwd-card-count{
+  color:#1A1A1A!important;
+  border-color:rgba(17,17,17,.35)!important;
+}
