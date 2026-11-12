@@ -1,7 +1,0 @@
-/* 雪山晶 · 09-home-mobius-star ｜ 源：雪山晶.html L25383-L25390 ｜ CSS 模块 */
-html body .page[data-page="home"] .app-pages .app-page .mobius-star{position:absolute;inset:0;z-index:1;width:100%;height:100%;display:block;pointer-events:none}
-html body .page[data-page="home"] .app-pages .app-page .time-dial{z-index:5}
-/* 补齐外盘环 td-ring-1/td-ring-2 后统一压低强度，避免与星点轨迹争夺视觉重心 */
-html body .page[data-page="home"] .app-pages .app-page .time-dial .td-ring-1{opacity:.46}
-html body .page[data-page="home"] .app-pages .app-page .time-dial .td-ring-2{opacity:.38}
-@media (prefers-reduced-motion: reduce){html body .page[data-page="home"] .app-pages .app-page .time-dial .td-ring{animation:none}}
