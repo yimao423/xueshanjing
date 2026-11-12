@@ -1,0 +1,119 @@
+/* 雪山晶 · 27-letter-settings ｜ 源：雪山晶.html L35457-L35581 ｜ CSS 模块 */
+  /* [V31] 回信设置控件不再写死 px：一律交给站内通用类 .chat-num.chat-num-mini /
+     .chat-unit-btn 按 --ui-base 缩放，与「节奏设置」像素级一致（输入框 50×26、单位键 36×26、
+     圆角 9、字号 13/11 的倍率由 --ui-base 决定）。此处只补通用类没覆盖的三点：
+     ① 下拉框与输入框同规格；② 固定单位（%/句）是 span，需禁用指针与 hover 变色；
+     ③ 主题配色交给 var(--surface)/var(--text-2)/var(--card-border)，阳阴主题自动适配。 */
+  #chatLetterSetWrap .chat-field{display:inline-flex;align-items:center}
+  #chatLetterSetWrap .lf-input.chat-num{box-sizing:border-box}
+  #chatLetterSetWrap .lf-unit-fixed{pointer-events:none}
+  #chatLetterSetWrap .lf-unit-fixed:hover, #chatLetterSetWrap .lf-unit-fixed:active{border-color:var(--card-border,rgba(140,150,170,.24));color:var(--text-2,#5c6675);transform:none}
+  #chatLetterSetWrap .lf-select{box-sizing:border-box;height:calc(26px * var(--ui-base,1));min-width:calc(96px * var(--ui-base,1));padding:0 calc(8px * var(--ui-base,1));font-size:calc(13px * var(--ui-base,1));font-family:inherit;border:1px solid var(--card-border,rgba(140,150,170,.24));border-radius:calc(9px * var(--ui-base,1));background:var(--surface,#f1f4f9);color:var(--text-2,#5c6675);appearance:none;-webkit-appearance:none;text-align:center}
+  
+/* 问题：.xjs-sheet-foot 的次级键底色是 rgba(255,255,255,.6)，压在信纸（浅色）与
+   弹层背景下等于半透明叠色，文字发灰、对比度不足，双向主题下都看不清。
+   做法：改为不透明白底 + 云笺蓝墨字 + 细描边 + 轻投影，沿用站内胶囊按钮规范
+   （999px 圆角 / 一级色 #5BA8C9 / 轻投影），只覆盖非 .is-primary 的次级键；
+   「关闭」(is-primary) 维持实心蓝，一字未改。 */
+html:not(#\9):not(#\8):not(#\7):not(#\6) body:not(#\9):not(#\8):not(#\7) .xjs-letter-mask .xjs-sheet-foot button:not(.is-primary){
+  background:#FFFFFF!important;
+  background-image:none!important;
+  color:#1E6A86!important;
+  border:1px solid rgba(91,168,201,.46)!important;
+  border-radius:999px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important;
+  opacity:1!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  
+  
+  font-weight:600!important;
+  text-shadow:none!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6) body:not(#\9):not(#\8):not(#\7) .xjs-letter-mask .xjs-sheet-foot button:not(.is-primary):active{
+  background:#F2FAFD!important;
+  ;
+}
+/* 弹层按钮容器本身不能被整体降透明度（打字机结束前由脚本控制，结束后必须为 1） */
+html:not(#\9):not(#\8):not(#\7):not(#\6) body:not(#\9):not(#\8):not(#\7) .xjs-letter-mask .xjs-sheet-foot.is-done{opacity:1!important}
+/* 暗色主题下信纸仍为浅色纸面，按钮保持不透明白底，避免叠成灰块 */
+html[data-theme-mode="dark"]:not(#\9):not(#\8):not(#\7) body:not(#\9):not(#\8):not(#\7) .xjs-letter-mask .xjs-sheet-foot button:not(.is-primary){
+  background:#FFFFFF!important;
+  color:#1E6A86!important;
+  border-color:rgba(91,168,201,.5)!important;
+}
+
+/* 1) 划掉 = 一道普通横线：长度严格等于被划那句的实际宽度（--xjl-strike-w），左右都不出头，
+      粗细适中、从上到下居中穿过文字，颜色取该张纸的墨色半透明；
+      打字机划入仍保留，但收敛成一次简单的横向伸展。 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2) .xjs-letter-mask .xjs-tw-view p.xjs-tw-p::after,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2) .xjs-letter-mask .xjs-lt-full p.xjs-strike::after{
+  content:''; position:absolute; left:0; top:calc(50% - 1px);
+  width:var(--xjl-strike-w, 100%); max-width:100%;
+  height:calc(2px * var(--ui,1)); background:var(--xjl-ink, currentColor);
+  border-radius:calc(1px * var(--ui,1));
+  opacity:0; pointer-events:none;
+  transform:scaleX(0); transform-origin:left center;
+  transition:transform .36s cubic-bezier(.22,.72,.25,1),opacity .2s linear;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2) .xjs-letter-mask .xjs-tw-view p.xjs-tw-p.is-struck::after,
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2):not(#\1) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5):not(#\4):not(#\3):not(#\2) .xjs-letter-mask .xjs-lt-full p.xjs-strike::after{
+  opacity:.5; transform:scaleX(1);
+}
+
+/* 2) 操作键搬进信纸：sticky 贴纸面底边（长信滚动仍可见），右对齐成组，
+      底色带一层纸色渐隐，避免正文从按键底下穿过时糊成一片。 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot{
+  position:sticky!important; bottom:0!important; z-index:6!important;
+  display:flex!important; align-items:center!important; justify-content:flex-end!important;
+  gap:calc(10px * var(--ui,1))!important;
+  /* 上边距由 xjPlaceFoot() 按纸面剩余高度动态给（短信贴底、长信留 14px 起） */
+  margin:0!important;
+  margin-left:calc(-26px * var(--ui,1))!important;
+  margin-right:calc(-26px * var(--ui,1))!important;
+  margin-bottom:calc(-18px * var(--ui,1))!important;
+  padding:calc(12px * var(--ui,1)) calc(26px * var(--ui,1)) calc(16px * var(--ui,1))!important;
+  background:linear-gradient(to top,
+    var(--xjl-paper-base, #fbf8f0) 0%,
+    color-mix(in srgb, var(--xjl-paper-base, #fbf8f0) 78%, transparent) 55%,
+    transparent 100%)!important;
+  background-image:linear-gradient(to top,
+    var(--xjl-paper-base, #fbf8f0) 0%,
+    color-mix(in srgb, var(--xjl-paper-base, #fbf8f0) 78%, transparent) 55%,
+    transparent 100%)!important;
+  border:0!important; border-top:0!important; border-radius:0 0 calc(16px * var(--ui,1)) calc(16px * var(--ui,1))!important;
+  box-shadow:none!important; opacity:0!important;
+  transition:opacity .4s ease!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot.is-done{opacity:1!important}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button{
+  flex:0 0 auto!important; min-width:calc(86px * var(--ui,1))!important;
+  height:calc(36px * var(--ui,1))!important; padding:0 calc(20px * var(--ui,1))!important;
+  border-radius:999px!important; font-size:calc(12.8px * var(--ui,1))!important;
+  letter-spacing:.06em!important; font-weight:600!important;
+  opacity:1!important; filter:none!important; mix-blend-mode:normal!important;
+   
+  text-shadow:none!important; cursor:pointer!important;
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease!important;
+}
+/* 浅底纸（站内绝大多数信纸）：次级键 = 纸色派生墨色描边款，主键 = 墨色实心 + 纸面反白字 */
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button:not(.is-primary){
+  background:transparent!important; background-image:none!important;
+  color:var(--xjl-ink, #3d4654)!important;
+  border:calc(1px * var(--ui,1)) solid color-mix(in srgb, var(--xjl-ink, #3d4654) 42%, transparent)!important;
+  box-shadow:inset 0 calc(1px * var(--ui,1)) 0 rgba(255,255,255,.55)!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button.is-primary{
+  background:var(--xjl-ink, #3d4654)!important; background-image:none!important;
+  color:var(--xjl-btn-on, #FFFFFF)!important;
+  border:calc(1px * var(--ui,1)) solid color-mix(in srgb, var(--xjl-ink, #3d4654) 92%, transparent)!important;
+  ;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper .xjs-sheet-foot button:active{
+  transform:scale(.96)!important; filter:brightness(.9)!important;
+}
+html:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) body:not(#\9):not(#\8):not(#\7):not(#\6):not(#\5) .xjs-letter-mask .xjs-sheet-paper.is-dark-paper .xjs-sheet-foot button:not(.is-primary){
+  background:transparent!important; color:var(--xjl-ink, #F0F3F7)!important;
+  border-color:color-mix(in srgb, var(--xjl-ink, #F0F3F7) 48%, transparent)!important;
+  box-shadow:none!important;
+}

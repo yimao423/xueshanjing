@@ -1,0 +1,212 @@
+/* 雪山晶 · 24-rainsee-compat ｜ 源：雪山晶.html L32239-L32383 ｜ CSS 模块 */
+/* 雨见 / 国产 WebView 兼容 + 全局性能补丁
+   1) 聊天气泡改流式布局，杜绝重叠与时间戳错位
+   2) 键盘期间锁定聊天页位置，消除「点输入框页面飞上去」
+   3) 降级易花屏的 GPU 合成特效（毛玻璃 / mask 描边 / clip-path 尖角 / 混色滤镜）
+   4) 静态化常驻无限动画、后台暂停动画，降低发热 */
+
+/* ---------- 1. 消息行：浏览器原生流式排布 ---------- */
+html body .chat-vl-row{
+  position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+  width:100%!important;min-width:0!important;contain:none!important;transform:none!important;
+}
+/* 首个 spacer 用 flex 自动撑开：消息少时贴底，消息多时自动收为 0，无需 JS 算高度 */
+html body .chat-vl-spacer{flex:1 1 auto!important;min-height:0!important;height:0!important;width:100%!important;pointer-events:none!important}
+html body .page[data-page="chat-room"] .chat-room-body#chatMessages{gap:6px!important}
+
+/* ---------- 2. 键盘期间不做位移 / 不改高度 ---------- */
+html body .phone > .page[data-page="chat-room"]{
+  position:relative!important;top:0!important;left:0!important;right:0!important;bottom:auto!important;
+  height:auto!important;min-height:0!important;max-height:none!important;flex:1 1 auto!important;transform:none!important;
+}
+html body .page[data-page="chat-room"] .chat-room-input{flex:0 0 auto!important;position:relative!important;bottom:auto!important;transform:none!important}
+html body .page[data-page="chat-room"] .chat-room-body{min-height:0!important}
+html body .page[data-page="chat-room"] .chat-plus-btn,
+html body .page[data-page="chat-room"] .chat-send-btn{-webkit-user-select:none!important;user-select:none!important}
+
+/* ---------- 3. 花屏 / 乱线条渲染降级 ---------- */
+/* 3.1 输入框的渐变描边用 -webkit-mask-composite 实现，国产内核常画成框外乱线与色块 → 隐藏，改干净实线边 */
+html body .page[data-page="chat-room"] .chat-room-input::before,
+html body .page[data-page="chat-room"] .chat-room-input::after{display:none!important;content:none!important}
+html body .page[data-page="chat-room"] .chat-room-input{border:1px solid rgba(150,160,180,.32)!important}
+/* 3.2 气泡小尖角：弃用 clip-path（部分内核会画成白色斜线/三角残影），改用纯 border 三角。
+   三角根部内缩、贴住气泡底缘，形成「内侧小三角」，与气泡连成一体不走样 */
+html body .page[data-page="chat-room"] .chat-bubble.is-self::after,
+html body .page[data-page="mtx-session"] .chat-bubble.is-self::after,
+html body .chat-bubble.is-self::after{
+  display:block!important;content:""!important;
+  position:absolute!important;top:50%!important;right:-5px!important;bottom:auto!important;transform:translateY(-50%)!important;
+  width:0!important;height:0!important;margin:0!important;
+  border-style:solid!important;border-width:5px 0 5px 5px!important;
+  border-color:transparent!important;border-left-color:#95ec69!important;
+  background:none!important;background-image:none!important;
+  clip-path:none!important;-webkit-clip-path:none!important;
+  box-shadow:none!important;pointer-events:none!important;
+}
+html body .page[data-page="chat-room"] .chat-bubble.is-other::after,
+html body .page[data-page="mtx-session"] .chat-bubble.is-other::after,
+html body .chat-bubble.is-other::after{
+  display:block!important;content:""!important;
+  position:absolute!important;top:50%!important;left:-5px!important;bottom:auto!important;transform:translateY(-50%)!important;
+  width:0!important;height:0!important;margin:0!important;
+  border-style:solid!important;border-width:5px 5px 5px 0!important;
+  border-color:transparent!important;border-right-color:#ffffff!important;
+  background:none!important;background-image:none!important;
+  clip-path:none!important;-webkit-clip-path:none!important;
+  box-shadow:none!important;pointer-events:none!important;
+}
+/* 小三角跟随各自气泡底色 */
+html body .page[data-page="chat-room"][data-bubble-mode="wechat"] .chat-bubble.is-self::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="wechat"] .chat-bubble.is-self::after{border-left-color:#000000!important}
+html body .page[data-page="chat-room"][data-bubble-mode="wechat"] .chat-bubble.is-other::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="wechat"] .chat-bubble.is-other::after{border-right-color:#ffffff!important}
+html body .page[data-page="chat-room"][data-bubble-mode="theme"] .chat-bubble.is-self::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="theme"] .chat-bubble.is-self::after{border-left-color:var(--accent-deep,#4F86E8)!important}
+html body .page[data-page="chat-room"][data-bubble-mode="theme"] .chat-bubble.is-other::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="theme"] .chat-bubble.is-other::after{border-right-color:var(--card,#FFFFFF)!important}
+html[data-theme-mode="dark"] body .page[data-page="chat-room"][data-bubble-mode="theme"] .chat-bubble.is-self::after,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-bubble-mode="theme"] .chat-bubble.is-self::after{border-left-color:var(--accent-deep,#5c8a3d)!important}
+html[data-theme-mode="dark"] body .page[data-page="chat-room"][data-bubble-mode="theme"] .chat-bubble.is-other::after,
+html[data-theme-mode="dark"] body .page[data-page="mtx-session"][data-bubble-mode="theme"] .chat-bubble.is-other::after{border-right-color:var(--card,#272c36)!important}
+html body .page[data-page="chat-room"][data-bubble-mode="custom"] .chat-bubble.is-self::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="custom"] .chat-bubble.is-self::after{border-left-color:var(--bubble-self-c,#4F86E8)!important}
+html body .page[data-page="chat-room"][data-bubble-mode="custom"] .chat-bubble.is-other::after,
+html body .page[data-page="mtx-session"][data-bubble-mode="custom"] .chat-bubble.is-other::after{border-right-color:var(--bubble-other-c,#FFFFFF)!important}
+/* 阴模式：16-dark-theme 有一条 `*:not(#\9)::after{border-color:rgba(255,255,255,.14)}` 兜底，
+   会给小三角染上浅灰描边色，这里用同等 id 级特异性压回去 */
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-self:not(#\9)::after,
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-self:not(#\9)::after{border-left-color:#343434!important;border-top-color:transparent!important;border-right-color:transparent!important;border-bottom-color:transparent!important;background:none!important}
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-other:not(#\9)::after,
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-other:not(#\9)::after{border-right-color:#343434!important;border-top-color:transparent!important;border-left-color:transparent!important;border-bottom-color:transparent!important;background:none!important}
+/* 特殊气泡（表情/字卡/红包/问答/图片/语音/撤回/卡片）与商城导入气泡：自身的形态已完整，不画默认三角 */
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-sticker::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-letter::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-rp::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-qa::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-img::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-imgs::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-voice::after,
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-recall::after,
+html body .page[data-page="chat-room"] .chat-bubble.mtx-cards-bubble::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-sticker::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-letter::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-rp::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-qa::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-img::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-imgs::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-voice::after,
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-recall::after,
+html body .page[data-page="mtx-session"] .chat-bubble.mtx-cards-bubble::after{display:none!important;content:none!important;border:none!important}
+html body .page[data-page="chat-room"] .chat-bubble.is-self[class*="bub-css-"]::after,
+html body .page[data-page="mtx-session"] .chat-bubble.is-self[class*="bub-css-"]::after,
+html body .page[data-page="chat-room"] .chat-bubble.is-other[class*="bub-css-"]::after,
+html body .page[data-page="mtx-session"] .chat-bubble.is-other[class*="bub-css-"]::after{display:none!important;content:none!important;border:none!important}
+/* 3.3 全屏背景层去掉滤镜与混色，避免合成层错乱导致的「闪花」 */
+html body .page[data-page="chat-room"]::before,
+html body .page[data-page="chat-room"]::after,
+html body .page[data-page="mtx-session"]::before,
+html body .page[data-page="mtx-session"]::after{filter:none!important;mix-blend-mode:normal!important}
+/* 3.4 全局关闭毛玻璃：每块 backdrop-filter 都是常驻 GPU 合成层，是发热与闪花的主因 */
+html body .page,html body .page *,html body .page::before,html body .page::after,
+html body .page *::before,html body .page *::after,
+html body .chat-qa-mask,html body .chat-sticker-mask,html body .chat-qa-mask::before,
+html body .cal-modal,html body .cal-sheet,html body .msg-action-menu{
+  
+}
+/* 3.5 失去模糊后给浅色主题弹层补实底色（暗色/阴性主题保持原样，不改色） */
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-qa-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-sticker-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-plus-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-emoji-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-bg-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-pat-panel,
+html:not([data-theme-mode="dark"]):not([data-polarity="yin"]) body .chat-room-menu{
+  background-color:rgba(255,255,255,.965)!important;
+}
+html body .chat-qa-mask{background:rgba(12,15,24,.52)!important}
+/* 3.6 「让你选」面板：去掉 scale 变换（子像素缩放会产生文字毛边/杂线）、虚线改实线、输入框去掉内部滚动条 */
+html body .chat-qa-panel,
+html body .chat-qa-panel.is-open{transform:translate(-50%,-50%)!important;will-change:auto!important}
+html body .chat-qa-add{border-style:solid!important}
+html body .chat-qa-question,
+html body .qa-opt-input{
+  overflow:hidden!important;-webkit-appearance:none!important;appearance:none!important;
+  background-image:none!important;box-shadow:none!important;
+}
+html body .chat-bubble.chat-bubble-qa{box-shadow:none!important}
+/* 3.7 空心描边符号在部分内核会画成乱线 → 改实心 */
+html body .link-sym{-webkit-text-stroke:0!important;color:rgba(232,106,146,.42)!important}
+html body .link-sym.is-on{color:var(--accent,#E86A92)!important}
+
+/* ---------- 4. 常驻无限动效：分类处理 ---------- */
+/* 4.0 首页时间盘：上一版为省电用 animation:none 永久关闭，导致「回到首页也不转」。
+       现改为「暂停」而非「删除」：离开首页 / 切后台 → paused，回到首页且前台可见 → 自动恢复
+       （CSS 动画暂停会保留进度，恢复后接着转，不重置角度）。
+       指针角度由 JS 每秒按真实时间绝对值计算，与这些装饰性旋转动画完全无关。 */
+html body .phone:not([data-page="home"]) .page[data-page="home"] .time-dial *,
+html body .phone:not([data-page="home"]) .page[data-page="home"] .time-dial::before,
+html body .phone:not([data-page="home"]) .page[data-page="home"] .time-dial::after,
+html.xj-page-hidden body .time-dial *,
+html.xj-page-hidden body .time-dial::before,
+html.xj-page-hidden body .time-dial::after{animation-play-state:paused!important}
+/* 尊重系统「减少动态效果」设置 */
+@media (prefers-reduced-motion: reduce){
+  html body .time-dial *,html body .time-dial::before,html body .time-dial::after{animation:none!important}
+}
+/* 4.0a 与首页时间盘无关的常驻装饰动画保持静态化（聊天页 / 全屏大面积，发热大户） */
+html body .star-layer,
+html body .gold-star-layer,
+html body #homeDenimTex[data-kind="starlight"],
+html body .denim-texture[data-kind="starlight"],
+html body .link-sym,
+html body .chat-voice-wave i,
+html body .call-active-ring,
+html body .qa-state:not(.is-done)::before{animation:none!important}
+/* 次元镜界洗牌/抽牌是一次性有限动画（非常驻），允许播放；切后台时暂停，离屏由 xj-offscreen 处理 */
+html.xj-page-hidden body .mtx-shuffle-card{animation-play-state:paused!important}
+/* 4.0b 占位空壳：不接收事件、不带任何绘制，把离屏行的渲染成本降到接近 0 */
+html body .chat-vl-row .chat-vl-ph{pointer-events:none!important;background:none!important;border:0!important;box-shadow:none!important}
+/* 4.2 全局兜底：项目里多处 backdrop-filter 带 !important 且选择器特异性很高
+       （如 .chat-room-input 的 blur(30px)、--glass-blur 变量引用、metric-sheet 弹层）。
+       用 :not(#\9) 提高特异性，一次性把所有毛玻璃合成层关掉。 */
+:root{--glass-blur:none!important}
+html body *:not(#\9),
+html body *:not(#\9)::before,
+html body *:not(#\9)::after,
+html:not(#\9) body *{}
+/* 4.3 输入栏：去掉 inset 高光/多层阴影（国产内核容易把高光画成框上乱线） */
+html body .page[data-page="chat-room"] .chat-room-input{
+  box-shadow:0 2px 10px rgba(0,0,0,.06)!important;
+}
+
+/* ==================== V17 写信界面补充样式 ==================== */
+/* 返回键：与全站 .page-head .back-btn 完全一致的 34×34 / 20×20 / 无底色 */
+html body #xjLetterApp.xjl-root .xjl-home-btn,
+html body #xjLetterApp.xjl-root .xjl-ed-back{
+  width:34px!important;height:34px!important;flex:0 0 auto!important;
+  border-radius:calc(12px * var(--ui,1))!important;
+  background:transparent!important;border:none!important;box-shadow:none!important;
+  
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;color:var(--text-1)!important;
+}
+html body #xjLetterApp.xjl-root .xjl-home-btn svg,
+html body #xjLetterApp.xjl-root .xjl-ed-back svg{width:20px!important;height:20px!important;display:block!important}
+html body #xjLetterApp.xjl-root .xjl-home-btn:active,
+html body #xjLetterApp.xjl-root .xjl-ed-back:active{opacity:.5!important;transform:scale(.94)!important}
+/* 自定义信纸：上传卡片与删除角标 */
+html body #xjLetterApp.xjl-root .xjl-paper-upload{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:4px!important;border:1.5px dashed rgba(120,135,160,.55)!important;
+  background:rgba(255,255,255,.35)!important;cursor:pointer!important;position:relative!important;
+}
+html body #xjLetterApp.xjl-root .xjl-paper-upload .xjl-pu-plus{font-size:26px!important;line-height:1!important;color:var(--accent-deep)!important}
+html body #xjLetterApp.xjl-root .xjl-paper-upload .xjl-pc-name{color:var(--text-2)!important;text-shadow:none!important}
+html body #xjLetterApp.xjl-root .xjl-paper-del{
+  position:absolute!important;top:3px!important;right:3px!important;width:20px!important;height:20px!important;
+  border-radius:50%!important;border:none!important;background:rgba(20,24,32,.62)!important;
+  color:#fff!important;font-size:15px!important;line-height:18px!important;text-align:center!important;
+  padding:0!important;cursor:pointer!important;z-index:2!important;
+}
+/* 后台（切到别的标签/锁屏）暂停所有动画，避免空转耗电 */
+html.xj-page-hidden *,html.xj-page-hidden *::before,html.xj-page-hidden *::after{animation-play-state:paused!important}

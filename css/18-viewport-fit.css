@@ -1,0 +1,69 @@
+/* 雪山晶 · 18-viewport-fit ｜ 源：雪山晶.html L28359-L28428 ｜ CSS 模块 */
+/* 1. 根容器钉死：彻底消除整页滚动与拖拽回弹 */
+html{
+  height:100%!important;
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+  -webkit-overflow-scrolling:auto!important;
+  }
+body{
+  position:fixed!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+  -webkit-overflow-scrolling:auto!important;
+  /* 外壳与「页面外」统一底色：优先取首页实际使用的 --xj-home-bg（阳=#FFF / 阴=#252525），
+     避免 --page-outside 与首页背景不一致时，露边处出现「白 / 浅灰」两块颜色分层 */
+  background-color:var(--xj-home-bg,var(--bg,#fff))!important;
+  }
+/* 2. 应用外壳：常态纯 CSS 铺满，不依赖 dvh、不受 JS 测量值影响 */
+html body .phone{
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+  }
+/* 3. 关键：移除底栏预留位。选择器特异性高于任何 data-nav / nav-open-pad 规则，
+      且 !important 可压过脚本写入的 inline padding，首页内容链得以铺满整屏。 */
+html[data-nav] body .phone,
+html body .phone,
+html body .phone[data-page],
+html body .phone.nav-open-pad{
+  padding-bottom:0!important;
+  }
+/* 4. 仅确认软键盘弹出时才按可视高度收缩容器 */
+html.xj-kb-open body .phone{
+  height:100%!important;
+  height:var(--xj-app-h,100%)!important;
+  }
+/* 5. 聊天室页：撤销 fixed 钉底，改回外壳内自适应 flex 子项 */
+html body .phone > .page[data-page="chat-room"]{
+  position:relative!important;
+  top:0!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  flex:1 1 auto!important;
+  }
+/* 6. 抵消原键盘脚本写入的 inline height/top，阻断滚动链 */
+html body .phone > .page.is-active:not([data-page="chat-room"]){
+  height:auto!important;
+  min-height:0!important;
+  top:0!important;
+  flex:1 1 auto!important;
+  overscroll-behavior:contain;
+  }
+html body .chat-room-body{overscroll-behavior:contain}
+/* 7. 底栏相关元素虽已从 DOM 移除，仍兜底隐藏，杜绝任何主题/脚本把它们带回来 */
+html body #bottomNav, html body .bottom-nav, html body .nav-pill,
+html body .snow-fab, html body .nav-mask, html body .navmode-mask,
+html body .navmode-sheet{display:none!important}

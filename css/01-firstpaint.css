@@ -1,0 +1,7 @@
+/* 雪山晶 · 01-firstpaint ｜ 源：雪山晶.html L68-L75 ｜ CSS 模块 */
+/* [V30] 首帧浅色兜底（全站默认口径改成浅色）
+   html 默认白底；只有预置脚本明确写入 data-polarity="yin" 时才转深色。
+   :root 的 --xj-home-bg 也给浅色默认值，避免任何「脚本未跑到」的绘制用深色兜底。 */
+html{background-color:#FFFFFF}
+html[data-polarity="yin"]{background-color:#252525}
+:root{--xj-home-bg:#FFFFFF}

@@ -1,0 +1,69 @@
+/* ============================================================
+   32-fixed-colors.css
+   用途：① 把「撤回通知」强制压成纯文字（无底、无框），与拍一拍通知完全同规则；
+        ② 把「通话面板」的文字/背景配色固定下来，不跟随主题联动变色。
+   说明：选择器统一带 :not(#\9)，把特异性提到 ID 级（1,4+,2），
+        以压过 16-dark-theme.css 里 `*:not(#\9)` 的白字兜底。
+   ============================================================ */
+
+/* ---------- 1. 撤回通知：纯文字（与拍一拍通知完全同规则，强制无底无框） ---------- */
+/* 不再画气泡底：文字颜色交给 --text-3 与壁纸/主题规则自动适配，保证与任何聊天背景都能区分 */
+html body .page[data-page="chat-room"] .chat-msg-pat .chat-pat-text.chat-recall-notice:not(#\9),
+html body .page[data-page="mtx-session"] .chat-msg-pat .chat-pat-text.chat-recall-notice:not(#\9),
+html body .page[data-page="chat-room"] .chat-room-body .chat-msg-pat .chat-pat-text.chat-recall-notice:not(#\9),
+html body .page[data-page="mtx-session"] .chat-room-body .chat-msg-pat .chat-pat-text.chat-recall-notice:not(#\9),
+html body .page[data-page="chat-room"] .chat-bubble.chat-bubble-recall:not(#\9),
+html body .page[data-page="mtx-session"] .chat-bubble.chat-bubble-recall:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+
+/* ---------- 2. 通话面板：文字配色固定（浅色底面板用深字） ---------- */
+/* 2.1 呼叫方式选择面板 */
+html body .call-picker-panel .call-picker-name:not(#\9){color:#2E3644!important;text-shadow:none!important}
+html body .call-picker-panel .call-picker-sub:not(#\9){color:#626B7B!important;text-shadow:none!important}
+html body .call-picker-panel .call-picker-option i:not(#\9){color:#3E6FA8!important}
+html body .call-picker-panel .call-picker-option span:not(#\9){color:#5A6373!important;text-shadow:none!important}
+html body .call-picker-panel .call-picker-cancel:not(#\9){color:#626B7B!important;text-shadow:none!important}
+
+/* 2.2 通话中面板（默认浅色背景：固定深字，计时数字不再跟随主题强调色） */
+html body .call-active-panel .call-active-name:not(#\9){color:#2E3644!important;text-shadow:none!important}
+html body .call-active-panel .call-active-status:not(#\9){color:#626B7B!important;text-shadow:none!important}
+html body .call-active-panel .call-active-timer:not(#\9){color:#2E3644!important;text-shadow:none!important}
+html body .call-active-panel .call-bg-btn:not(#\9),
+html body .call-active-panel .call-min-btn:not(#\9){color:#4A5262!important}
+
+/* 2.3 来电面板（默认浅色背景：固定深字） */
+html body .call-incoming-panel .call-incoming-name:not(#\9){color:#2E3644!important;text-shadow:none!important}
+html body .call-incoming-panel .call-incoming-sub:not(#\9){color:rgba(46,54,68,.76)!important;text-shadow:none!important}
+
+/* 2.4 通话记录面板（白底：固定深字） */
+html body .call-history-panel .call-history-title:not(#\9){color:#2E3644!important}
+html body .call-history-panel .call-history-name:not(#\9){color:#2E3644!important}
+html body .call-history-panel .call-history-status:not(#\9){color:#626B7B!important}
+html body .call-history-panel .call-history-status.rejected:not(#\9),
+html body .call-history-panel .call-history-status.missed:not(#\9){color:#D9646F!important}
+html body .call-history-panel .call-history-time:not(#\9){color:#8A93A3!important}
+html body .call-history-panel .call-history-empty:not(#\9){color:#8A93A3!important}
+html body .call-history-panel .call-history-close:not(#\9){color:#4A5262!important}
+html body .call-history-panel .call-history-del:not(#\9){color:#9AA2B0!important}
+html body .call-history-panel .call-history-clear:not(#\9){color:#626B7B!important}
+html body .call-picker-panel .call-picker-history:not(#\9){color:#3E6FA8!important}
+html body .call-history-panel .call-history-icon:not(.icon-connected):not(.icon-rejected):not(.icon-missed):not(#\9){color:#3E6FA8!important}
+
+/* ---------- 3. 深色/自定义背景面板：固定白字（覆盖上面的深字，保证对比度） ---------- */
+html body .call-active-panel.call-bg-dark .call-active-name:not(#\9){color:#FFFFFF!important;text-shadow:0 1px 6px rgba(0,0,0,.35)!important}
+html body .call-active-panel.call-bg-dark .call-active-status:not(#\9){color:rgba(255,255,255,.88)!important;text-shadow:0 1px 6px rgba(0,0,0,.35)!important}
+html body .call-active-panel.call-bg-dark .call-active-timer:not(#\9){color:#FFFFFF!important;text-shadow:0 2px 10px rgba(0,0,0,.40)!important}
+html body .call-active-panel.call-bg-dark .call-bg-btn:not(#\9),
+html body .call-active-panel.call-bg-dark .call-min-btn:not(#\9){color:#FFFFFF!important;background:rgba(255,255,255,.20)!important}
+html body .call-active-panel.call-bg-custom .call-active-name:not(#\9){color:#FFFFFF!important;text-shadow:0 2px 10px rgba(0,0,0,.50)!important}
+html body .call-active-panel.call-bg-custom .call-active-status:not(#\9){color:rgba(255,255,255,.94)!important;text-shadow:0 1px 6px rgba(0,0,0,.45)!important}
+html body .call-active-panel.call-bg-custom .call-active-timer:not(#\9){color:#FFFFFF!important;text-shadow:0 2px 10px rgba(0,0,0,.50)!important}
+html body .call-active-panel.call-bg-custom .call-bg-btn:not(#\9),
+html body .call-active-panel.call-bg-custom .call-min-btn:not(#\9){color:#FFFFFF!important;background:rgba(0,0,0,.32)!important}
+html body .call-incoming-panel.call-bg-dark .call-incoming-name:not(#\9){color:#FFFFFF!important;text-shadow:0 1px 6px rgba(0,0,0,.35)!important}
+html body .call-incoming-panel.call-bg-dark .call-incoming-sub:not(#\9){color:rgba(255,255,255,.86)!important;text-shadow:0 1px 6px rgba(0,0,0,.35)!important}

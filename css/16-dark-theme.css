@@ -1,0 +1,1055 @@
+/* 雪山晶 · 16-dark-theme ｜ 源：雪山晶.html L26991-L28026 ｜ CSS 模块 */
+/* ===== 阴模式深色化 v3 =====
+   作用域：html[data-polarity="yin"]
+   规范：界面背景 #222222 / 卡片 #343434 / 弹窗按键 #464646 / 文字 #FFFFFF
+   聊天：背景 #222222、双方气泡 #343434（含小三角）、文字 #FFFFFF、按键白色
+   注：主题引擎把配色写为 html 内联 style，故变量覆盖必须 !important */
+
+/* ---------- 1. 变量层 ---------- */
+html[data-polarity="yin"]{
+  --bg:#222222!important;
+  --bg-top:#222222!important;
+  --bg-deep:#222222!important;
+  --page-outside:#222222!important;
+  --card:#343434!important;
+  --card-rgb:52,52,52!important;
+  --card-border:rgba(255,255,255,.10)!important;
+  --surface:#343434!important;
+  --surface-rgb:52,52,52!important;
+  --surface-ghost:#3a3a3a!important;
+  --glass-nav:rgba(34,34,34,.92)!important;
+  --glass-nav-rgb:34,34,34!important;
+  --glass-nav-a:.92!important;
+  --glass-icon:rgba(52,52,52,.92)!important;
+  --glass-border:rgba(255,255,255,.10)!important;
+  --glass-card:#343434!important;
+  --glass-card-border:rgba(255,255,255,.10)!important;
+  --tint-1:#2b2b2b!important;
+  --tint-2:#303030!important;
+  --hover-bg:rgba(255,255,255,.08)!important;
+  --text:#FFFFFF!important;
+  --text-1:#FFFFFF!important;
+  --text-2:rgba(255,255,255,.88)!important;
+  --text-3:rgba(255,255,255,.74)!important;
+  --text-4:rgba(255,255,255,.58)!important;
+  --text-5:rgba(255,255,255,.40)!important;
+  --text-title:#FFFFFF!important;
+  --sub:rgba(255,255,255,.84)!important;
+  --divider:rgba(255,255,255,.10)!important;
+  --popup-bg-light:52,52,52!important;
+  --popup-bg-dark:52,52,52!important;
+  --popup-text:#FFFFFF!important;
+  --xj-home-bg:#222222!important;
+  --key-card:#464646!important;
+  --key-card-strong:#464646!important;
+  --key-grad:linear-gradient(150deg,#FFFFFF 0%,#EDEDED 100%)!important;
+  --key-ink:#222222!important;
+  --icon-ink:#FFFFFF!important;
+  --shadow-card:0 2px 10px rgba(0,0,0,.45)!important;
+  --shadow-nav:0 -2px 14px rgba(0,0,0,.50)!important;
+  --wave-fill:#222222!important;
+  --wave-body:rgba(34,34,34,.66)!important;
+  --wave-glow:rgba(255,255,255,.10)!important;
+  --fc-quote:#FFFFFF!important;
+  --fc-latfoot:#FFFFFF!important;
+  --fc-love:#FFFFFF!important;
+  --fc-metric-label:#FFFFFF!important;
+  --fc-metric-num:#FFFFFF!important;
+  --fc-metric-unit:#FFFFFF!important;
+  --fc-cal-month:#FFFFFF!important;
+  --fc-cal-lunar:#FFFFFF!important;
+  --fc-cal-w:#FFFFFF!important;
+  --fc-cal-day:#FFFFFF!important;
+  --fc-cal-today:#FFFFFF!important;
+  --fc-cal-out:#FFFFFF!important;
+  --fc-nickname:#FFFFFF!important;
+  --fc-nickname-empty:#FFFFFF!important;
+  --fc-tab-idle:#FFFFFF!important;
+  --fc-tab-active:#FFFFFF!important;
+  --fc-page-title:#FFFFFF!important;
+  --fc-fn-title:#FFFFFF!important;
+  --fc-fn-desc:#FFFFFF!important;
+  --fc-fn-arrow:#FFFFFF!important;
+  --fc-card-title:#FFFFFF!important;
+  --fc-card-desc:#FFFFFF!important;
+}
+
+/* ---------- 2. 页面底色 ---------- */
+html[data-polarity="yin"] body,
+html[data-polarity="yin"] body .phone,
+html[data-polarity="yin"] body .page,
+html[data-polarity="yin"] body .page-wrap,
+html[data-polarity="yin"] body .page-body,
+html[data-polarity="yin"] body .app-pages,
+html[data-polarity="yin"] body .app-page{
+  background-color:#222222!important;
+  background-image:none!important;
+}
+html[data-polarity="yin"] body .page[data-page="home"],
+html[data-polarity="yin"] body .phone[data-page="home"]{background-color:#222222!important}
+
+/* 顶栏 / 底栏 / 状态栏 */
+html[data-polarity="yin"] body .page-head{
+  background:rgba(34,34,34,.94)!important;
+  border-bottom-color:rgba(255,255,255,.08)!important;
+}
+  background:rgba(34,34,34,.94)!important;
+  border-top:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:0 -2px 14px rgba(0,0,0,.50)!important;
+}
+html[data-polarity="yin"] body .status-bar{background:transparent!important;color:#FFFFFF!important}
+
+/* ---------- 3. 卡片 #343434 ---------- */
+html[data-polarity="yin"] body .page .row-list,
+html[data-polarity="yin"] body .page .row-card,
+html[data-polarity="yin"] body .page .theme-panel,
+html[data-polarity="yin"] body .page .msg-card,
+html[data-polarity="yin"] body .page .fn-card,
+html[data-polarity="yin"] body .page .tab-panel .fn-card,
+html[data-polarity="yin"] body .page .wc-card,
+html[data-polarity="yin"] body .page .wc-chip,
+html[data-polarity="yin"] body .page .banner-card,
+html[data-polarity="yin"] body .page .hc-card,
+html[data-polarity="yin"] body .page .cal-card,
+html[data-polarity="yin"] body .page .acc-partner-row,
+html[data-polarity="yin"] body .page .moon-cycle-card,
+html[data-polarity="yin"] body .page .moon-stats-card,
+html[data-polarity="yin"] body .page .moon-reminder-card,
+html[data-polarity="yin"] body .page .bubble-mode-card,
+html[data-polarity="yin"] body .page .bubble-mode-card.is-active,
+html[data-polarity="yin"] body .page .bubble-mode-prev,
+html[data-polarity="yin"] body .page .zone-row,
+html[data-polarity="yin"] body .page .swatch-row,
+html[data-polarity="yin"] body .page .course-card,
+html[data-polarity="yin"] body .page .course-item,
+html[data-polarity="yin"] body .page .teacher-card,
+html[data-polarity="yin"] body .page .echo-card,
+html[data-polarity="yin"] body .page .echo-day{
+  background:#343434!important;
+  background-image:none!important;
+  border-color:rgba(255,255,255,.08)!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .page .row-list .row-card,
+html[data-polarity="yin"] body .page .row-list .row-item{
+  background:transparent!important;
+  background-image:none!important;
+}
+html[data-polarity="yin"] body .page .row-card:hover,
+html[data-polarity="yin"] body .page .msg-card:hover,
+html[data-polarity="yin"] body .page .fn-card:hover,
+html[data-polarity="yin"] body .page .bubble-mode-card:hover{
+  background:rgba(255,255,255,.06)!important;
+  background-image:none!important;
+}
+
+/* ---------- 4. 弹窗 / 浮层容器（列举 + 通用兜底） ---------- */
+html[data-polarity="yin"] body .cal-sheet,
+html[data-polarity="yin"] body .metric-sheet,
+html[data-polarity="yin"] body .moon-sheet,
+html[data-polarity="yin"] body .lf-sheet,
+html[data-polarity="yin"] body .navmode-sheet,
+html[data-polarity="yin"] body .fwd-detail-panel,
+html[data-polarity="yin"] body .fwd-target-panel,
+html[data-polarity="yin"] body .chat-emoji-panel,
+html[data-polarity="yin"] body .chat-sticker-panel,
+html[data-polarity="yin"] body .chat-qa-panel,
+html[data-polarity="yin"] body .chat-bg-panel,
+html[data-polarity="yin"] body .chat-pat-panel,
+html[data-polarity="yin"] body .chat-plus-panel,
+html[data-polarity="yin"] body .bubble-assign-panel,
+html[data-polarity="yin"] body .bubble-shop-panel,
+html[data-polarity="yin"] body .bubble-rename-panel,
+html[data-polarity="yin"] body .rp-modal,
+html[data-polarity="yin"] body .rp-rec-panel,
+html[data-polarity="yin"] body .mtx-modal,
+html[data-polarity="yin"] body .acc-panel,
+html[data-polarity="yin"] body .acc-status-panel,
+html[data-polarity="yin"] body .days-modal,
+html[data-polarity="yin"] body .wc-group-pick-sheet,
+html[data-polarity="yin"] body .theme-panel,
+html[data-polarity="yin"] body .zone-panel,
+html[data-polarity="yin"] body .wallpaper-panel,
+html[data-polarity="yin"] body .peer-sheet,
+html[data-polarity="yin"] body .voice-sheet,
+html[data-polarity="yin"] body .picker-sheet{
+  background:#343434!important;
+  background-image:none!important;
+  border-color:rgba(255,255,255,.10)!important;
+  ;
+}
+/* 通用兜底：各类以 -sheet / -modal / -panel 命名的浮层 */
+html[data-polarity="yin"] body [class$="-sheet"]:not(.sheet-mask):not(.cal-sheet-mask),
+html[data-polarity="yin"] body [class$="-modal"]:not(.modal-mask),
+html[data-polarity="yin"] body [class$="-panel"]:not(.panel-mask){
+  background-color:#343434!important;
+}
+html[data-polarity="yin"] body .sheet-mask,
+html[data-polarity="yin"] body .modal-mask,
+html[data-polarity="yin"] body .rp-modal-mask,
+html[data-polarity="yin"] body .cal-modal{
+  background:rgba(0,0,0,.55)!important;
+}
+
+/* ---------- 5. 弹窗按键 #464646 ---------- */
+html[data-polarity="yin"] body .cal-nav,
+html[data-polarity="yin"] body .cal-close,
+html[data-polarity="yin"] body .cal-sheet button,
+html[data-polarity="yin"] body .metric-sheet button,
+html[data-polarity="yin"] body .moon-sheet button,
+html[data-polarity="yin"] body .lf-sheet button,
+html[data-polarity="yin"] body .navmode-sheet button,
+html[data-polarity="yin"] body .mtx-modal button,
+html[data-polarity="yin"] body .mtx-modal-btn,
+html[data-polarity="yin"] body .days-modal button,
+html[data-polarity="yin"] body .chat-qa-panel button,
+html[data-polarity="yin"] body .chat-emoji-panel button,
+html[data-polarity="yin"] body .chat-plus-panel button,
+html[data-polarity="yin"] body .chat-pat-panel button,
+html[data-polarity="yin"] body .bubble-shop-panel button,
+html[data-polarity="yin"] body .acc-panel button,
+html[data-polarity="yin"] body .rp-btn-cancel,
+html[data-polarity="yin"] body .rp-btn-ghost,
+html[data-polarity="yin"] body .rp-random-btn,
+html[data-polarity="yin"] body .rp-skin-file-btn,
+html[data-polarity="yin"] body .zone-reset,
+html[data-polarity="yin"] body .ghost-btn,
+html[data-polarity="yin"] body [class$="-sheet"] button,
+html[data-polarity="yin"] body [class$="-modal"] button,
+html[data-polarity="yin"] body [class$="-panel"] button:not(.xjl-color-dot){
+  background:#464646!important;
+  background-image:none!important;
+  border-color:rgba(255,255,255,.10)!important;
+  color:#FFFFFF!important;
+  box-shadow:none!important;
+}
+
+/* ---------- 6. 全界面文字白色 ---------- */
+html[data-polarity="yin"] body .page,
+html[data-polarity="yin"] body .page *{
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body .page input::placeholder,
+html[data-polarity="yin"] body .page textarea::placeholder{color:rgba(255,255,255,.45)!important}
+html[data-polarity="yin"] body .page input,
+html[data-polarity="yin"] body .page textarea,
+html[data-polarity="yin"] body .page select{
+  background-color:#343434!important;
+  color:#FFFFFF!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+
+/* ---------- 7. 聊天界面（高特异性：.page.is-active + 双类名，压过原 body 内样式） ---------- */
+html[data-polarity="yin"] body .page.is-active.chat-surface,
+html[data-polarity="yin"] body .page.is-active .chat-room-body{
+  background:#222222!important;
+  background-image:none!important;
+}
+html[data-polarity="yin"] body .page.is-active .chat-room-head,
+html[data-polarity="yin"] body .page.is-active .chat-room-head.chat-room-head{
+  background:rgba(34,34,34,.97)!important;
+  background-image:none!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:none!important;
+}
+/* 双方气泡统一 #343434（含小三角）；表情包气泡排除在外（图片不能有底色/描边） */
+html[data-polarity="yin"] body .page.is-active .chat-bubble:not(.chat-bubble-sticker),
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-self:not(.chat-bubble-sticker),
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-other:not(.chat-bubble-sticker),
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-self:not(.chat-bubble-sticker),
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-other:not(.chat-bubble-sticker){
+  background:#343434!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border:none!important;
+  box-shadow:none!important;
+}
+/* [FIX-TAIL] 小三角改为 border 三角后，这里不能再 border:none，否则三角消失 */
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-self::after,
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-self::after{
+  background:none!important;
+  background-image:none!important;
+  border-style:solid!important;
+  border-width:5px 0 5px 5px!important;
+  border-color:transparent!important;
+  border-left-color:#343434!important;
+}
+html[data-polarity="yin"] body .page.is-active[data-bubble-mode] .chat-bubble.is-other::after,
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble.is-other::after{
+  background:none!important;
+  background-image:none!important;
+  border-style:solid!important;
+  border-width:5px 5px 5px 0!important;
+  border-color:transparent!important;
+  border-right-color:#343434!important;
+}
+/* 特殊气泡（语音/转发/问答/图文） */
+html[data-polarity="yin"] body .page.is-active .chat-bubble-voice,
+html[data-polarity="yin"] body .page.is-active .chat-fwd-card,
+html[data-polarity="yin"] body .page.is-active .chat-bubble-qa,
+html[data-polarity="yin"] body .page.is-active .chat-bubble-imgs{
+  background:#343434!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  box-shadow:none!important;
+}
+/* 表情包：阴主题下不要任何底色/边框/内边距，避免图片圆角外侧露出深色四角描边 */
+html[data-polarity="yin"] body .page.is-active .chat-bubble-sticker,
+html[data-polarity="yin"] body .page.is-active .chat-bubble.chat-bubble-sticker{
+  background:transparent!important;
+  background-image:none!important;
+  border:none!important;
+  box-shadow:none!important;
+  padding:0!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body .page.is-active .msg-quote-ref{
+  background:rgba(255,255,255,.10)!important;
+  color:rgba(255,255,255,.86)!important;
+}
+/* 输入区 */
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap,
+html[data-polarity="yin"] body .page.is-active .chat-room-input,
+html[data-polarity="yin"] body .page.is-active .chat-room-info{
+  background:#343434!important;
+  background-image:none!important;
+  border-color:rgba(255,255,255,.08)!important;
+}
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap textarea,
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap input{
+  background:transparent!important;
+  color:#FFFFFF!important;
+}
+/* 聊天栏按键：透明底 + 白色图标 */
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap .chat-bar-btn,
+html[data-polarity="yin"] body .page.is-active .chat-room-head .back-btn,
+html[data-polarity="yin"] body .page.is-active .chat-room-clear,
+html[data-polarity="yin"] body .page.is-active .chat-room-head .chat-room-clear{
+  background:transparent!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  box-shadow:none!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap .chat-bar-btn svg,
+html[data-polarity="yin"] body .page.is-active .chat-room-clear svg,
+html[data-polarity="yin"] body .page.is-active .chat-room-head .back-btn svg{
+  fill:currentColor!important;
+}
+/* 发送键：白底深色图标 */
+html[data-polarity="yin"] body .page.is-active .chat-input-wrap .chat-send-btn,
+html[data-polarity="yin"] body .page.is-active .chat-send-btn{
+  background:#FFFFFF!important;
+  background-image:none!important;
+  color:#222222!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.45)!important;
+}
+html[data-polarity="yin"] body .page.is-active .chat-send-btn svg,
+html[data-polarity="yin"] body .page.is-active .chat-send-btn *{
+  color:#222222!important;
+  fill:#222222!important;
+}
+
+/* ---------- 8. 补充修正 ---------- */
+/* 首页法盘按钮：与其他界面按键一致 #464646 */
+html[data-polarity="yin"] body .page .da-btn,
+html[data-polarity="yin"] body .page .da-btn.da-btn{
+  background:#464646!important;
+  background-image:none!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  color:#FFFFFF!important;
+}
+/* 聊天顶栏 / 底部信息区文字全白（原 #333 高特异性规则覆盖） */
+html[data-polarity="yin"] body .page.is-active .chat-room-head.chat-room-head *,
+html[data-polarity="yin"] body .page.is-active .chat-room-info.chat-room-info *,
+html[data-polarity="yin"] body .page.is-active .chat-room-head *{
+  color:#FFFFFF!important;
+}
+/* 气泡模式预览：双方统一 #343434（与真实聊天气泡一致） */
+html[data-polarity="yin"] body .page .bub-pv,
+html[data-polarity="yin"] body .page .bub-pv.bub-pv-other,
+html[data-polarity="yin"] body .page .bub-pv.bub-pv-self{
+  background:#343434!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)!important;
+}
+html[data-polarity="yin"] body .page .bub-pv.bub-pv-other::after,
+html[data-polarity="yin"] body .page .bub-pv.bub-pv-self::after{
+  background:#343434!important;
+}
+
+/* ---------- 9. 面板内按键统一 #464646（通用兜底，覆盖半透明白底按钮） ---------- */
+html[data-polarity="yin"] body [class*="-panel"] button:not(.xjl-color-dot):not(.xjl-paper-tab),
+html[data-polarity="yin"] body [class*="-sheet"] button,
+html[data-polarity="yin"] body [class*="-modal"] button,
+html[data-polarity="yin"] body [class*="-popup"] button,
+html[data-polarity="yin"] body .chat-bg-custom-btn,
+html[data-polarity="yin"] body .chat-bg-upload-btn{
+  background:#464646!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body [class*="-panel"] button:not(.xjl-paper-tab) *,
+html[data-polarity="yin"] body [class*="-sheet"] button *,
+html[data-polarity="yin"] body [class*="-modal"] button *{
+  color:#FFFFFF!important;
+}
+
+/* ---------- 10. 残留深/灰文字统一白（聊天顶栏、底栏信息、法盘文字、弹窗 label） ---------- */
+html[data-polarity="yin"] body .chat-room-name,
+html[data-polarity="yin"] body .chat-room-titles,
+html[data-polarity="yin"] body .chat-room-head *,
+html[data-polarity="yin"] body .chat-info-item,
+html[data-polarity="yin"] body .chat-info-name,
+html[data-polarity="yin"] body .chat-info-mood,
+html[data-polarity="yin"] body .chat-info-heart,
+html[data-polarity="yin"] body .td-charm-text,
+html[data-polarity="yin"] body #wcPromptSheet,
+html[data-polarity="yin"] body #wcPromptSheet *,
+html[data-polarity="yin"] body .wc-prompt-label,
+html[data-polarity="yin"] body .wc-line-toggle{
+  color:#FFFFFF!important;
+}
+
+/* ---------- 11. 所有弹窗/面板/抽屉内文字与按键统一白字灰底 ---------- */
+html[data-polarity="yin"] body [class*="-sheet"] *,
+html[data-polarity="yin"] body [class*="-modal"] *,
+html[data-polarity="yin"] body [class*="-popup"] *,
+html[data-polarity="yin"] body [class*="-drawer"] *,
+html[data-polarity="yin"] body [class*="-panel"] *,
+html[data-polarity="yin"] body [class*="side-nav"] *,
+html[data-polarity="yin"] body [class*="msg-menu"] *{
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body [class*="-sheet"] input::placeholder,
+html[data-polarity="yin"] body [class*="-panel"] input::placeholder,
+html[data-polarity="yin"] body [class*="-modal"] input::placeholder,
+html[data-polarity="yin"] body .chat-input::placeholder{
+  color:rgba(255,255,255,.55)!important;
+}
+
+/* ---------- 12. 终极白字兜底（:not(#\9) 提升到 ID 级特异性，压过原文件所有 !important 深色文字） ---------- */
+html[data-polarity="yin"] body *:not(#\9){ color:#FFFFFF!important; }
+html[data-polarity="yin"] body *:not(#\9)::placeholder{ color:rgba(255,255,255,.55)!important; }
+html[data-polarity="yin"] body *:not(#\9)::before,
+html[data-polarity="yin"] body *:not(#\9)::after{ border-color:rgba(255,255,255,.14)!important; }
+
+/* ---------- 13. 聊天室内弹出面板/菜单：卡片底色 #343434、按键 #464646 ---------- */
+html[data-polarity="yin"] body .chat-plus-panel,
+html[data-polarity="yin"] body .chat-emoji-panel,
+html[data-polarity="yin"] body .chat-bg-panel,
+html[data-polarity="yin"] body .chat-room-menu,
+html[data-polarity="yin"] body .msg-action-menu,
+html[data-polarity="yin"] body .chat-msg-menu,
+html[data-polarity="yin"] body .chat-settings-panel,
+html[data-polarity="yin"] body .chat-plus-panel *,
+html[data-polarity="yin"] body .msg-action-menu *,
+html[data-polarity="yin"] body .chat-room-menu *{
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body .chat-plus-panel,
+html[data-polarity="yin"] body .chat-emoji-panel,
+html[data-polarity="yin"] body .chat-bg-panel,
+html[data-polarity="yin"] body .chat-room-menu,
+html[data-polarity="yin"] body .msg-action-menu,
+html[data-polarity="yin"] body .chat-msg-menu,
+html[data-polarity="yin"] body .chat-settings-panel{
+  background:#343434!important;
+  background-image:none!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+}
+html[data-polarity="yin"] body .chat-plus-item,
+html[data-polarity="yin"] body .chat-plus-panel button,
+html[data-polarity="yin"] body .chat-plus-panel .chat-plus-cell,
+html[data-polarity="yin"] body .msg-action-menu .msg-action-item{
+  background:#464646!important;
+  background-image:none!important;
+  border-radius:calc(10px * var(--ui-base,1));
+}
+
+/* ---------- 14. 面板底色 ID 级兜底（压过 .page[data-page] 长选择器） ---------- */
+html[data-polarity="yin"] body .chat-plus-panel:not(#\9),
+html[data-polarity="yin"] body .chat-emoji-panel:not(#\9),
+html[data-polarity="yin"] body .chat-bg-panel:not(#\9),
+html[data-polarity="yin"] body .chat-room-menu:not(#\9),
+html[data-polarity="yin"] body .msg-action-menu:not(#\9),
+html[data-polarity="yin"] body .chat-settings-panel:not(#\9),
+html[data-polarity="yin"] body .chat-plus-panel:not(#\9)::before,
+html[data-polarity="yin"] body .chat-plus-panel:not(#\9)::after{
+  background:#343434!important;
+  background-image:none!important;
+}
+html[data-polarity="yin"] body .chat-plus-item:not(#\9),
+html[data-polarity="yin"] body .msg-action-menu:not(#\9) .msg-action-item{
+  background:#464646!important;
+  background-image:none!important;
+}
+
+/* ---------- 15. 加号功能面板：去卡片化 / 去描边（纯图标网格） ---------- */
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9){
+  border:0!important;
+  outline:0!important;;
+}
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) > *:not(#\9),
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .plus-moon-grid,
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-grid-page,
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-item:not(#\9),
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) button:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-item-ico:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-item-label:not(#\9){
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-item:not(#\9):hover,
+html[data-polarity="yin"] body #chatPlusPanel:not(#\9) .moon-item:not(#\9):active{
+  background:rgba(255,255,255,.07)!important;
+}
+
+/* ---------- 16. 阴模式：所有弹窗/面板统一去描边 ---------- */
+html[data-polarity="yin"] body .chat-plus-panel,
+html[data-polarity="yin"] body .chat-emoji-panel,
+html[data-polarity="yin"] body .chat-bg-panel,
+html[data-polarity="yin"] body .chat-room-menu,
+html[data-polarity="yin"] body .msg-action-menu,
+html[data-polarity="yin"] body .chat-msg-menu,
+html[data-polarity="yin"] body .chat-settings-panel,
+html[data-polarity="yin"] body .cal-sheet,
+html[data-polarity="yin"] body .metric-sheet,
+html[data-polarity="yin"] body .rp-modal,
+html[data-polarity="yin"] body .mtx-modal,
+html[data-polarity="yin"] body [class*="-sheet"],
+html[data-polarity="yin"] body [class*="-modal"],
+html[data-polarity="yin"] body .chat-plus-panel:not(#\9),
+html[data-polarity="yin"] body .chat-pat-panel:not(#\9),
+html[data-polarity="yin"] body .chat-emoji-panel:not(#\9),
+html[data-polarity="yin"] body .chat-room-menu:not(#\9),
+html[data-polarity="yin"] body .msg-action-menu:not(#\9){
+  border:0!important;
+  outline:0!important;
+  border-color:transparent!important;
+}
+html[data-polarity="yin"] body .chat-room-menu .chat-room-menu-item:not(#\9),
+html[data-polarity="yin"] body .msg-action-menu .msg-action-item:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .chat-room-menu .chat-room-menu-item:not(#\9):active,
+html[data-polarity="yin"] body .msg-action-menu .msg-action-item:not(#\9):active{
+  background:rgba(255,255,255,.07)!important;
+}
+
+/* ---------- 17. 表情面板：去卡片化 / 去描边（与加号面板风格一致） ---------- */
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9){
+  background:#343434!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) > *:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-tabs:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-body:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-groups:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-grid:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) button:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-tab:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-group-chip:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-item:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-tab:not(#\9):hover,
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-group-chip:not(#\9):hover,
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-item:not(#\9):hover{
+  background:rgba(255,255,255,.07)!important;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-tab.is-active:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-group-chip.is-active:not(#\9){
+  background:rgba(255,255,255,.12)!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-item.chat-emoji-img-item:not(#\9),
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-item.chat-emoji-img-item:not(#\9):hover,
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-item.chat-emoji-img-item:not(#\9):active{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body #chatEmojiPanel:not(#\9) .chat-emoji-img:not(#\9){
+  background:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+
+/* ---------- 18. 转发聊天记录弹窗（详情 / 转发对象）深色化 ---------- */
+/* 遮罩 */
+html[data-polarity="yin"] body .fwd-detail-mask:not(#\9),
+html[data-polarity="yin"] body .fwd-target-mask:not(#\9){
+  background:rgba(0,0,0,.55)!important;
+  
+}
+/* 弹窗容器：整体 #343434，无描边无浅底 */
+html[data-polarity="yin"] body .fwd-detail-panel:not(#\9),
+html[data-polarity="yin"] body .fwd-target-panel:not(#\9){
+  background:#343434!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  ;
+}
+/* 头部 / 底部：透明，去分割线 */
+html[data-polarity="yin"] body .fwd-detail-head:not(#\9),
+html[data-polarity="yin"] body .fwd-target-head:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-list:not(#\9),
+html[data-polarity="yin"] body .fwd-target-list:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+/* 文字 */
+html[data-polarity="yin"] body .fwd-detail-title:not(#\9),
+html[data-polarity="yin"] body .fwd-target-title:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-text:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-sender:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-sender:not(#\9) b,
+html[data-polarity="yin"] body .fwd-detail-item-body:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-item-body:not(#\9) .fwd-detail-text,
+html[data-polarity="yin"] body .fwd-target-name:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-msg-name:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-item-sender:not(#\9) b{
+  color:#FFFFFF!important;
+}
+/* 次要文字：来源 / 时间 / 发送人 */
+html[data-polarity="yin"] body .fwd-detail-from:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-msg-name:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-msg-time:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-item-sender:not(#\9),
+html[data-polarity="yin"] body .fwd-target-name:not(#\9){
+  color:rgba(255,255,255,.72)!important;
+}
+html[data-polarity="yin"] body .fwd-target-item.is-cur:not(#\9) .fwd-target-name:not(#\9){
+  color:#FFFFFF!important;
+}
+/* 关闭按钮 */
+html[data-polarity="yin"] body .fwd-detail-close:not(#\9),
+html[data-polarity="yin"] body .fwd-target-close:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  color:#FFFFFF!important;
+  opacity:.8!important;
+}
+/* 消息条目 / 转发对象行：去卡片化 */
+html[data-polarity="yin"] body .fwd-detail-item:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-msg:not(#\9),
+html[data-polarity="yin"] body .fwd-target-item:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .fwd-target-item:not(#\9):hover,
+html[data-polarity="yin"] body .fwd-target-item:not(#\9):active{
+  background:rgba(255,255,255,.08)!important;
+}
+html[data-polarity="yin"] body .fwd-detail-item:not(#\9):hover{
+  background:transparent!important;
+}
+/* 当前对话标签 / 图片圆角保持 */
+html[data-polarity="yin"] body .fwd-target-cur-tag:not(#\9){
+  color:#FFFFFF!important;
+  border-color:rgba(255,255,255,.4)!important;
+}
+html[data-polarity="yin"] body .fwd-detail-img:not(#\9),
+html[data-polarity="yin"] body .fwd-detail-item-imgwrap .fwd-detail-img:not(#\9){
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+/* 滚动条 */
+html[data-polarity="yin"] body .fwd-detail-list:not(#\9)::-webkit-scrollbar,
+html[data-polarity="yin"] body .fwd-target-list:not(#\9)::-webkit-scrollbar{
+  width:6px;
+}
+html[data-polarity="yin"] body .fwd-detail-list:not(#\9)::-webkit-scrollbar-thumb,
+html[data-polarity="yin"] body .fwd-target-list:not(#\9)::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.18)!important;
+  border-radius:3px;
+}
+
+/* ---------- 19. 红包领取详情弹窗深色化 ---------- */
+/* 标题 */
+html[data-polarity="yin"] body .rp-modal .rp-modal-head:not(#\9){
+  color:#FFFFFF!important;
+}
+/* 红包预览卡：内联浅色 skin 必须 !important 压掉 */
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9){
+  background-color:#464646!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) .rp-preview-main:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) .rp-preview-ico:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) .rp-preview-body:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) .rp-preview-amt:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) .rp-preview-wish:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#FFFFFF!important;
+}
+/* 预览卡内的图片皮肤层保持覆盖 */
+html[data-polarity="yin"] body .rp-modal .rp-preview:not(#\9) img.rp-preview-bg:not(#\9){
+  border:0!important;
+  box-shadow:none!important;
+}
+/* 状态 / 领取人 / 时间等说明文字 */
+html[data-polarity="yin"] body .rp-modal .rp-preview-from:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-preview-detail:not(#\9){
+  color:rgba(255,255,255,.72)!important;
+  opacity:1!important;
+}
+html[data-polarity="yin"] body .rp-modal .rp-preview-state:not(#\9){
+  background:rgba(255,255,255,.14)!important;
+  background-image:none!important;
+  border:0!important;
+  color:#FFFFFF!important;
+  opacity:1!important;
+}
+/* 取消 / 先存着等次要按钮（主按钮保留品牌渐变） */
+html[data-polarity="yin"] body .rp-modal .rp-btn-ghost:not(#\9),
+html[data-polarity="yin"] body .rp-modal .rp-btn-cancel:not(#\9){
+  background:#464646!important;
+  background-image:none!important;
+  border:0!important;
+  color:#FFFFFF!important;
+}
+/* 顺带：红包记录浮层内部去白底 */
+html[data-polarity="yin"] body .rp-rec-panel .rp-rec-head:not(#\9),
+html[data-polarity="yin"] body .rp-rec-panel .rp-rec-list:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border-color:rgba(255,255,255,.10)!important;
+}
+html[data-polarity="yin"] body .rp-rec-panel .rp-rec-icon:not(#\9){
+  background:rgba(255,255,255,.10)!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .rp-rec-panel .rp-rec-close:not(#\9){
+  background:rgba(255,255,255,.12)!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body .rp-rec-panel .rp-rec-item:not(#\9){
+  border-color:rgba(255,255,255,.08)!important;
+}
+
+/* ---------- 20. 字卡 / 设置界面：行列表去卡片底 ---------- */
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wordcard-"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib-group"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-group"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="settings"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-list:not(#\9),
+html[data-polarity="yin"] body .page[data-page="discover"] .row-list:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  
+  
+  box-shadow:none!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:visible!important;
+}
+/* 行本体与图标：去色块，只留图标与文字 */
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wordcard-"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib-group"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-group"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9):hover{
+  background:rgba(255,255,255,.05)!important;
+}
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9):active{
+  background:rgba(255,255,255,.10)!important;
+}
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wordcard-"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="settings"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-ico:not(#\9),
+html[data-polarity="yin"] body .page[data-page="discover"] .row-ico:not(#\9){
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+/* ---------- 21. 各界面顶栏去下描边 ---------- */
+html[data-polarity="yin"] body .page-head:not(#\9),
+html[data-polarity="yin"] body .chat-room-head:not(#\9),
+html[data-polarity="yin"] body .page .page-head:not(#\9){
+  border-bottom:0 none!important;
+  box-shadow:none!important;
+}
+
+/* ---------- 22. 聊天底栏「拍一拍」按键竖线改黑色系 ---------- */
+html[data-polarity="yin"] body .chat-pat-ico rect:not(:first-child):not(#\9){
+  fill:#141414!important;
+}
+
+/* ---------- 23. 聊天列表卡片：左右内缩（与其它页面行列表边距对齐）+ 卡片间距 ---------- */
+html[data-polarity] body .page[data-page="chat-list"] .chat-item:not(#\9){
+  margin-left:calc(16px * var(--ui-base,1))!important;
+  margin-right:calc(16px * var(--ui-base,1))!important;
+  border-radius:calc(12px * var(--ui-base,1))!important;
+}
+html[data-polarity] body .page[data-page="chat-list"] .chat-item:not(#\9) + .chat-item:not(#\9){
+  margin-top:calc(10px * var(--ui-base,1))!important;
+  border-top:0 none!important;
+}
+html[data-polarity] body .page[data-page="chat-list"] #chatListWrap:not(#\9){
+  padding-bottom:calc(16px * var(--ui-base,1))!important;
+}
+
+/* ---------- 24. 字卡 / 设置界面：行项目卡片化（同聊天列表卡片：圆角 + 深灰底） ---------- */
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wordcard-"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="voice-lib-group"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="sub-group"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9),
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9){
+  background:#343434!important;
+  background-image:none!important;
+  border:0 none!important;
+  border-radius:calc(12px * var(--ui-base,1))!important;
+  box-shadow:0 calc(2px * var(--ui-base,1)) calc(10px * var(--ui-base,1)) rgba(0,0,0,.34)!important;
+  overflow:hidden!important;
+}
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page^="wordcard-"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9):hover,
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9):hover{
+  background:#3d3d3d!important;
+}
+html[data-polarity="yin"] body .page[data-page="wordcard"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page^="wc-"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="qa-lib"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="voice-lib"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="sub-lib"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="settings"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="appearance"] .row-card:not(#\9):active,
+html[data-polarity="yin"] body .page[data-page="discover"] .row-card:not(#\9):active{
+  background:#454545!important;
+}
+
+/* ---------- 25. 阴模式：新消息顶部通知横幅（#xjNotifyBar）深色化 ---------- */
+/* 原样式 background:var(--card-bg,var(--panel-bg,rgba(255,255,255,.96))) 在阴模式下无对应变量，
+   回退成近纯白底；此处统一改为卡片深灰 #343434 + 白字，与全站阴模式规范一致 */
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9){
+  background:#343434!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:0 calc(6px * var(--ui-base,1)) calc(18px * var(--ui-base,1)) rgba(0,0,0,.45)!important;
+}
+/* 标题 / 正文：白字层级（标题纯白，正文次一档） */
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-name{
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-text{
+  color:#D0D0D0!important;
+}
+/* 头像：无头像时的首字占位块改深灰底白字，避免白底白字不可见 */
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-avatar{
+  background:#464646!important;
+  color:#FFFFFF!important;
+}
+/* 关闭按钮：浅灰图标，hover/按下给一层淡白底 */
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-close{
+  color:#CFCFCF!important;
+}
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-close:hover{
+  background:rgba(255,255,255,.12)!important;
+  color:#FFFFFF!important;
+}
+html[data-polarity="yin"] body #xjNotifyBar:not(#\9) .xj-notify-close:active{
+  background:rgba(255,255,255,.18)!important;
+  color:#FFFFFF!important;
+}
+
+/* ---------- 26. 阴模式：聊天多选操作条（#msgMultiBar）深色化 ---------- */
+/* 原样式 background:rgba(255,255,255,.92) + 三个语义色浅底按钮，阴模式下整条近纯白发亮；
+   此处统一为 #343434 卡片底 + #464646 按键 + 白字，去描边，语义色只留在文字/图标上 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9){
+  background:#343434!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:0 calc(6px * var(--ui-base,1)) calc(18px * var(--ui-base,1)) rgba(0,0,0,.45)!important;
+}
+/* 计数文字 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-count{
+  color:#D0D0D0!important;
+}
+/* 全部按键：统一 #464646 底、白字、无描边 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn{
+  background:#464646!important;
+  background-image:none!important;
+  color:#FFFFFF!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn:active{
+  background:#525252!important;
+}
+/* 收藏：米黄文字 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-fav{
+  background:#464646!important;
+  color:#F0C674!important;
+}
+/* 转发：浅青绿文字 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-fwd{
+  background:#464646!important;
+  color:#8FE3C4!important;
+}
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-fwd.is-blocked{
+  background:#3d3d3d!important;
+  color:#9AA3B2!important;
+  opacity:.6!important;
+}
+/* 删除：浅红文字 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-del{
+  background:#464646!important;
+  color:#FF8A99!important;
+}
+/* 取消：透明底浅灰字 */
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-cancel{
+  background:transparent!important;
+  color:#CFCFCF!important;
+}
+html[data-polarity="yin"] body #msgMultiBar:not(#\9) .mmb-btn-cancel:active{
+  background:rgba(255,255,255,.12)!important;
+  color:#FFFFFF!important;
+}
+/* 消息左侧勾选圈：未选中由白底浅描边改为深灰空心圈 */
+html[data-polarity="yin"] body .chat-room-body.is-msg-selecting .chat-msg:not(#\9)::before{
+  background:#464646!important;
+  border-color:rgba(255,255,255,.30)!important;
+}
+/* 选中态：白底实心圈 + 深色对勾（--accent-deep 在本主题为 #333，深圈压在深底上过暗） */
+html[data-polarity="yin"] body .chat-room-body.is-msg-selecting .chat-msg.is-picked:not(#\9)::before{
+  background:#FFFFFF url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23222222'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 20.6 7.4 19.2 6z'/%3E%3C/svg%3E") center / calc(12px * var(--ui-base,1)) no-repeat!important;
+  border-color:transparent!important;
+}
+
+/* ================== 第27节：法盘符文可点击 / 阴模式法盘字黑 / 阳模式灰晕染 / 自动回复规则行 ================== */
+/* 27.1 首页双法盘上的「链」「接」符文：可点击设时（热区放大，视觉不变） */
+html body .page[data-page="home"] .app-pages .app-page .time-dial .td-charm-text{
+  pointer-events:auto!important;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+html body .page[data-page="home"] .app-pages .app-page .time-dial .td-charm-text::after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:calc(var(--td-size) * .13);height:calc(var(--td-size) * .13);
+  transform:translate(-50%,-50%);border-radius:50%;
+}
+html body .page[data-page="home"] .app-pages .app-page .time-dial .td-charm-text:active{opacity:.66}
+/* 27.2 阴模式：符文牌上的文字由白改黑（第10节统一白字在此处不适用） */
+html[data-polarity="yin"] body .page[data-page="home"] .app-pages .app-page .time-dial .td-charm-text:not(#\9){
+  color:#000000!important;
+}
+/* 27.3 阳模式：首页背景加高明度灰的晕染斑（宽过渡=大模糊感），纯白底上做柔和灰雾 */
+html[data-polarity="yang"] body .page[data-page="home"] .app-pages .app-page .home-haze:not(#\9){
+  background-color:transparent!important;
+  background-image:
+    radial-gradient(closest-side,rgba(212,212,212,.34) 0%,rgba(212,212,212,.336) 12%,rgba(212,212,212,.312) 26%,rgba(212,212,212,.27) 40%,rgba(212,212,212,.212) 54%,rgba(212,212,212,.146) 68%,rgba(212,212,212,.082) 80%,rgba(212,212,212,.034) 91%,rgba(212,212,212,0) 100%),
+    radial-gradient(closest-side,rgba(228,228,228,.30) 0%,rgba(228,228,228,.297) 12%,rgba(228,228,228,.276) 26%,rgba(228,228,228,.238) 40%,rgba(228,228,228,.186) 54%,rgba(228,228,228,.128) 68%,rgba(228,228,228,.072) 80%,rgba(228,228,228,.03) 91%,rgba(228,228,228,0) 100%),
+    radial-gradient(closest-side,rgba(216,216,216,.26) 0%,rgba(216,216,216,.257) 12%,rgba(216,216,216,.24) 26%,rgba(216,216,216,.206) 40%,rgba(216,216,216,.162) 54%,rgba(216,216,216,.112) 68%,rgba(216,216,216,.062) 80%,rgba(216,216,216,.026) 91%,rgba(216,216,216,0) 100%),
+    radial-gradient(closest-side,rgba(234,234,234,.26) 0%,rgba(234,234,234,.257) 12%,rgba(234,234,234,.24) 26%,rgba(234,234,234,.206) 40%,rgba(234,234,234,.162) 54%,rgba(234,234,234,.112) 68%,rgba(234,234,234,.062) 80%,rgba(234,234,234,.026) 91%,rgba(234,234,234,0) 100%),
+    radial-gradient(closest-side,rgba(220,220,220,.18) 0%,rgba(220,220,220,.178) 14%,rgba(220,220,220,.164) 28%,rgba(220,220,220,.142) 42%,rgba(220,220,220,.11) 56%,rgba(220,220,220,.076) 70%,rgba(220,220,220,.042) 82%,rgba(220,220,220,.018) 92%,rgba(220,220,220,0) 100%)!important;
+  background-size:96vw 96vw,70vw 70vw,88vw 88vw,54vw 54vw,124vw 124vw!important;
+  background-position:24% 12%,80% 24%,2% 56%,104% 62%,50% 40%!important;
+  background-repeat:no-repeat!important;
+}
+/* 27.4 自动回复规则行：关键词 + 回复内容 */
+html body .chat-effect-row.rf-row .rf-kw{flex:0 0 34%}
+html body .chat-effect-row.rf-row .rf-txt{flex:1 1 auto;min-width:0;padding:7px 8px;font-size:calc(13px * var(--ui,1))}
+html body .rf-tip{display:block;padding:0 4px 2px;font-size:calc(12px * var(--ui,1));opacity:.6;line-height:1.5}

@@ -1,0 +1,118 @@
+/* 雪山晶 · 22-ui-v11-v15 ｜ 源：雪山晶.html L29034-L29162 ｜ CSS 模块 */
+/* ============================================================
+   特效设置 ·「添加关键词」按钮：去掉虚线占位框，与同面板圆角控件统一
+   ============================================================ */
+html body .page[data-page="effect-settings"] button.ef-add-btn{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:calc(8px * var(--ui,1));
+  width:calc(100% - 2 * var(--pad-x,16px))!important;
+  box-sizing:border-box!important;
+  max-width:none!important;
+  margin:calc(14px * var(--ui,1)) var(--pad-x,16px) 0!important;
+  min-height:calc(52px * var(--ui,1));
+  padding:10px 18px!important;
+  border:1px solid rgba(0,0,0,.10)!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.78)!important;
+  background-image:none!important;
+  box-shadow:0 2px 8px rgba(160,170,190,.10)!important;
+  color:#2B3345!important;
+  -webkit-text-fill-color:#2B3345!important;
+  font-family:inherit!important;
+  font-size:calc(15px * var(--ui,1))!important;
+  font-weight:600!important;
+  line-height:1.2!important;
+  letter-spacing:.02em;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .16s ease,background-color .16s ease,box-shadow .16s ease;
+}
+html body .page[data-page="effect-settings"] button.ef-add-btn:active{
+  transform:scale(.985)!important;
+  box-shadow:0 1px 4px rgba(160,170,190,.08)!important;
+}
+html body .page[data-page="effect-settings"] button.ef-add-btn .ef-add-ico{
+  width:calc(18px * var(--ui,1))!important;
+  height:calc(18px * var(--ui,1))!important;
+  flex:0 0 auto;
+  fill:#4F7BD8!important;
+}
+html body .page[data-page="effect-settings"] button.ef-add-btn span{
+  -webkit-text-fill-color:inherit!important;
+}
+/* 阴主题：深底细亮边；文字用 -webkit-text-fill-color 绕开全局白字强制，
+   图标用 fill 单独上色（不受 color 规则影响） */
+html[data-polarity="yin"] body .page[data-page="effect-settings"] button.ef-add-btn,
+html[data-theme-mode="dark"] body .page[data-page="effect-settings"] button.ef-add-btn{
+  background:rgba(255,255,255,.09)!important;
+  border-color:rgba(255,255,255,.18)!important;
+  box-shadow:0 2px 10px rgba(0,0,0,.22)!important;
+  -webkit-text-fill-color:#EAF1FF!important;
+}
+html[data-polarity="yin"] body .page[data-page="effect-settings"] button.ef-add-btn .ef-add-ico,
+html[data-theme-mode="dark"] body .page[data-page="effect-settings"] button.ef-add-btn .ef-add-ico{
+  fill:#A9C9FF!important;
+}
+
+/* ============================================================
+   v12 顶栏底栏配色范围扩展
+   - 按键色 → 自动回复按键（图标 + 文字）
+   - 标题色 → 顶栏连续聊天天数数字
+   仅在 data-bar-key / data-bar-title = 1（用户已自定义）时介入；
+   未自定义时完全不生效，保持主题原生默认。
+   ============================================================ */
+html body .page.page[data-page="chat-room"][data-bar-key="1"] .chat-room-head.chat-room-head .chat-room-plus-btn{
+  color:var(--bar-key-color,#5a6478)!important;
+}
+/* 气泡图标为纯 fill，只同步 fill；不设 stroke，避免给圆盘描出一圈多余边线 */
+html body .page.page[data-page="chat-room"][data-bar-key="1"] .chat-room-head.chat-room-head .chat-room-plus-btn svg{
+  fill:currentColor!important;
+}
+html body .page.page[data-page="chat-room"][data-bar-title="1"] .chat-room-head.chat-room-head .chat-streak-num{
+  color:var(--bar-title-color,#2b3340)!important;
+}
+
+/* ===== v14：阳主题法盘「链/接」符文白圆 —— 完整浮于竖线网格之上 ===== */
+/* 1) 隐藏 SVG 内被 60 根竖线刻度切碎的旧圆牌（仅阳主题） */
+html[data-polarity="yang"] body .page[data-page="home"] .app-pages .app-page .time-dial .mc-charm,
+html[data-polarity="yang"] body .page[data-page="home"] .app-pages .app-page .time-dial .mc-charm-o{
+  display:none!important;
+}
+/* 2) 白圆改画在 HTML 层文字元素上：天然在所有 SVG（含竖线刻度）之上 */
+html[data-polarity="yang"] body .page[data-page="home"] .app-pages .app-page .time-dial.time-dial .td-charm-text{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:calc(var(--td-size) * .088)!important;
+  height:calc(var(--td-size) * .088)!important;
+  box-sizing:border-box!important;
+  border-radius:50%!important;
+  background:linear-gradient(158deg,#FFFFFF 0%,#FDFDFE 52%,#F2F3F6 100%)!important;
+  border:calc(1px * var(--ui,1)) solid rgba(146,149,158,.40)!important;
+  box-shadow:
+    0 0 0 calc(1px * var(--ui,1)) rgba(146,149,158,.22),
+    0 0 0 calc(var(--td-size) * .013) rgba(255,255,255,.78),
+    0 2px 6px rgba(64,70,86,.13)!important;
+  color:rgba(86,90,100,.96)!important;
+  -webkit-text-fill-color:rgba(86,90,100,.96)!important;
+  font-weight:700!important;
+  line-height:1!important;
+  text-align:center!important;
+  text-shadow:none!important;
+  
+  
+}
+/* 3) 点击热区沿用原有透明圆（::after），保持可点设时；仅确保不遮挡文字 */
+html[data-polarity="yang"] body .page[data-page="home"] .app-pages .app-page .time-dial.time-dial .td-charm-text::after{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+}
+
+/* ===== v15：秒针尖端延伸到时间分区竖线（SVG r192.5 / viewBox 448 = .4297*W）=====
+   与 dialAngles() 的整秒量化配合：每秒精确对准一根刻度竖线，尖端顶到竖线外端。 */
+html body .page[data-page="home"] .app-pages .app-page .time-dial .td-s{
+  height:calc(var(--td-size) * .4297)!important;
+}

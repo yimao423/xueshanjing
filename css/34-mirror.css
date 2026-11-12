@@ -1,0 +1,18 @@
+/* 雪山晶 · 34-mirror ｜ 镜界嵌入页
+   探索页「镜界」入口 → 独立子页 mirror → iframe 内嵌 镜界/index.html
+   [FIX-OVERLAY] 显隐规则必须限定 .is-active：否则 mirror 页常驻 display:flex
+   会压过 css/02-base.css 的 .page{display:none}，导致离页后整屏叠加 */
+html body .page[data-page="mirror"]{display:none}
+html body .page[data-page="mirror"].is-active{display:flex;flex-direction:column;overflow:hidden}
+
+/* iframe 容器：顶栏以下全部占满，滚动交给镜界自身处理 */
+html body .page[data-page="mirror"] .mirror-frame-wrap{position:relative;z-index:2;flex:1 1 auto;min-height:0;display:flex;overflow:hidden}
+html body .page[data-page="mirror"] .mirror-frame{flex:1 1 auto;width:100%;height:100%;border:0;display:block;background:transparent;color-scheme:normal}
+
+/* 首帧加载提示（iframe onload 后淡出，不阻塞交互） */
+html body .page[data-page="mirror"] .mirror-loading{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:8px;pointer-events:none;font-size:calc(12px * var(--ui,1));color:var(--text-4);transition:opacity .35s ease}
+html body .page[data-page="mirror"] .mirror-loading.is-done{opacity:0}
+html body .page[data-page="mirror"] .mirror-loading .mirror-dot{width:6px;height:6px;border-radius:50%;background:var(--accent-deep,#7EC8E3);animation:mirrorDotPulse 1.1s ease-in-out infinite}
+html body .page[data-page="mirror"] .mirror-loading .mirror-dot:nth-child(2){animation-delay:.15s}
+html body .page[data-page="mirror"] .mirror-loading .mirror-dot:nth-child(3){animation-delay:.3s}
+@keyframes mirrorDotPulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}

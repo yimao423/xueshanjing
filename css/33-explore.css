@@ -1,0 +1,169 @@
+/* 雪山晶 · 33-explore ｜ 探索页（入口列表）+ 收藏子页（我的收藏 / 他的收藏）
+   探索页与字卡 / 设置等应用页同构：page-head + row-list，后续加功能只追加一条 row-card
+   收藏子页：page-head + chat-seg 分段 + 气泡卡片列表，适配阴阳主题与暗色模式 */
+/* [FIX-OVERLAY] 必须限定 .is-active：否则探索页常驻 display:flex 压过 .page{display:none}，
+   离开探索页后任何页面都会与它上下叠加 */
+html body .page[data-page="explore"],
+html body .page[data-page="explore-fav"]{display:none}
+html body .page[data-page="explore"].is-active,
+html body .page[data-page="explore-fav"].is-active{display:flex;flex-direction:column}
+/* 探索为入口列表页：内容超出时整页滚动 */
+html body .page[data-page="explore"].is-active{overflow-y:auto}
+
+html body .page[data-page="explore-fav"] .explore-seg-wrap{display:flex;justify-content:center;padding:calc(6px * var(--ui,1)) var(--pad-x) 0}
+html body .page[data-page="explore-fav"] .chat-seg-btn{position:relative;display:inline-flex;align-items:center;gap:6px}
+html body .page[data-page="explore-fav"] .explore-seg-num{min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(140,150,170,.16);color:var(--text-2,#5c6675);font-style:normal;font-size:11px;font-weight:700;line-height:1}
+html body .page[data-page="explore-fav"] .chat-seg-btn.is-on .explore-seg-num{background:rgba(255,255,255,.26);color:#fff}
+
+html body .page[data-page="explore-fav"] #exploreFavList{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:calc(10px * var(--ui,1));padding:calc(6px * var(--ui,1)) var(--pad-x) calc(28px * var(--ui,1));-webkit-overflow-scrolling:touch}
+
+/* 收藏项卡片：全站 row-card 同款玻璃质感 */
+html body .page[data-page="explore-fav"] .fav-item{position:relative;z-index:2;border-radius:calc(16px * var(--ui,1));background:var(--card);box-shadow:var(--shadow-card);overflow:hidden}
+html body .page[data-page="explore-fav"] .fav-item-head{display:flex;align-items:center;gap:8px;padding:10px 12px 4px}
+html body .page[data-page="explore-fav"] .fav-kind{flex-shrink:0;font-size:11px;line-height:1;padding:3px 8px;border-radius:999px;background:rgba(var(--accent-rgb),.16);color:var(--accent-deep,#5b8def);font-weight:600;letter-spacing:.3px}
+html body .page[data-page="explore-fav"] .fav-time{flex:1;min-width:0;font-size:11px;color:var(--text-3,#9aa3b2)}
+html body .page[data-page="explore-fav"] .fav-del{flex-shrink:0;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--text-3,#9aa3b2);border-radius:50%;cursor:pointer;transition:background .15s ease,color .15s ease}
+html body .page[data-page="explore-fav"] .fav-del:hover{background:rgba(var(--accent-rgb),.14);color:var(--text-2,#5c6675)}
+
+/* 收藏正文：原样快照，与聊天室同款气泡观感（收藏里 = 聊天里看到的） */
+html body .page[data-page="explore-fav"] .fav-shot{position:relative;padding:0 12px 10px}
+html body .page[data-page="explore-fav"] .fav-shot.fav-frozen{pointer-events:none}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg{display:flex;align-items:flex-start;gap:10px;width:100%;box-sizing:border-box}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg.is-self{flex-direction:row-reverse;justify-content:flex-start}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg.is-other{flex-direction:row;justify-content:flex-start}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg-col{max-width:calc(100% - 76px);display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg.is-self .chat-msg-col{align-items:flex-end}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg-avatar.chat-avatar-circle{border-radius:50%}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg-avatar.chat-avatar-square{border-radius:10px}
+/* 气泡只复刻聊天室的尺寸口径（03-shell-chat.css:627/639/544），配色完全交给全站原生规则：
+   不设 background / color，让基础规则与阴阳主题层叠链自动接管，做到“原本什么样就什么样”。
+   问答 / 红包卡有各自的专属外观，这里必须排除，否则会被通用气泡口径压成普通气泡 */
+/* 字号统一取聊天室口径：chat-room 是 .chat-bubble{font-size:14px} 的页面级设定，各类型都吃这一条 */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble{font-size:14px;line-height:1.5}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-letter){border-radius:5px;padding:9px 13px;max-width:100%}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-self:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-letter){border:none;box-shadow:0px 1px 2px rgba(0,0,0,0.06)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-other:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-letter){border-bottom-left-radius:6px;box-shadow:0px 2px 8px rgba(120,130,150,0.12)}
+/* 问答卡：与聊天室同款外观（05-chat-home-skin.css:473 / 增补 dark） */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa{border:1px solid rgba(var(--accent-rgb,130,90,230),.35);background:rgba(var(--accent-rgb,130,90,230),.12);border-radius:14px;padding:12px 14px;min-width:200px;max-width:250px;box-shadow:0 2px 10px rgba(160,170,190,.10)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa.is-self{background:rgba(var(--accent-rgb,130,90,230),.20);border-color:rgba(var(--accent-rgb,130,90,230),.5)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa.is-self::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa.is-other::after{display:none}
+html body .page[data-page="explore-fav"] .fav-shot .qa-opt{pointer-events:none;cursor:default}
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa,
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa.is-self{background:rgba(var(--accent-rgb,130,90,230),.18);border-color:rgba(var(--accent-rgb,130,90,230),.45);color:#e6e8ee}
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-q,
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-state{color:#e6e8ee}
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-opt{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#e6e8ee}
+/* 深色模式下聊天室气泡不带投影（03-shell-chat.css:633/635），收藏页跟随 */
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-self:not(.chat-bubble-sticker):not(.chat-bubble-letter),
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-other:not(.chat-bubble-sticker):not(.chat-bubble-letter){box-shadow:none}
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot .chat-bubble-sticker{border-color:var(--card-border)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-msg-time{color:var(--text-3,#9aa3b2)}
+
+/* 他的收藏：角色署名分组 */
+html body .page[data-page="explore-fav"] .fav-group{position:relative;z-index:2;display:flex;flex-direction:column;gap:calc(8px * var(--ui,1))}
+html body .page[data-page="explore-fav"] .fav-group-head{display:flex;align-items:baseline;gap:8px;padding:4px 4px 0}
+html body .page[data-page="explore-fav"] .fav-group-name{font-size:14px;font-weight:700;color:var(--text,#454545);letter-spacing:.3px}
+html body .page[data-page="explore-fav"] .fav-group-sub{font-size:11px;color:var(--text-3,#9aa3b2)}
+
+/* 空态 */
+html body .page[data-page="explore-fav"] .explore-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:calc(46px * var(--ui,1)) calc(20px * var(--ui,1));text-align:center}
+html body .page[data-page="explore-fav"] .explore-empty-ico{width:52px;height:52px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(var(--accent-rgb),.12);color:var(--accent-deep,#5b8def);margin-bottom:4px}
+html body .page[data-page="explore-fav"] .explore-empty-t{font-size:15px;font-weight:700;color:var(--text-2,#5c6675)}
+html body .page[data-page="explore-fav"] .explore-empty-d{font-size:12px;line-height:1.7;color:var(--text-3,#9aa3b2)}
+
+/* ===== [FIX-BUBBLE] 收藏气泡：与聊天室同口径配色，小三角永远与气泡同色 =====
+   问题根因：24-rainsee-compat 里有 `html body .chat-bubble.is-self::after{border-left-color:#95ec69!important}`
+   这条全局兜底（不限页面）会给探索页的三角刷成微信绿，而气泡底色走的是主题/皮肤色 → 黑底绿三角。
+   这里把气泡底色与三角色统一收进同一组变量，三角直接引用变量，永远取气泡自身的颜色。 */
+
+/* 1. 默认（wechat 微信绿口径） */
+html body .page[data-page="explore-fav"] .fav-shot{
+  --fav-self-bg:#95ec69;--fav-self-fg:#16221a;
+  --fav-other-bg:#ffffff;--fav-other-fg:#2b3345;
+}
+html[data-theme-mode="dark"] body .page[data-page="explore-fav"] .fav-shot{
+  --fav-self-bg:#5c8a3d;--fav-self-fg:#ffffff;
+  --fav-other-bg:#272c36;--fav-other-fg:#e6e8ee;
+}
+/* 2. 微信黑泡皮肤 */
+html body .page[data-page="explore-fav"] .fav-shot[data-bubble-mode="wechat"]{
+  --fav-self-bg:#000000;--fav-self-fg:#ffffff;
+}
+/* 3. 主题色皮肤（跟随当前主题 accent） */
+html body .page[data-page="explore-fav"] .fav-shot[data-bubble-mode="theme"]{
+  --fav-self-bg:var(--accent-deep,#4F86E8);--fav-self-fg:var(--on-accent-deep,#ffffff);
+  --fav-other-bg:var(--card,#ffffff);--fav-other-fg:var(--text-1,#2A2F3A);
+}
+/* 4. 自定义皮肤（变量由 JS 从聊天室页同步过来） */
+html body .page[data-page="explore-fav"] .fav-shot[data-bubble-mode="custom"]{
+  --fav-self-bg:var(--bubble-self-c,#4F86E8);
+  --fav-self-fg:var(--bubble-self-text,var(--bubble-self-ink,#ffffff));
+  --fav-other-bg:var(--bubble-other-c,#ffffff);
+  --fav-other-fg:var(--bubble-other-text,var(--bubble-other-ink,#2A2F3A));
+}
+/* 5. 阴模式：与聊天室一致，双方统一 #343434 */
+html[data-polarity="yin"] body .page[data-page="explore-fav"] .fav-shot{
+  --fav-self-bg:#343434;--fav-self-fg:#ffffff;
+  --fav-other-bg:#343434;--fav-other-fg:#ffffff;
+}
+
+/* 6. 文本类气泡底色（特殊气泡 QA/信件/表情/图片/语音/撤回/拍一拍 保持各自形态） */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-self:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-imgs):not(.chat-bubble-letter):not(.chat-bubble-recall){
+  background:var(--fav-self-bg)!important;color:var(--fav-self-fg)!important;
+}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-other:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-imgs):not(.chat-bubble-letter):not(.chat-bubble-recall){
+  background:var(--fav-other-bg)!important;color:var(--fav-other-fg)!important;
+}
+
+/* 7. 小三角：border 三角 + 取气泡同色变量（特异性压过 24-rainsee-compat 的绿色兜底） */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-self:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-imgs):not(.chat-bubble-letter):not(.chat-bubble-recall)::after{
+  display:block!important;content:""!important;
+  position:absolute!important;top:50%!important;right:-5px!important;bottom:auto!important;
+  transform:translateY(-50%)!important;
+  width:0!important;height:0!important;margin:0!important;
+  border-style:solid!important;border-width:5px 0 5px 5px!important;
+  border-color:transparent!important;border-left-color:var(--fav-self-bg)!important;
+  background:none!important;background-image:none!important;
+  clip-path:none!important;-webkit-clip-path:none!important;
+  box-shadow:none!important;pointer-events:none!important;
+}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.is-other:not(.chat-bubble-qa):not(.chat-bubble-rp):not(.chat-bubble-sticker):not(.chat-bubble-voice):not(.chat-bubble-img):not(.chat-bubble-imgs):not(.chat-bubble-letter):not(.chat-bubble-recall)::after{
+  display:block!important;content:""!important;
+  position:absolute!important;top:50%!important;left:-5px!important;bottom:auto!important;
+  transform:translateY(-50%)!important;
+  width:0!important;height:0!important;margin:0!important;
+  border-style:solid!important;border-width:5px 5px 5px 0!important;
+  border-color:transparent!important;border-right-color:var(--fav-other-bg)!important;
+  background:none!important;background-image:none!important;
+  clip-path:none!important;-webkit-clip-path:none!important;
+  box-shadow:none!important;pointer-events:none!important;
+}
+
+/* 8. 特殊气泡（问答 / 信件 / 表情 / 语音 / 撤回 / 拍一拍）本就没有小三角，
+   但 24-rainsee-compat 的全局 `html body .chat-bubble.is-self::after` 会强行画出来 → 在收藏页按原设计隐藏 */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-letter::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-sticker::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-voice::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-recall::after,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-rp::after{
+  display:none!important;content:none!important;
+}
+
+/* 9. 阴模式提权：16-dark-theme 第 437 行有一条 `*:not(#\9)::after{border-color:rgba(255,255,255,.14)}`，
+   是 ID 级特异性，会把小三角刷成半透明白 → 这里同样用 :not(#\9) 提权，保证三角仍等于气泡底色 */
+html[data-polarity="yin"] body #exploreFavList .fav-shot .chat-bubble.is-self::after{
+  border-style:solid!important;border-width:5px 0 5px 5px!important;
+  border-color:transparent!important;border-left-color:var(--fav-self-bg)!important;
+}
+html[data-polarity="yin"] body #exploreFavList .fav-shot .chat-bubble.is-other::after{
+  border-style:solid!important;border-width:5px 5px 5px 0!important;
+  border-color:transparent!important;border-right-color:var(--fav-other-bg)!important;
+}
+
+/* 10. 问答卡文字色跟随主题（聊天室里是深字，收藏页此前继承了白字，导致浅色底白字看不清） */
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa{color:var(--text-1,#1f2530)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-q,
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-state{color:var(--text-1,#1f2530)}
+html body .page[data-page="explore-fav"] .fav-shot .chat-bubble.chat-bubble-qa .qa-opt{color:var(--text-2,#5c6675)}
